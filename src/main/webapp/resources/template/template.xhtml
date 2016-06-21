@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="layout.css" />
+
+</h:head> 
+<body> 
+
+	<!-- style="width:1300px;height:900px;margin: 0 auto;" -->
+	<p:layout fullPage="true" >
+	 
+	    <p:layoutUnit position="north" size="50"  >
+		    <ui:include src="menu-bar.xhtml"></ui:include>
+	    </p:layoutUnit>
+	 
+	    <p:layoutUnit position="south" size="35" resizable="true" collapsible="true">
+	        <ui:include src="footer.xhtml"></ui:include>
+	    </p:layoutUnit>
+	 
+	    <p:layoutUnit position="west" size="200" resizable="true" closable="true" collapsible="true">
+	        
+	    </p:layoutUnit>
+	 
+	    <p:layoutUnit position="center">
+	    	<ui:insert name="content" />    
+	    </p:layoutUnit>
+	 
+	</p:layout>
+	
+
+</body> 
+</html>
