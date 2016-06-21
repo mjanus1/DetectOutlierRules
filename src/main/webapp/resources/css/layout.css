@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+.ui-layout-north {
+	z-index:20 !important;
+	overflow:visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow:visible !important;
+}
+
+.ui-menubar,.ui-menu-child {
+	background: white !important;	
+	font-size: 13px !important;	
+}
+
+ul li.ui-menuitem-active>a{
+    background-color:#dddddd!important;    
+}
+
+
+#bottom {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 14px;	
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+}
