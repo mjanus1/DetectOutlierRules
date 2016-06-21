@@ -27,7 +27,8 @@
 		<org.flywaydb.version>4.0.1</org.flywaydb.version>
 		<org.springframework.data.version>1.10.1.RELEASE</org.springframework.data.version>
 		<org.apache.commons.version>3.4</org.apache.commons.version>
-		<com.fasterxml.jackson.core.version>2.7.4</com.fasterxml.jackson.core.version>
+		<com.fasterxml.jackson.databind.version>2.7.4</com.fasterxml.jackson.databind.version>
+		<com.fasterxml.jackson.core.version>2.7.0</com.fasterxml.jackson.core.version>
 	</properties>
   
   <build>
@@ -191,10 +192,17 @@
 		</dependency>
 		
 		<!-- handlle Json file -->
+		
+		<dependency>
+   			<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-core</artifactId>
+    		<version>${com.fasterxml.jackson.core.version}</version>
+		</dependency>
+		
 		<dependency>
    			<groupId>com.fasterxml.jackson.core</groupId>
     		<artifactId>jackson-databind</artifactId>
-    		<version>${com.fasterxml.jackson.core.version}</version>
+    		<version>${com.fasterxml.jackson.databind.version}</version>
 		</dependency>
 		
 		<!-- Configurations spring -->
@@ -288,6 +296,7 @@
 			<artifactId>sqlserver4</artifactId>
 			<version>4.1</version>
 		</dependency>
+		
 		
 	</dependencies>
   
