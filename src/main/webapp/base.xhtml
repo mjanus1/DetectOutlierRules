@@ -9,9 +9,62 @@
 
 	<ui:composition template="/resources/template/template.xhtml">
 	
+	<ui:define name="header">
+		<ui:include src="/resources/template/header-menu.xhtml"></ui:include>
+	</ui:define>
 	<ui:define name="content">
 	
+		<h1> #{baseController.knowledgeBase.name}</h1>
+		<h4> #{baseController.knowledgeBase.description}</h4>
 		
+		<table class="tab" width="500" cellpadding="10">
+			<thead>
+				<tr>
+					<th> <p:outputLabel value="Element"/> </th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<p:outputLabel value="Attribute"/>
+					</td>
+					
+					<td>
+						<p:outputLabel value="#{baseController.attributeCount}"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p:outputLabel value="Fakty"/>
+					</td>
+					
+					<td>
+						<p:outputLabel value="#{baseController.factCount}"/>
+					</td>
+				</tr>
+				<tr onclick="location.href='rules.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+					<td>
+						<p:outputLabel value="Reguły"/>
+					</td>
+					
+					<td>
+						<p:outputLabel value="#{baseController.rulesCount}"/>
+					</td>
+				</tr>
+			</tbody>
+			
+			<tfoot>
+				<tr>
+					<td>
+						<h:link outcome="main"> 
+							<h:graphicImage name="back.png" library="graphics" height="64" width="64" title="Go to base" style="vertical-align:middle;"/>
+						</h:link> 
+					</td>
+				</tr>
+			
+			</tfoot>
+		</table>
 		
 	</ui:define>
 	</ui:composition>

@@ -10,26 +10,31 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 public class TestRestTemplate {
 
 	private static final String FILE_PATH = "C:/Users/Mariusz Janus/Desktop/abc.xlsx";
 	public static void main(String[]args)
 	{
-		/*
+		
 		RestTemplate rest = new RestTemplate();
 		HttpHeaders header = new HttpHeaders();
-		header.add("Authorization","Bearer "+"c5c3940b-5889-4406-b453-7dc88891d1f9");
+		header.add("Authorization","Bearer "+"28355cfd-ae8b-42b8-9fae-9c2e634cf6fb");
 		
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<Rule> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/5/rules/311", HttpMethod.GET, request,Rule.class);
+		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/5/rules/count", HttpMethod.GET, request,CountElement.class);
 
 		//List k = new ArrayList<>();
-		Rule k= response.getBody();
+		CountElement k= response.getBody();
 		//String t=response.getBody();
 		
-		System.out.println(k.getAttributeValues());
-		
+		System.out.println(k.getCount());
+		/*
 		for(AttributeValues a:k.getAttributeValues())
 		{
 			//System.out.println(a.getAttributeOrder());
@@ -40,14 +45,14 @@ public class TestRestTemplate {
 			
 			//System.out.println(a.getAttribute().getName());
 		}
-		*/
+		
 		
 		
 		 
 		TestRestTemplate t = new TestRestTemplate();
 		t.writeStudentsListToExcel();
 		      
-
+*/
 		
 	}
 	

@@ -18,3 +18,43 @@
     border: hidden !important;	
     color: black !important;
 }
+
+.ui-datatable tr.ui-datatable-even:hover, .ui-datatable tr.ui-datatable-odd:hover {
+    background: #ffffbf!important;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.ui-panel{
+	
+	height: 100px !important;
+	background: #fff0dd!important;
+	color:black !important;
+	font-size:16px!important;
+	vertical-align: middle !important;
+	border-color: #ffdeb7!important;
+}
+.ui-panel-content{
+	margin-top: 31px!important;
+}
+
+.ui-button{
+	color: black !important;
+}
+
+.tab thead {
+	color:black;
+	text-align: left;
+	background: #00bfbf;
+	font-size: 20px !important;
+}
+
+.tab th, .tab td {
+   
+    text-align: left;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.tab tbody tr:hover {
+   background: #ffffbf
+}
+
