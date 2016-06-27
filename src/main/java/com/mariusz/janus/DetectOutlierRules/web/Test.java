@@ -34,12 +34,10 @@ public class Test {
 	@PostConstruct
 	public void returnCode()
 	{
-		code="";
 		Map<String, String> params =FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		code = params.get("code");
-		logger.debug("Jestem tutaj code={}",code);
 		
-		if(!code.isEmpty())
+		if(code!=null)
 		{
 			returToken();
 		}
@@ -49,7 +47,9 @@ public class Test {
 	{
 		logger.debug("sprawdzenie kodowania = {}",encode());
 		logger.debug("Dla pewnosci sprawdzam jeszcze raz code ={}",code);
+		
 		RestTemplate rest = new RestTemplate();
+		
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("grant_type", "authorization_code");
 		map.add("code", code);
@@ -58,8 +58,8 @@ public class Test {
 		HttpHeaders header = new HttpHeaders();
 		header.add("Authorization","Basic "+encode());
 		
-		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<Token> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.TOKEN_PATH+"?grant_type=authorization_code&code="+code+"&redirect_uri="+ServerProperty.REDIRECT_URL, HttpMethod.POST, request, Token.class);
+		HttpEntity<?> request = new HttpEntity<>(map,header);
+		ResponseEntity<Token> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.TOKEN_PATH, HttpMethod.POST, request, Token.class);
 		Token token = response.getBody();
 		
 		

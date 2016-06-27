@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+
+.ui-datatable-header{
+	background: #00bfbf!important;
+	color: white !important;
+	text-align: left !important;
+	font-size: 35px !important;	
+	font-style: italic !important;
+}
+.ui-datatable thead th{
+    background: #00bfbf !important;
+    color: black !important;
+    font-size: 18px !important;
+    border: hidden !important;	
+   
+}
+.ui-datatable tbody td{
+    border: hidden !important;	
+    color: black !important;
+}

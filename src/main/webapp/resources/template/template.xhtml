@@ -10,6 +10,8 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="layout.css" />
+	<h:outputStylesheet library="css" name="layout_table_prim.css" />
+	<h:outputStylesheet library="css" name="bottom.css" />
 
 </h:head> 
 <body> 
@@ -17,23 +19,27 @@
 	<!-- style="width:1300px;height:900px;margin: 0 auto;" -->
 	<p:layout fullPage="true" >
 	 
-	    <p:layoutUnit position="north" size="50"  >
-		    <ui:include src="menu-bar.xhtml"></ui:include>
+	    <p:layoutUnit position="north" size="65">
+	    	<table width="100%" style="background-color: #efefef">
+	    		<tr>
+	    			<td width="50%">
+	    				<ui:include src="header-menu.xhtml"></ui:include>
+	    			</td>
+	    			<td width="50%">
+	    				<ui:include src="login-panel.xhtml"></ui:include>
+	    			</td>
+	    		</tr>
+	    	</table>  
 	    </p:layoutUnit>
 	 
-	    <p:layoutUnit position="south" size="35" resizable="true" collapsible="true">
+	    <p:layoutUnit position="south" size="38" resizable="true" collapsible="true">
 	        <ui:include src="footer.xhtml"></ui:include>
-	    </p:layoutUnit>
-	 
-	    <p:layoutUnit position="west" size="200" resizable="true" closable="true" collapsible="true">
-	        
 	    </p:layoutUnit>
 	 
 	    <p:layoutUnit position="center">
 	    	<ui:insert name="content" />    
 	    </p:layoutUnit>
 	    
-	 
 	</p:layout>
 	
 

@@ -6,19 +6,16 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"> 
 
+
 	<ui:composition template="/resources/template/template.xhtml">
 	
 	<ui:define name="content">
 	
-		<h1>Welcome !!!</h1>
-		
-		
+	<f:event listener="#{autorizationController.requestForCode()}" type="preRenderView"></f:event>	
+
+
 	</ui:define>
 	
-	
-	
-	
-	
-	
 	</ui:composition>
+
 </html>

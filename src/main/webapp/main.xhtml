@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+
+	<ui:composition template="/resources/template/template.xhtml">
+	
+	<ui:define name="content">
+		
+		<h:form id="baseForm">
+		<p:dataTable var="base" value="#{kwnowledgeBaseController.listBases}" widgetVar="rulesTable" filteredValue="#{kwnowledgeBaseController.filteredListBases}">
+		
+			<f:facet name="header">
+        		Dostępne bazy wiedzy
+   	 		</f:facet>
+    
+		    <p:column headerText="Id" width="100" style="text-align:center;font-size:16px" filterBy="#{base.id}">
+		        <h:outputText value="#{base.id}" />
+		    </p:column>
+		 
+		    <p:column headerText="Nazwa" style="text-align:center;font-size:16px" filterBy="#{base.name}" >
+		        <h:outputText value="#{base.name}" />
+		    </p:column>
+		 
+		    <p:column headerText="Opis" style="text-align:center;font-size:16px" filterBy="#{base.description}">
+		        <h:outputText value="#{base.description}" />
+		    </p:column>
+		    
+		    <p:column headerText="Akcja" style="text-align:center" width="120">
+		        <h:link outcome="base"> 
+					<h:graphicImage name="forward.png" library="graphics" title="Go to base" style="vertical-align:middle;"/>
+					<f:param name="baseID" value="#{base.id}"/>
+					
+				</h:link> 
+		    </p:column>
+		</p:dataTable>
+		</h:form>
+		
+	
+	</ui:define>
+	
+	
+	
+	
+	
+	
+	</ui:composition>
+</html>

@@ -1,13 +1,18 @@
 @CHARSET "UTF-8";
 
-.ui-layout-north {
+.ui-layout-north, .ui-layout-north.ui-layout-unit-content {
 	z-index:20 !important;
 	overflow:visible !important;
+	height: 65px !important;
+	background-color: #efefef !important;
 }
 
 .ui-layout-north .ui-layout-unit-content {
 	overflow:visible !important;
+	height: 60px !important;
+	background-color: #efefef !important;
 }
+
 
 .ui-menubar,.ui-menu-child {
 	background: white !important;	
@@ -15,15 +20,30 @@
 }
 
 ul li.ui-menuitem-active>a{
-    background-color:#dddddd!important;    
+    background-color:#dddddd !important;    
+}
+
+.ui-layout-center {	
+	width: 1200px !important;
+	margin: 0 auto !important;
+	position: absolute !important;  
+	z-index: 0 !important; 
+	display: block !important; 
+	visibility: visible !important;
+	height: auto !important;
+	background-color: #efefef !important;
+}
+
+.ui-layout-south {
+	width: 1200px !important;
+	margin: 0 auto !important;
+	background-color: #efefef !important;
 }
 
 
-#bottom {
-    background-color: #ffffff;
-    color: #000000;
-    font-size: 14px;	
-    text-align: center;
-    font-weight: bold;
-    vertical-align: middle;
+
+.ui-layout-center .ui-layout-unit-content,.ui-layout-south .ui-layout-unit-content {
+    
+   background-color: #efefef !important;
 }
+

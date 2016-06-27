@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+
+
+#bottom {
+    background-color: #efefef !important;
+    color: #000000;
+    font-size: 14px;	
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+}

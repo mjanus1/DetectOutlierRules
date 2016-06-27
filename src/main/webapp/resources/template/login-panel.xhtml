@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+
+	<ui:composition>
+			    
+		    <h:form id="loginForm" rendered="#{!sessionUserController.checkIsLoggedUser()}"  style="float:right;" >
+			
+				<p:growl for="loginForm" id="msg" globalOnly="true" showDetail="true" life="3500" />
+							
+					<p:button style="font-size:14px;vertical-align: middle;" value="Zaloguj" href="http://les.szymon.net.pl/oauth/authorize?response_type=code&amp;client_id=Test&amp;redirect_uri=http://localhost:8000/DetectOutlierRules/auth.xhtml" icon="ui-icon-extlink" />
+						
+			</h:form>
+			
+			<h:form id="logutForm" rendered="#{sessionUserController.checkIsLoggedUser()}" style="float:right;">
+				<table>
+					<tr>
+						<td>
+							<h:outputText value="Witaj, " style="font-size:14px"/>
+						</td>
+						<td>
+							<h:outputText value="#{sessionUserController.user.firstName} #{sessionUserController.user.lastName}" style="font-size:14px" />
+						</td>
+						<td>
+							<h:commandLink action="#{sessionUserController.logoutAction}"> 
+								<h:graphicImage name="logout.png" library="graphics" width="18px" height="18px" title="Logout" style="vertical-align:middle"/>
+							</h:commandLink> 
+						</td>
+					</tr>
+				</table>
+			</h:form>
+			
+			<br style="clear:both;"/>
+	
+	</ui:composition>
+</html>

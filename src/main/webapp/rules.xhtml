@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"> 
+
+
+	<ui:composition template="/resources/template/template.xhtml">
+	
+	<ui:define name="content">
+	
+	
+		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}">
+		
+			<f:facet name="header">
+        		Dostępne reguły
+   	 		</f:facet>
+    
+		    <p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
+		        <h:outputText value="#{rules.id}" />
+		    </p:column>
+		 
+		    <p:column headerText="Opis" width="60" style="text-align:left;font-size:15px">
+		        <h:outputText value="#{rules.description}" />
+		        <h:outputText value="brak!" rendered="#{rules.description ==null or rules.description ==''}"/>
+		    </p:column>
+		 
+		    <p:column headerText="Reguła" style="text-align:left; font-size:15px">
+		        <h:outputText value="#{rules.query}" />
+		    </p:column>
+		    
+		</p:dataTable>
+		
+	</ui:define>
+	</ui:composition>
+	
+</html>
