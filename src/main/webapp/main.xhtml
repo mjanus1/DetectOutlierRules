@@ -16,13 +16,13 @@
 	<ui:define name="content">
 		
 		<h:form id="baseForm">
-		<p:dataTable var="base" value="#{kwnowledgeBaseController.listBases}" widgetVar="rulesTable" filteredValue="#{kwnowledgeBaseController.filteredListBases}">
+		<p:dataTable var="base"  value="#{kwnowledgeBaseController.listBases}" emptyMessage="Nie znaleziono rekordów." widgetVar="rulesTable" filteredValue="#{kwnowledgeBaseController.filteredListBases}">
 		
 			<f:facet name="header">
-        		Dostępne bazy wiedzy
+				Dostępne bazy wiedzy
    	 		</f:facet>
     
-		    <p:column headerText="Id" width="100" style="text-align:center;font-size:16px" filterBy="#{base.id}">
+		    <p:column headerText="Id" width="100" style="text-align:center;font-size:16px" filterBy="#{base.id}" >
 		        <h:outputText value="#{base.id}" />
 		    </p:column>
 		 

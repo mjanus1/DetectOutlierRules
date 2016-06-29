@@ -15,6 +15,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +33,7 @@ import com.mariusz.janus.DetectOutlierRules.domain.ViewRulesHelper;
 @ViewScoped
 public class RulesController extends AbstracUtility{
 
-	//private static final Logger logger = LoggerFactory.getLogger(RulesController.class);
+	private static final Logger logger = LoggerFactory.getLogger(RulesController.class);
 	
 	private static final String FILE_PATH = "C:/Users/Mariusz Janus/Desktop/abc.xlsx";
 	private RestTemplate rest;
@@ -68,15 +70,14 @@ public class RulesController extends AbstracUtility{
 
 		listRules=response.getBody();
 		
-		
-		
 		for(Rule rules:listRules)
 		{
 			StringBuilder query = new StringBuilder("");
-		
+			int countElement=rules.getAttributeValues().size();
 			for(AttributeValues attributes:rules.getAttributeValues())
 			{
 				query.append(attributes.getAttribute().getName());
+				--countElement;
 				query.append(" ");
 				query.append(attributes.getOperator());
 				query.append(" ");
@@ -95,15 +96,13 @@ public class RulesController extends AbstracUtility{
 				}
 				else
 				{
+					if(countElement!=0)
 					query.append("ORAZ ");
 				}
-				
 			}
-			
-			System.out.println(""+query);
+			logger.debug("reguła ={}",query);
 			listRulesHelper.add(new ViewRulesHelper(rules.getId(), rules.getDescription(), query));
 		}
-		
 	}
 	
 	@SuppressWarnings("unused")

@@ -16,7 +16,7 @@
 	<ui:define name="content">
 	
 	
-		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}">
+		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}" emptyMessage="Nie znaleziono rekordów.">
 		
 			<f:facet name="header">
         		Dostępne reguły

@@ -21,14 +21,14 @@
 				<table>
 					<tr>
 						<td>
-							<h:outputText value="Witaj, " style="font-size:14px"/>
+							<h:outputText value="Witaj, " style="font-size:14px;color:black"/>
 						</td>
 						<td>
-							<h:outputText value="#{sessionUserController.user.firstName} #{sessionUserController.user.lastName}" style="font-size:14px" />
+							<h:outputText value="#{sessionUserController.user.firstName} #{sessionUserController.user.lastName}" style="font-size:14px;color:black" />
 						</td>
 						<td>
 							<h:commandLink action="#{sessionUserController.logoutAction}"> 
-								<h:graphicImage name="logout.png" library="graphics" width="18px" height="18px" title="Logout" style="vertical-align:middle"/>
+								<h:graphicImage name="logout.png" library="graphics" width="18px" height="18px" title="Wyloguj" style="vertical-align:middle"/>
 							</h:commandLink> 
 						</td>
 					</tr>
