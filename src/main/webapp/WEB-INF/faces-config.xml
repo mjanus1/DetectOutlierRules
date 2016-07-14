@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-    version="2.2">
+
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
     
     <application>
-    
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-		
-		
 		<resource-bundle>
 			<base-name>translateWeb.app</base-name>
 			<var>app</var>  
-		</resource-bundle>
-    
+		</resource-bundle>	 
+
     </application>
+
+    
+    <navigation-rule>
+		<navigation-case>
+			<from-outcome>auth</from-outcome>
+			<to-view-id>/auth.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>attributes</from-outcome>
+			<to-view-id>/attributes.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>available-bases</from-outcome>
+			<to-view-id>/available-bases.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>base</from-outcome>
+			<to-view-id>/base.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>rules</from-outcome>
+			<to-view-id>/rules.xhtml</to-view-id>
+		</navigation-case>				
+    </navigation-rule>
 
 </faces-config>

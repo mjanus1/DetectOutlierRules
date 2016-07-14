@@ -9,10 +9,6 @@
 
 	<ui:composition template="/resources/template/template.xhtml">
 	
-	<ui:define name="header">
-		<ui:include src="/resources/template/header-menu.xhtml"></ui:include>
-	</ui:define>
-	
 	<ui:define name="content">
 	
 	
@@ -22,8 +18,8 @@
         		Dostępne reguły
    	 		</f:facet>
     
-		    <p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
-		        <h:outputText value="#{rules.id}" />
+		    <p:column headerText="Index" width="60" style="text-align:center;font-size:15px">
+		        <h:outputText value="#{rulesController.index}" />
 		    </p:column>
 		 
 		    <p:column headerText="Opis" width="60" style="text-align:left;font-size:15px">

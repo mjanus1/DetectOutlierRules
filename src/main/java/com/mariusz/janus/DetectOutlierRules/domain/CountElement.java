@@ -2,21 +2,12 @@ package com.mariusz.janus.DetectOutlierRules.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Data;
+
+@Data
 public class CountElement {
 
 	@JsonProperty
-	String count;
+	private String count;
 
-	public CountElement() {
-		
-	}
-
-	public String getCount() {
-		return count;
-	}
-	public void setCount(String count) {
-		this.count = count;
-	}
-	
-	
 }

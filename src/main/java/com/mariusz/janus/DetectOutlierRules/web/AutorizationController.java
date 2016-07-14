@@ -24,19 +24,22 @@ import com.mariusz.janus.DetectOutlierRules.domain.ServerProperty;
 import com.mariusz.janus.DetectOutlierRules.domain.Token;
 import com.mariusz.janus.DetectOutlierRules.domain.User;
 
+import lombok.Getter;
+import lombok.Setter;
+
 
 @ManagedBean
 @RequestScoped
 public class AutorizationController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AutorizationController.class);
-	private User user;
-	private Token token;
-	private String code;
-	private RestTemplate rest;
+	@Getter @Setter private User user;
+	@Getter @Setter private Token token;
+	@Getter @Setter private String code;
+	@Getter @Setter private RestTemplate rest;
 	
 	@ManagedProperty(value = "#{sessionUserController}")
-	private SessionUserController sessionUser;
+	@Getter @Setter private SessionUserController sessionUser;
 
 	public AutorizationController() {
 		rest = new RestTemplate();
@@ -57,7 +60,7 @@ public class AutorizationController {
 		
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			try {
-				context.redirect(context.getRequestContextPath() + "/main.xhtml");
+				context.redirect(context.getRequestContextPath() + "/available-bases.xhtml");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -114,38 +117,5 @@ public class AutorizationController {
 		return base64Creds;
 		
 	}
-	
-	
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public Token getToken() {
-		return token;
-	}
-	public void setToken(Token token) {
-		this.token = token;
-	}
-	public SessionUserController getSessionUser() {
-		return sessionUser;
-	}
-	public void setSessionUser(SessionUserController sessionUser) {
-		this.sessionUser = sessionUser;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	public RestTemplate getRest() {
-		return rest;
-	}
-	public void setRest(RestTemplate rest) {
-		this.rest = rest;
-	}
-
 	
 }

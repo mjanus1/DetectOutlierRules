@@ -26,7 +26,7 @@ ul li.ui-menuitem-active>a{
 .ui-layout-center {	
 	width: 1200px !important;
 	margin: 0 auto !important;
-	position: absolute !important;  
+	position: fixed !important;  
 	z-index: 0 !important; 
 	display: block !important; 
 	visibility: visible !important;

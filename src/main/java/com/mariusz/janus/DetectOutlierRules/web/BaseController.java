@@ -17,19 +17,22 @@ import com.mariusz.janus.DetectOutlierRules.domain.CountElement;
 import com.mariusz.janus.DetectOutlierRules.domain.KnowledgeBase;
 import com.mariusz.janus.DetectOutlierRules.domain.ServerProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @ManagedBean
 @ViewScoped
 public class BaseController extends AbstracUtility {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
-	private KnowledgeBase knowledgeBase;
-	private RestTemplate rest;
-	private String rulesCount="";
-	private String attributeCount="";
-	private String factCount="";
+	@Getter @Setter private KnowledgeBase knowledgeBase;
+	@Getter @Setter private RestTemplate rest;
+	@Getter @Setter private String rulesCount="";
+	@Getter @Setter  String attributeCount="";
+	@Getter @Setter private String factCount="";
 	
 	@ManagedProperty(value = "#{sessionUserController}")
-	private SessionUserController sessionUser;
+	@Getter @Setter private SessionUserController sessionUser;
 
 	
 	public BaseController() {
@@ -97,49 +100,4 @@ public class BaseController extends AbstracUtility {
 		
 		logger.debug("Sprawdzenie count faktów ={}",factCount);
 	}
-	
-	public KnowledgeBase getKnowledgeBase() {
-		return knowledgeBase;
-	}
-	public void setKnowledgeBase(KnowledgeBase knowledgeBase) {
-		this.knowledgeBase = knowledgeBase;
-	}
-	public SessionUserController getSessionUser() {
-		return sessionUser;
-	}
-	public void setSessionUser(SessionUserController sessionUser) {
-		this.sessionUser = sessionUser;
-	}
-	public RestTemplate getRest() {
-		return rest;
-	}
-	public void setRest(RestTemplate rest) {
-		this.rest = rest;
-	}
-
-	public String getRulesCount() {
-		return rulesCount;
-	}
-
-	public void setRulesCount(String rulesCount) {
-		this.rulesCount = rulesCount;
-	}
-
-	public String getAttributeCount() {
-		return attributeCount;
-	}
-	public void setAttributeCount(String attributeCount) {
-		this.attributeCount = attributeCount;
-	}
-	public String getFactCount() {
-		return factCount;
-	}
-	public void setFactCount(String factCount) {
-		this.factCount = factCount;
-	}
-	
-	
-	
-	
-	
 }

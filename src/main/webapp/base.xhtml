@@ -9,12 +9,10 @@
 
 	<ui:composition template="/resources/template/template.xhtml">
 	
-	<ui:define name="header">
-		<ui:include src="/resources/template/header-menu.xhtml"></ui:include>
-	</ui:define>
 	<ui:define name="content">
-	
+		
 		<h1> #{baseController.knowledgeBase.name}</h1>
+		<h3>Właściciel: Agnieszka Nowak </h3>
 		<h4> #{baseController.knowledgeBase.description}</h4>
 		
 		<table class="tab" width="500" cellpadding="10">
@@ -25,7 +23,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<tr onclick="location.href='attributes.xhtml?baseID=#{baseController.knowledgeBase.id}'">
 					<td>
 						<p:outputLabel value="Attribute"/>
 					</td>
@@ -57,7 +55,7 @@
 			<tfoot>
 				<tr>
 					<td>
-						<h:link outcome="main"> 
+						<h:link outcome="available-bases"> 
 							<h:graphicImage name="back.png" library="graphics" height="64" width="64" title="Go to base" style="vertical-align:middle;"/>
 						</h:link> 
 					</td>

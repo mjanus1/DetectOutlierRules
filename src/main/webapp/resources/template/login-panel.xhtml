@@ -10,21 +10,17 @@
 	<ui:composition>
 			    
 		    <h:form id="loginForm" rendered="#{!sessionUserController.checkIsLoggedUser()}"  style="float:right;" >
-			
-				<p:growl for="loginForm" id="msg" globalOnly="true" showDetail="true" life="3500" />
-							
-					<p:button style="font-size:14px;vertical-align: middle;" value="Zaloguj" href="http://les.szymon.net.pl/oauth/authorize?response_type=code&amp;client_id=Test&amp;redirect_uri=http://localhost:8000/DetectOutlierRules/auth.xhtml" icon="ui-icon-extlink" />
-						
+				<p:button style="font-size:14px;vertical-align: middle;" value="Zaloguj" href="http://les.szymon.net.pl/oauth/authorize?response_type=code&amp;client_id=Test&amp;redirect_uri=http://localhost:8000/DetectOutlierRules/auth.xhtml" icon="ui-icon-extlink" />
 			</h:form>
 			
 			<h:form id="logutForm" rendered="#{sessionUserController.checkIsLoggedUser()}" style="float:right;">
 				<table>
 					<tr>
 						<td>
-							<h:outputText value="Witaj, " style="font-size:14px;color:black"/>
+							<h:outputText value="Witaj, " style="font-size:14px;color:black;font-weight:bold"/>
 						</td>
 						<td>
-							<h:outputText value="#{sessionUserController.user.firstName} #{sessionUserController.user.lastName}" style="font-size:14px;color:black" />
+							<h:outputText value="#{sessionUserController.user.firstName} #{sessionUserController.user.lastName}" style="font-size:14px;color:black;font-weight:bold" />
 						</td>
 						<td>
 							<h:commandLink action="#{sessionUserController.logoutAction}"> 

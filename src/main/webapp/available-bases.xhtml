@@ -9,10 +9,6 @@
 
 	<ui:composition template="/resources/template/template.xhtml">
 	
-	<ui:define name="header">
-		<ui:include src="/resources/template/header-menu.xhtml"></ui:include>
-	</ui:define>
-	
 	<ui:define name="content">
 		
 		<h:form id="baseForm">
@@ -22,8 +18,8 @@
 				Dostępne bazy wiedzy
    	 		</f:facet>
     
-		    <p:column headerText="Id" width="100" style="text-align:center;font-size:16px" filterBy="#{base.id}" >
-		        <h:outputText value="#{base.id}" />
+		    <p:column headerText="Index" width="100" style="text-align:center;font-size:16px" filterBy="#{base.id}" >
+		        <h:outputText value="#{kwnowledgeBaseController.index}" />
 		    </p:column>
 		 
 		    <p:column headerText="Nazwa" style="text-align:center;font-size:16px" filterBy="#{base.name}" >

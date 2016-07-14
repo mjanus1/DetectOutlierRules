@@ -2,7 +2,7 @@
 
 
 .ui-datatable-header{
-	background: #437bfe!important;
+	background: #9dceff!important;
 	color: white !important;
 	text-align: left !important;
 	font-size: 35px !important;	
@@ -12,7 +12,7 @@
 }
 
 .ui-datatable thead th{
-    background: #437bfe !important;
+    background: #9dceff !important;
     color: black !important;
     font-size: 18px !important;
     border: hidden !important;	
@@ -40,7 +40,7 @@
 	border-color: #ffdeb7!important;
 }
 .ui-panel-content{
-	margin-top: 15px!important;
+	margin-top: 16px!important;
 }
 
 .ui-button{
@@ -50,7 +50,7 @@
 .tab thead {
 	color:#ffffff;
 	text-align: left;
-	background: #437bfe;
+	background: #9dceff;
 	font-size: 20px !important;
 	font-weight: inherit;
 }

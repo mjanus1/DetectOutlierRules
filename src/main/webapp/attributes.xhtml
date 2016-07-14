@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+	<ui:composition template="/resources/template/template.xhtml">
+	
+	<ui:define name="content">
+			
+		<p:dataTable var="atr" value="#{attributesController.attributesList}" emptyMessage="Nie znaleziono rekordów.">
+		
+			<f:facet name="header">
+        		Atrybuty
+   	 		</f:facet>
+    
+		    <p:column headerText="Indeks" width="80" style="text-align:center;font-size:15px">
+		        <h:outputText value="#{attributesController.index}" />
+		    </p:column>
+		 
+		    <p:column headerText="Nazwa" width="200" style="text-align:left;font-size:15px">
+		        <h:outputText value="#{atr.name}" />
+		    </p:column>
+		 
+		    <p:column headerText="Opis" width="350" style="text-align:left;font-size:15px">
+		        <h:outputText value="#{atr.description}" />
+		        <h:outputText value="brak!" rendered="#{atr.description ==null or atr.description ==''}"/>
+		    </p:column>
+		    
+		    <p:column headerText="Typ" width="100" style="text-align:left;font-size:15px">
+		        <h:outputText value="#{atr.type}" />
+		    </p:column>
+		    
+		</p:dataTable>
+	
+	</ui:define>
+	
+	</ui:composition>
+	
+</html>

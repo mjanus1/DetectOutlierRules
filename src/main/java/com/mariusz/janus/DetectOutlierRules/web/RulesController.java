@@ -29,20 +29,24 @@ import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 import com.mariusz.janus.DetectOutlierRules.domain.ServerProperty;
 import com.mariusz.janus.DetectOutlierRules.domain.ViewRulesHelper;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @ManagedBean
 @ViewScoped
 public class RulesController extends AbstracUtility{
 
 	private static final Logger logger = LoggerFactory.getLogger(RulesController.class);
-	
 	private static final String FILE_PATH = "C:/Users/Mariusz Janus/Desktop/abc.xlsx";
-	private RestTemplate rest;
-	private List<Rule> listRules;
-	private List<AttributeValues> attributeValues;
-	private List<ViewRulesHelper> listRulesHelper;
+	
+	@Getter @Setter private RestTemplate rest;
+	@Getter @Setter private List<Rule> listRules;
+	@Getter @Setter private List<AttributeValues> attributeValues;
+	@Getter @Setter private List<ViewRulesHelper> listRulesHelper;
+	private int index=1;
 	
 	@ManagedProperty(value = "#{sessionUserController}")
-	private SessionUserController sessionUser;
+	@Getter @Setter private SessionUserController sessionUser;
 	
 	
 	public RulesController() {
@@ -60,7 +64,6 @@ public class RulesController extends AbstracUtility{
 	
 	private void requestForRules()
 	{
-		RestTemplate rest = new RestTemplate();
 		HttpHeaders header = new HttpHeaders();
 		header.add("Authorization","Bearer "+sessionUser.getToken().getAccess_token());
 		
@@ -84,6 +87,17 @@ public class RulesController extends AbstracUtility{
 				if(attributes.getValue()!=null)
 				{
 					query.append(attributes.getValue().getName());
+					countAtributesBakteria(attributes.getValue().getName());
+					if(attributes.getAttribute().getName().equals("PROM"))
+					{
+						coutProm(attributes.getValue().getName());
+					}
+					else if(attributes.getAttribute().getName().equals("instrumentalna kontrola jamy macicy")){
+						coutMacica(attributes.getValue().getName());
+					}
+					else if(attributes.getAttribute().getName().equals("ablacja")){
+						coutAblacja(attributes.getValue().getName());
+					}
 				}
 				else
 				{
@@ -102,6 +116,141 @@ public class RulesController extends AbstracUtility{
 			}
 			logger.debug("reguła ={}",query);
 			listRulesHelper.add(new ViewRulesHelper(rules.getId(), rules.getDescription(), query));
+		}
+		
+		
+		
+		
+		logger.debug("Bakteria");
+		logger.debug("coutActinetobacter ={} ",coutActinetobacter);
+		logger.debug("coutSMRSA ={} ",coutSMRSA);
+		logger.debug("coutAtinebacterAndMrsa ={} ",coutAtinebacterAndMrsa);
+		logger.debug("coutAtinebacterAndMrsaAndEnterobacteries ={} ",coutAtinebacterAndMrsaAndEnterobacteries);
+		logger.debug("coutAlfa ={} ",coutAlfa);
+		logger.debug("coutEnterobacteries ={} ",coutEnterobacteries);
+		
+		logger.debug("Antybiotyk");
+		logger.debug("amoksiklav ={} ",amoksiklav);
+		logger.debug("amotaks ={} ",amotaks);
+		logger.debug("augmentin ={} ",augmentin);
+		
+		logger.debug("Typ porodu");
+		logger.debug("cc ={} ",cc);
+		logger.debug("sn ={} ",sn);
+		
+		logger.debug("PROM");
+		logger.debug("tak ={} ",tak);
+		logger.debug("nie ={} ",nie);
+		
+		logger.debug("Ablacja");
+		logger.debug("tak ={} ",takab);
+		logger.debug("nie ={} ",nieab);
+		
+		logger.debug("Kontrola jamy macicy");
+		logger.debug("tak ={} ",takja);
+		logger.debug("nie ={} ",nieja);
+		
+	}
+	
+	
+	int coutActinetobacter=0;
+	int coutSMRSA=0;
+	int coutAtinebacterAndMrsa=0;
+	int coutAtinebacterAndMrsaAndEnterobacteries=0;
+	int coutAlfa=0;
+	int coutEnterobacteries=0;
+	
+	int amoksiklav=0;
+	int amotaks=0;
+	int augmentin=0;
+	
+	int cc=0;
+	int sn=0;
+	
+	int tak=0;
+	int nie=0;
+	
+	int takab=0;
+	int nieab=0;
+	
+	int takja=0;
+	int nieja=0;
+	
+	private void countAtributesBakteria(String attribute)
+	{
+		if(attribute.equals("Actinetobacter")){
+			coutActinetobacter++;
+		}
+		else if(attribute.equals("S.MRSA"))
+		{
+			coutSMRSA++;
+		}
+		else if(attribute.equals("Actinetobacter&S.MRSA"))
+		{
+			coutAtinebacterAndMrsa++;
+		}
+		else if(attribute.equals("S.MRSA&Enterobacteriaceae&Actinetobacter"))
+		{
+			coutAtinebacterAndMrsaAndEnterobacteries++;
+		}
+		else if(attribute.equals("S.alfa"))
+		{
+			coutAlfa++;
+		}
+		else if(attribute.equals("Enterobacteriaceae"))
+		{
+			coutEnterobacteries++;
+		}
+		else if(attribute.equals("amoksiklav"))
+		{
+			amoksiklav++;
+		}
+		else if(attribute.equals("amotaks"))
+		{
+			amotaks++;
+		}
+		else if(attribute.equals("augmentin"))
+		{
+			augmentin++;
+		}
+		else if(attribute.equals("cc"))
+		{
+			cc++;
+		}
+		else if(attribute.equals("sn"))
+		{
+			sn++;
+		}
+	}
+	
+	private void coutProm(String att)
+	{
+		if(att.equals("tak")){
+			tak++;
+		}
+		else if(att.equals("nie"))
+		{
+			nie++;
+		}
+	}
+	private void coutAblacja(String att)
+	{
+		if(att.equals("tak")){
+			takab++;
+		}
+		else if(att.equals("nie"))
+		{
+			nieab++;
+		}
+	}
+	private void coutMacica(String att)
+	{
+		if(att.equals("tak")){
+			takja++;
+		}
+		else if(att.equals("nie"))
+		{
+			nieja++;
 		}
 	}
 	
@@ -134,41 +283,9 @@ public class RulesController extends AbstracUtility{
 		
 	}
 	
-	
-	public RestTemplate getRest() {
-		return rest;
+	public int getIndex()
+	{
+		return index++;
 	}
-	public void setRest(RestTemplate rest) {
-		this.rest = rest;
-	}
-	public List<Rule> getListRules() {
-		return listRules;
-	}
-	public void setListRules(List<Rule> listRules) {
-		this.listRules = listRules;
-	}
-	public SessionUserController getSessionUser() {
-		return sessionUser;
-	}
-	public void setSessionUser(SessionUserController sessionUser) {
-		this.sessionUser = sessionUser;
-	}
-	public List<AttributeValues> getAttributeValues() {
-		return attributeValues;
-	}
-	public void setAttributeValues(List<AttributeValues> attributeValues) {
-		this.attributeValues = attributeValues;
-	}
-
-	public List<ViewRulesHelper> getListRulesHelper() {
-		return listRulesHelper;
-	}
-
-	public void setListRulesHelper(List<ViewRulesHelper> listRulesHelper) {
-		this.listRulesHelper = listRulesHelper;
-	}
-	
-	
-	
 	
 }

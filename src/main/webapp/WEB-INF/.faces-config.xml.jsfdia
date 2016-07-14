@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PROCESS model-entity="JSFProcess"/>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="auth::#auth.xhtml" NAME="output"
+    PATH="/auth.xhtml" TARGET="rules:#auth.xhtml" TITLE="auth" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="attributes::#attributes.xhtml"
+    NAME="output1" PATH="/attributes.xhtml"
+    TARGET="rules:#attributes.xhtml" TITLE="attributes" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="available-bases::#available-bases.xhtml"
+    NAME="output2" PATH="/available-bases.xhtml"
+    TARGET="rules:#available-bases.xhtml" TITLE="available-bases" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="base::#base.xhtml" NAME="output3"
+    PATH="/base.xhtml" TARGET="rules:#base.xhtml" TITLE="base" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="index::#index.xhtml" NAME="output4"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="rules::#rules.xhtml" NAME="output5"
+    PATH="/rules.xhtml" TARGET="rules:#rules.xhtml" TITLE="rules" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#available-bases.xhtml"
+  PATH="/available-bases.xhtml" SHAPE="304,417,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="304,641,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#base.xhtml" PATH="/base.xhtml"
+  SHAPE="304,529,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#attributes.xhtml" PATH="/attributes.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#auth.xhtml" PATH="/auth.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#rules.xhtml" PATH="/rules.xhtml"
+  SHAPE="304,753,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

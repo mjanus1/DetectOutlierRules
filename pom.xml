@@ -29,6 +29,8 @@
 		<org.apache.commons.version>3.4</org.apache.commons.version>
 		<com.fasterxml.jackson.databind.version>2.7.4</com.fasterxml.jackson.databind.version>
 		<com.fasterxml.jackson.core.version>2.7.0</com.fasterxml.jackson.core.version>
+		<version.org.apache.poi>3.10-FINAL</version.org.apache.poi>
+		<version.org.projectlombok>1.16.8</version.org.projectlombok>
 	</properties>
   
   <build>
@@ -300,15 +302,21 @@
 		<dependency>
     		<groupId>org.apache.poi</groupId>
     		<artifactId>poi</artifactId>
-    		<version>3.10-FINAL</version>
+    		<version>${version.org.apache.poi}</version>
 		</dependency>
 	
 		<dependency>
     		<groupId>org.apache.poi</groupId>
     		<artifactId>poi-ooxml</artifactId>
-    		<version>3.10-FINAL</version>
+    		<version>${version.org.apache.poi}</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${version.org.projectlombok}</version>
+			<scope>provided</scope>
+		</dependency>
 		
 	</dependencies>
   

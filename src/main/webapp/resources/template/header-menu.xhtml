@@ -8,10 +8,26 @@
 
 
 	<ui:composition>
-		
-		<h:link outcome="main" rendered="true"> 
-			<h:graphicImage name="home.png" library="graphics" title="Bazy" height="55" width="55" style="vertical-align:middle;"/>
-		</h:link> 	
+			
+		<table>
+			<tr>
+				<td>
+					<h:link outcome="available-bases">
+						<h:graphicImage name="database.png" library="graphics" title="Bazy" height="50" width="50" style="vertical-align:middle;"/>
+					</h:link>
+				</td>
+				<td>
+					<p:outputLabel value="DetectOutlierRules " style="font-weight:bold;font-color:black;font-size:17px"/>	
+				</td>
+				<td>
+					<p:outputLabel value="ver0.0.1" style="font-size:10px"/> 
+				</td>
+			</tr>
+		</table>
+	
+	
+	
+	
 	
 		<ui:remove>
 			<h:form style="width:400px">
