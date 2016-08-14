@@ -28,13 +28,15 @@ public class SessionUserController {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "index?faces-redirect=true";
 	}
-	
 	public boolean checkIsLoggedUser(){
 		if(user!=null)
 			return true;
 		else
 			return false;
 	}
-
+	
+	public String getAccesToken(){
+		return token.getAccess_token();
+	}
 
 }

@@ -27,6 +27,7 @@ public class BaseController extends AbstracUtility {
 	private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 	@Getter @Setter private KnowledgeBase knowledgeBase;
 	@Getter @Setter private RestTemplate rest;
+	
 	@Getter @Setter private String rulesCount="";
 	@Getter @Setter  String attributeCount="";
 	@Getter @Setter private String factCount="";
@@ -38,7 +39,6 @@ public class BaseController extends AbstracUtility {
 	public BaseController() {
 		rest = new RestTemplate();
 		knowledgeBase = new KnowledgeBase();
-		
 	}
 
 	@PostConstruct
@@ -69,7 +69,7 @@ public class BaseController extends AbstracUtility {
 		header.add("Authorization","Bearer "+sessionUser.getToken().getAccess_token());
 		
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+knowledgeBase.getId()+"/rules/count", HttpMethod.GET, request,CountElement.class);
+		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+knowledgeBase.getId()+ServerProperty.RULES_COUNT, HttpMethod.GET, request,CountElement.class);
 		CountElement c=response.getBody();
 		rulesCount=c.getCount();
 		
@@ -82,7 +82,7 @@ public class BaseController extends AbstracUtility {
 		header.add("Authorization","Bearer "+sessionUser.getToken().getAccess_token());
 		
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+knowledgeBase.getId()+"/attributes/count", HttpMethod.GET, request,CountElement.class);
+		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+knowledgeBase.getId()+ServerProperty.ATTRIBUTES_COUNT, HttpMethod.GET, request,CountElement.class);
 		CountElement c=response.getBody();
 		attributeCount=c.getCount();
 		
@@ -94,7 +94,7 @@ public class BaseController extends AbstracUtility {
 		header.add("Authorization","Bearer "+sessionUser.getToken().getAccess_token());
 		
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+knowledgeBase.getId()+"/facts/count", HttpMethod.GET, request,CountElement.class);
+		ResponseEntity<CountElement> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+knowledgeBase.getId()+ServerProperty.FACTS_COUNT, HttpMethod.GET, request,CountElement.class);
 		CountElement c=response.getBody();
 		factCount=c.getCount();
 		

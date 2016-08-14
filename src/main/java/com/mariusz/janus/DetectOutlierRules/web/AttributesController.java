@@ -1,24 +1,19 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.AUTHORIZATION;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.BEARER;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.KNOWLEDGEBASE;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.SERVER_URL;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.*;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.*;
+import org.slf4j.*;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
-import com.mariusz.janus.DetectOutlierRules.domain.ServerProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @ManagedBean
@@ -47,11 +42,13 @@ public class AttributesController extends AbstracUtility{
 	
 	private void requestForAllAttributes()
 	{
-		HttpHeaders header = new HttpHeaders();
-		header.add("Authorization","Bearer "+sessionUser.getToken().getAccess_token());
+		int idKnowledgeBase = Integer.parseInt(getParametr("baseID"));
 		
-		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<List<Attribute>> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+Integer.parseInt(getParametr("baseID"))+"/attributes", HttpMethod.GET, request,new ParameterizedTypeReference<List<Attribute>>() {
+		HttpHeaders header = new HttpHeaders();
+		header.add(AUTHORIZATION,BEARER + sessionUser.getAccesToken());
+		
+		HttpEntity<String> httpEntity = new HttpEntity<>(header);
+		ResponseEntity<List<Attribute>> response = rest.exchange(SERVER_URL + KNOWLEDGEBASE + "/" + idKnowledgeBase + "/attributes", HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Attribute>>() {
 		});
 
 		attributesList=response.getBody();
