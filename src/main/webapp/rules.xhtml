@@ -11,11 +11,12 @@
 	
 	<ui:define name="content">
 	
-	
-		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}" emptyMessage="Nie znaleziono rekordów.">
+		<p:button outcome="detect-outlier.xhtml?baseID=5" value="Odchylenia" style="margin-bottom:5px"/>
 		
+		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}" emptyMessage="Nie znaleziono rekordów.">
+			
 			<f:facet name="header">
-        		Dostępne reguły
+        		Dostępne reguły   		
    	 		</f:facet>
     
 		    <p:column headerText="Index" width="60" style="text-align:center;font-size:15px">

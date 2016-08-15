@@ -1,36 +1,26 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.AUTHORIZATION;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.BEARER;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.KNOWLEDGEBASE;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.SERVER_URL;
 
+import java.io.*;
+import java.util.*;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-
+import javax.faces.bean.*;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
-import com.mariusz.janus.DetectOutlierRules.domain.ServerProperty;
 import com.mariusz.janus.DetectOutlierRules.domain.ViewRulesHelper;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @ManagedBean
 @ViewScoped
@@ -64,11 +54,13 @@ public class RulesController extends AbstracUtility{
 	
 	private void requestForRules()
 	{
+		int idKnowledgeBase = Integer.parseInt(getParametr("baseID"));
+		
 		HttpHeaders header = new HttpHeaders();
-		header.add("Authorization","Bearer "+sessionUser.getToken().getAccess_token());
+		header.add(AUTHORIZATION, BEARER + sessionUser.getAccesToken());
 		
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<List<Rule>> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.KNOWLEDGEBASE+"/"+Integer.parseInt(getParametr("baseID"))+"/rules?all=true", HttpMethod.GET, request,new ParameterizedTypeReference<List<Rule>>() {
+		ResponseEntity<List<Rule>> response = rest.exchange(SERVER_URL + KNOWLEDGEBASE+"/" + idKnowledgeBase +"/rules?all=true", HttpMethod.GET, request,new ParameterizedTypeReference<List<Rule>>() {
 		});
 
 		listRules=response.getBody();
