@@ -24,7 +24,7 @@ import lombok.*;
 
 @ManagedBean
 @ViewScoped
-public class RulesController extends AbstracUtility{
+public class RulesController extends AbstracController{
 
 	private static final Logger logger = LoggerFactory.getLogger(RulesController.class);
 	private static final String FILE_PATH = "C:/Users/Mariusz Janus/Desktop/abc.xlsx";
@@ -54,7 +54,7 @@ public class RulesController extends AbstracUtility{
 	
 	private void requestForRules()
 	{
-		int idKnowledgeBase = Integer.parseInt(getParametr("baseID"));
+		int idKnowledgeBase = getParametr("baseID");
 		
 		HttpHeaders header = new HttpHeaders();
 		header.add(AUTHORIZATION, BEARER + sessionUser.getAccesToken());
@@ -76,32 +76,27 @@ public class RulesController extends AbstracUtility{
 				query.append(" ");
 				query.append(attributes.getOperator());
 				query.append(" ");
-				if(attributes.getValue()!=null)
-				{
+				if(attributes.getValue()!=null) {
 					query.append(attributes.getValue().getName());
 					countAtributesBakteria(attributes.getValue().getName());
-					if(attributes.getAttribute().getName().equals("PROM"))
-					{
+					if(attributes.getAttribute().getName().equals("PROM")) {
 						coutProm(attributes.getValue().getName());
 					}
-					else if(attributes.getAttribute().getName().equals("instrumentalna kontrola jamy macicy")){
+					else if(attributes.getAttribute().getName().equals("instrumentalna kontrola jamy macicy")) {
 						coutMacica(attributes.getValue().getName());
 					}
 					else if(attributes.getAttribute().getName().equals("ablacja")){
 						coutAblacja(attributes.getValue().getName());
 					}
 				}
-				else
-				{
+				else {
 					query.append(attributes.getContinousValue());
 				}
 				query.append(" ");
-				if(attributes.isConclusion())
-				{
+				if(attributes.isConclusion()) {
 					query.append("JEŻELI ");
 				}
-				else
-				{
+				else {
 					if(countElement!=0)
 					query.append("ORAZ ");
 				}

@@ -26,10 +26,10 @@ public class SingleVectorRule {
 	public void printVector() {
 		for (int i = 0; i < countRows; i++) {
 			for (int j = 0; j < countColumn; j++) {
-				if (i==0 && j == 0) {
+				if (i == 0 && j == 0) {
 					System.out.print("Warunek ");
 				}
-				if(i==1 && j == 0) {
+				if (i == 1 && j == 0) {
 					System.out.print("Decyzja ");
 				}
 				System.out.print(vectorRule[i][j] + " ");

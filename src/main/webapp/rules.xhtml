@@ -11,7 +11,7 @@
 	
 	<ui:define name="content">
 	
-		<p:button outcome="detect-outlier.xhtml?baseID=5" value="Odchylenia" style="margin-bottom:5px"/>
+		<p:button outcome="detect-outlier.xhtml?baseID=#{rulesController.getParametr('baseID')}" value="Odchylenia" style="margin-bottom:5px"/>
 		
 		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}" emptyMessage="Nie znaleziono rekordów.">
 			

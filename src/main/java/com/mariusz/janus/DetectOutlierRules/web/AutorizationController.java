@@ -1,5 +1,8 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.CLIENT_ID;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.CLIENT_SECRET;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -27,95 +30,94 @@ import com.mariusz.janus.DetectOutlierRules.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @ManagedBean
 @RequestScoped
 public class AutorizationController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AutorizationController.class);
-	@Getter @Setter private User user;
-	@Getter @Setter private Token token;
-	@Getter @Setter private String code;
-	@Getter @Setter private RestTemplate rest;
-	
+	@Getter @Setter
+	private User user;
+	@Getter @Setter
+	private Token token;
+	@Getter @Setter
+	private String code;
+	@Getter @Setter
+	private RestTemplate rest;
+
 	@ManagedProperty(value = "#{sessionUserController}")
-	@Getter @Setter private SessionUserController sessionUser;
+	@Getter @Setter
+	private SessionUserController sessionUser;
 
 	public AutorizationController() {
 		rest = new RestTemplate();
 	}
-	 
-	public void requestForCode()
-	{
-			
-			Map<String, String> params =FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-			code = params.get("code");
-			logger.debug("Sprawdzenie code ={}",code);
-			if(code!=null)
-			{
-				requestForToken();
-				requestForUser();
-				setSesionParameters();
-			}
-		
-			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-			try {
-				context.redirect(context.getRequestContextPath() + "/available-bases.xhtml");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
+
+	public void requestForCode() {
+
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		code = params.get("code");
+		logger.debug("Sprawdzenie code ={}", code);
+		if (code != null) {
+			requestForToken();
+			requestForUser();
+			setSesionParameters();
+		}
+		redirectAfterConnectionSuccessfully();
 	}
-	
-	private void requestForToken()
-	{
-		logger.debug("sprawdzenie kodowania = {}",encode());
-		logger.debug("Dla pewnosci sprawdzam jeszcze raz code ={}",code);
-		
+
+	private void redirectAfterConnectionSuccessfully() {
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			context.redirect(context.getRequestContextPath() + "/available-bases.xhtml");
+		} catch (IOException e) {
+			logger.error("Exception in redirect", e);
+		}
+	}
+
+	private void requestForToken() {
+		logger.debug("sprawdzenie kodowania = {}", encode());
+		logger.debug("Dla pewnosci sprawdzam jeszcze raz code ={}", code);
+
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("grant_type", "authorization_code");
 		map.add("code", code);
-		map.add("redirect_uri",ServerProperty.REDIRECT_URL);
+		map.add("redirect_uri", ServerProperty.REDIRECT_URL);
 
 		HttpHeaders header = new HttpHeaders();
-		header.add("Authorization","Basic "+encode());
-		
-		HttpEntity<?> request = new HttpEntity<>(map,header);
-		ResponseEntity<Token> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.TOKEN_PATH, HttpMethod.POST, request, Token.class);
+		header.add("Authorization", "Basic " + encode());
+
+		HttpEntity<?> request = new HttpEntity<>(map, header);
+		ResponseEntity<Token> response = rest.exchange(ServerProperty.SERVER_URL + ServerProperty.TOKEN_PATH,
+				HttpMethod.POST, request, Token.class);
 		token = response.getBody();
-		
-		logger.debug("Sprawdzenie żadania post pobranie tokena ={}",token.getAccess_token());
-		
+
+		logger.debug("Sprawdzenie żadania post pobranie tokena ={}", token.getAccess_token());
+
 	}
-	
-	private void requestForUser()
-	{
+
+	private void requestForUser() {
 		HttpHeaders header = new HttpHeaders();
-		header.add("Authorization","Bearer "+token.getAccess_token());
-		
+		header.add("Authorization", "Bearer " + token.getAccess_token());
+
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<User> response = rest.exchange(ServerProperty.SERVER_URL+ServerProperty.ACCOUNT, HttpMethod.GET, request, User.class);
+		ResponseEntity<User> response = rest.exchange(ServerProperty.SERVER_URL + ServerProperty.ACCOUNT,
+				HttpMethod.GET, request, User.class);
 		user = response.getBody();
-		
-		logger.debug("Sprawdzenie usera ={}",user.getLogin());
+
+		logger.debug("Sprawdzenie usera ={}", user.getLogin());
 	}
-	
-	
-	private void setSesionParameters()
-	{
+
+	private void setSesionParameters() {
 		sessionUser.setToken(token);
 		sessionUser.setUser(user);
-		
-	}	
 
-	private String encode()
-	{
-		String inputContent = ServerProperty.CLIENT_ID+":"+ServerProperty.CLIENT_SECRET;
+	}
+
+	private String encode() {
+		String inputContent = CLIENT_ID + ":" + CLIENT_SECRET;
 		byte[] plainCredsBytes = inputContent.getBytes();
 		byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
 		String base64Creds = new String(base64CredsBytes);
 		return base64Creds;
-		
 	}
-	
 }

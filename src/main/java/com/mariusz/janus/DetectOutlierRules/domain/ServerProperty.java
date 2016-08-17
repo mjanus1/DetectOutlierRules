@@ -16,4 +16,6 @@ public class ServerProperty {
 	public static final String BEARER = "Bearer";
 	public static final String FACTS = "/facts";
 	public static final String ATTRIBUTES = "/attributes";
+	public static final String ALL_RULES = "/rules?all=true";
+	public static final String SEPARATOR = "/";
 }

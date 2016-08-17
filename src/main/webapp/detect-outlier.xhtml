@@ -11,11 +11,11 @@
 	
 		<ui:define name="content">
 		
-		<p:dataTable value="#{detectOutlierController.attributes}" var="red" />
+		<p:dataTable value="#{detectOutlierController.listAttributes}" var="red" />
 		
-			
 		<p:dataTable value="#{detectOutlierController.review()}" var="red" />
 		
+		<h:outputText value="#{detectOutlierController.zliczIleJestAtrybutow()}" />
 			
 		</ui:define>
 	
