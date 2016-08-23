@@ -30,5 +30,13 @@ public class Attribute implements Serializable{
 	@JsonProperty
 	private List<Value> valueList;
 	
+	public Attribute() {
+	}
+
+	public Attribute(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}	
+	
 	
 }

@@ -1,19 +1,22 @@
 package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SingleVectorRule {
 
 	private final static String defaulValue = "0";
 	private final int countRows = 2;
-	private int countColumn;
-	private int idRules;
-	private String[][] vectorRule;
+	@Getter @Setter private int countColumn;
+	@Getter @Setter private int idRules;
+	@Getter @Setter private String[][] vectorRule;
 
 	public SingleVectorRule(int coutColumn, int idRules) {
 		this.countColumn = coutColumn;
 		this.setIdRules(idRules);
 		setDefaultValueForVectorRule(countColumn);
 	}
-
+	
 	private void setDefaultValueForVectorRule(int coutColumn) {
 		vectorRule = new String[countRows][coutColumn];
 		for (int i = 0; i < countRows; i++) {
@@ -21,6 +24,14 @@ public class SingleVectorRule {
 				vectorRule[i][j] = defaulValue;
 			}
 		}
+	}
+	
+	public String returnValueOnPossition(int row, int column) {
+		return vectorRule[row][column];
+	}
+	
+	public boolean checkIsElementIsZero(int row, int column) {
+		return vectorRule[row][column].equals("0") ? true : false;
 	}
 
 	public void printVector() {
@@ -37,29 +48,4 @@ public class SingleVectorRule {
 			System.out.println("");
 		}
 	}
-
-	public int getCountColumn() {
-		return countColumn;
-	}
-
-	public void setCountColumn(int countColumn) {
-		this.countColumn = countColumn;
-	}
-
-	public String[][] getVectorRule() {
-		return vectorRule;
-	}
-
-	public void setVectorRule(String[][] vectorRule) {
-		this.vectorRule = vectorRule;
-	}
-
-	public int getIdRules() {
-		return idRules;
-	}
-
-	public void setIdRules(int idRules) {
-		this.idRules = idRules;
-	}
-
 }

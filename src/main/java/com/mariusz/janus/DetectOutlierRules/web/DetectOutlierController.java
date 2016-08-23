@@ -11,6 +11,9 @@ import javax.faces.bean.ViewScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.Moda;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
@@ -29,7 +32,9 @@ public class DetectOutlierController extends AbstracController {
 	@Getter @Setter private List<Attribute> listAttributes;
 	@Getter @Setter private List<SingleVectorRule> vectorRules;
 	@Getter @Setter private List<Rule>rules;
-
+	@Getter @Setter private List<Moda>dominantes;
+	@Getter private int ruleCount;
+	
 	@Getter @Setter
 	@ManagedProperty(value = "#{IRestRequestService}")
 	private IRestRequestService service;
@@ -43,6 +48,7 @@ public class DetectOutlierController extends AbstracController {
 			int idKnowledgeBase = getParametr("baseID");
 			listAttributes = service.listAllAttributes(tokenForRequest(), idKnowledgeBase);
 			rules = service.listAllRule(tokenForRequest(), idKnowledgeBase);
+			ruleCount = service.countRules(tokenForRequest(), idKnowledgeBase);
 	}
 
 	private List<SingleVectorRule> saveRulesAsVector() {
@@ -55,9 +61,11 @@ public class DetectOutlierController extends AbstracController {
 				logger.debug("check range table for attribute {}", index);
 				if (attributes.isConclusion()) {
 					vector.getVectorRule()[1][0] = attributes.getValue().getName();
-				} else if (attributes.getValue() != null) {
+				} 
+				else if (attributes.getValue() != null) {
 					vector.getVectorRule()[0][index] = attributes.getValue().getName();
-				} else {
+				} 
+				else {
 					vector.getVectorRule()[0][index] = attributes.getContinousValue();
 				}
 			}
@@ -74,14 +82,47 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
-	public int zliczIleJestAtrybutow(){
-		int variable = 0;
+	public void searchDominantes(){
+		dominantes = new ArrayList<>();
 		for(Attribute att:listAttributes){
 			if(att.getType().equals("symbolic")){
-				variable++;
+				dominantes.add(searcsModsInCondition(att));
 			}
 		}
-		return variable;
 	}
+	
+	private Moda searcsModsInCondition(Attribute attributes) {
+		Multiset<String> elements = HashMultiset.create();
+		int possitionValueSymbolic = listAttributes.indexOf(attributes);
+		
+		for(SingleVectorRule rule: vectorRules) {
+			if(rule.checkIsElementIsZero(0, possitionValueSymbolic) == false)
+				elements.add(rule.returnValueOnPossition(0, possitionValueSymbolic));	
+		}
+		
+		int maxCount = 0;
+		String dominanta = "brak";
+		for(String moda: elements.elementSet()) {
+			int count = elements.count(moda);
+			if(count > maxCount){
+				maxCount = count;
+				dominanta = moda;
+			}
+		}
+		
+		return new Moda(attributes, dominanta, maxCount);
+	}
+	
+	public void showModa() {
+		saveRulesAsVector();
+		searchDominantes();
+		for(Moda m:dominantes) {
+			//if(m!=null)
+				System.out.println(m.getValue() + " = " + m.getCount());
+			 //System.out.println(m.getAttributes().getName());
+		}
+	}
+	
+	
 
 }

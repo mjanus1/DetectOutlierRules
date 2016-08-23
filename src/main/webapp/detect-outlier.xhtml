@@ -13,9 +13,9 @@
 		
 		<p:dataTable value="#{detectOutlierController.listAttributes}" var="red" />
 		
-		<p:dataTable value="#{detectOutlierController.review()}" var="red" />
+		<ui:remove><p:dataTable value="#{detectOutlierController.review()}" var="red" /> </ui:remove>
 		
-		<h:outputText value="#{detectOutlierController.zliczIleJestAtrybutow()}" />
+		<p:dataTable value="#{detectOutlierController.showModa()}" var="blbl" />
 			
 		</ui:define>
 	

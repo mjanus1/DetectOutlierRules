@@ -31,6 +31,7 @@
 		<com.fasterxml.jackson.core.version>2.7.0</com.fasterxml.jackson.core.version>
 		<version.org.apache.poi>3.10-FINAL</version.org.apache.poi>
 		<version.org.projectlombok>1.16.8</version.org.projectlombok>
+		<version.com.google.guava>19.0</version.com.google.guava>
 	</properties>
   
   <build>
@@ -316,6 +317,12 @@
 			<artifactId>lombok</artifactId>
 			<version>${version.org.projectlombok}</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+    		<groupId>com.google.guava</groupId>
+    		<artifactId>guava</artifactId>
+    		<version>${version.com.google.guava}</version>
 		</dependency>
 		
 	</dependencies>
