@@ -1,19 +1,17 @@
 package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
 
-import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
-
 import lombok.Getter;
 import lombok.Setter;
 
 public class Moda {
 
-	@Getter @Setter private Attribute attributes;
+	@Getter @Setter private AttributeDetails attributeDetails;
 	@Getter @Setter private String value; 
 	@Getter @Setter private int count;
 	
-	public Moda(Attribute attributes, String value, int count) {
-		this.attributes = attributes;
+	public Moda(AttributeDetails attributeDetails, String value, int count) {
+		this.attributeDetails = attributeDetails;
 		this.value = value;
 		this.count = count;
 	}
