@@ -6,7 +6,7 @@ import lombok.Setter;
 public class SingleVectorRule {
 
 	private final static String defaulValue = "0";
-	private final int countRows = 2;
+	private final static int countRows = 2;
 	@Getter @Setter private int countColumn;
 	@Getter @Setter private int idRules;
 	@Getter @Setter private String[][] vectorRule;

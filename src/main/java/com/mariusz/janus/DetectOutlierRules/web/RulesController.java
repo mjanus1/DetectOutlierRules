@@ -62,6 +62,7 @@ public class RulesController extends AbstracController {
 
 	private void requestForRules() {
 		listRules = service.listAllRule(tokenForRequest(), getParametr("baseID"));
+		logger.debug("Pobrana liczba reguł ={}",listRules.size());
 		formatRules();
 	}
 

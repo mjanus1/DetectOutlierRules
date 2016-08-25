@@ -1,9 +1,7 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -16,7 +14,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.AttributeDetails;
-import com.mariusz.janus.DetectOutlierRules.Algorithm.Moda;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.AttributeModa;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.FindDominanta;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
@@ -36,7 +35,7 @@ public class DetectOutlierController extends AbstracController {
 	@Getter @Setter private List<AttributeDetails> listAttributesDetails;
 	@Getter @Setter private List<SingleVectorRule> vectorRules;
 	@Getter @Setter private List<Rule>rules;
-	@Getter @Setter private List<Moda>dominantes;
+	@Getter @Setter private List<AttributeModa>dominantes;
 	@Getter private int ruleCount;
 	
 	@Getter @Setter
@@ -134,7 +133,7 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
-	public void searchDominantes(){
+	public void searchDominantesInSymbolicAttribute(){
 		dominantes = new ArrayList<>();
 		for(AttributeDetails attrDetails:listAttributesDetails) {
 			if(attrDetails.getAttribute().getType().equals("symbolic") && !attrDetails.isConclussion()) {
@@ -148,7 +147,7 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
-	private Moda searcsModsInCondition(AttributeDetails attributeDetails) {
+	private AttributeModa searcsModsInCondition(AttributeDetails attributeDetails) {
 		Multiset<String> elements = HashMultiset.create();
 	
 		for(SingleVectorRule rule: vectorRules) {
@@ -166,9 +165,9 @@ public class DetectOutlierController extends AbstracController {
 			}
 		}
 		
-		return new Moda(attributeDetails, dominanta, maxCount);
+		return new AttributeModa(attributeDetails, dominanta, maxCount);
 	}
-	private Moda searchModaInDecision(AttributeDetails attributeDetails) {
+	private AttributeModa searchModaInDecision(AttributeDetails attributeDetails) {
 		Multiset<String> elements = HashMultiset.create();
 
 		for(SingleVectorRule rule: vectorRules) {
@@ -185,18 +184,25 @@ public class DetectOutlierController extends AbstracController {
 				dominanta = moda;
 			}
 		}
-		return new Moda(attributeDetails, dominanta, maxCount);	
+		return new AttributeModa(attributeDetails, dominanta, maxCount);	
 	}
 	
 	public void showModa() {
 		createListAttributeDetails();
 		saveRulesAsVector();
-		searchDominantes();
-		for(Moda m:dominantes) {
+		searchDominantesInSymbolicAttribute();
+		for(AttributeModa m:dominantes) {
 			//if(m!=null)
 				System.out.println(m.getAttributeDetails().getAttribute().getName()+": " + m.getValue() + " = " + m.getCount());
 			 //System.out.println(m.getAttributes().getName());
 		}
+		
+		FindDominanta fD = new FindDominanta(vectorRules, dominantes);
+		
+		for(Integer ruleModa : fD.ileZnalazloDominant()){
+			System.out.println("Dominanat to: " + ruleModa);
+		}
+		
 	}
 	
 	
