@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class AttributeValues implements Serializable {
+public class AttributeValues implements Serializable, Comparable<AttributeValues> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -29,6 +29,13 @@ public class AttributeValues implements Serializable {
 	private String continousValue;
 	@JsonProperty
 	private Value value;
+	@Override
+	
+	public int compareTo(AttributeValues o) {
+		if(o.isConclusion)
+			return 1;
+		return -1;
+	}
 	
 
 }

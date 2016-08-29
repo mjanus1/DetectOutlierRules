@@ -1,6 +1,5 @@
 package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -11,42 +10,31 @@ public class FindDominanta {
 	private final static int DECISION_ROW = 1;
 	private final static int DECISION_COLUMN = 0;
 	private final static int CONDITION_ROW = 0;
-	@Getter
-	@Setter
+	@Getter @Setter
 	private List<SingleVectorRule> listVectorRules;
-	@Getter
-	@Setter
+	@Getter @Setter
 	private List<AttributeModa> mods;
-	@Getter
-	@Setter
+	@Getter @Setter
 	private String[][] dominanta;
-	@Setter
-	private List<Integer> listRulsWhichAreDominanta;
 
 	public FindDominanta(List<SingleVectorRule> listVectorRules, List<AttributeModa> mods) {
 		this.listVectorRules = listVectorRules;
 		this.mods = mods;
-		listRulsWhichAreDominanta = new ArrayList<>();
 	}
 
-	public String[][] calculateDominanta() {
-		return dominanta;
-	}
-
-	public List<Integer> ileZnalazloDominant() {
+	public SingleVectorRule calculateDominanta() {
 		boolean checkIsSelectDominanta = true;
 		while (checkIsSelectDominanta) {
 			for (SingleVectorRule vector : listVectorRules) {
 				if (searchRuleWhichPorobablyDominanta(vector.getVectorRule())) {
-					listRulsWhichAreDominanta.add(vector.getIdRules());
 					vector.printVector();
 					checkIsSelectDominanta = false;
+					return vector;
 				}
 			}
 			removeAttributeWithTheSmallestCount();
 		}
-
-		return listRulsWhichAreDominanta;
+		return null;
 	}
 
 	private void removeAttributeWithTheSmallestCount() {
@@ -59,7 +47,7 @@ public class FindDominanta {
 			}
 		}
 		mods.remove(attModaToRemove);
-		System.out.println("Usunięto jeden obiekt");
+		// System.out.println("Usunięto jeden obiekt");
 	}
 
 	private boolean searchRuleWhichPorobablyDominanta(String[][] vector) {

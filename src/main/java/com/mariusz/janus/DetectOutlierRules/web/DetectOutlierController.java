@@ -1,5 +1,7 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
+import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import com.google.common.collect.Multiset;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.AttributeDetails;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.AttributeModa;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.FindDominanta;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.HelperForCalculateSimilary;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.SimilaryWithDominanta;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
@@ -95,22 +99,34 @@ public class DetectOutlierController extends AbstracController {
 						listAttributesDetails.add(new AttributeDetails(attributes.getAttribute(), true, index));
 						logger.debug("dodano: {} nr pozycji: {}",attributes.getAttribute().getName(),index);
 					}
+					continue;
 				} 
 				else if (attributes.getValue() != null) {
 					if(checkIsExistAttribute(attributes.getAttribute().getName())) {
 						listAttributesDetails.add(new AttributeDetails(attributes.getAttribute(), false, index));
 						logger.debug("dodano: {} nr pozycji: {}",attributes.getAttribute().getName(),index);
 					}
+					continue;
 				} 
 				else {
 					if(checkIsExistAttribute(attributes.getAttribute().getName())){
 						listAttributesDetails.add(new AttributeDetails(attributes.getAttribute(), false, index));
 						logger.debug("dodano: {} nr pozycji: {}",attributes.getAttribute().getName(),index);
 					}
+					continue;
 				}
 			}
-		}	
+		}
+		compareAttributesAndAddIfNoExistInAttributeDetails();
 		System.out.println("sprawdzenie ile elementów na liscie ="+listAttributesDetails.size());
+	}
+	
+	private void compareAttributesAndAddIfNoExistInAttributeDetails() {
+		for(Attribute attribute : listAttributes) {
+			if(checkIsExistAttribute(attribute.getName())) {
+				listAttributesDetails.add(new AttributeDetails(attribute, false, listAttributes.indexOf(attribute)));
+			}
+		}
 	}
 	
 	private boolean checkIsExistAttribute(String attributeName) {
@@ -136,11 +152,11 @@ public class DetectOutlierController extends AbstracController {
 	public void searchDominantesInSymbolicAttribute(){
 		dominantes = new ArrayList<>();
 		for(AttributeDetails attrDetails:listAttributesDetails) {
-			if(attrDetails.getAttribute().getType().equals("symbolic") && !attrDetails.isConclussion()) {
+			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && !attrDetails.isConclussion()) {
 				dominantes.add(searcsModsInCondition(attrDetails));
 			}
 			
-			if(attrDetails.getAttribute().getType().equals("symbolic") && attrDetails.isConclussion()) {
+			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && attrDetails.isConclussion()) {
 				dominantes.add(searchModaInDecision(attrDetails));
 			}
 			
@@ -192,17 +208,23 @@ public class DetectOutlierController extends AbstracController {
 		saveRulesAsVector();
 		searchDominantesInSymbolicAttribute();
 		for(AttributeModa m:dominantes) {
-			//if(m!=null)
+			if(m!=null)
 				System.out.println(m.getAttributeDetails().getAttribute().getName()+": " + m.getValue() + " = " + m.getCount());
 			 //System.out.println(m.getAttributes().getName());
 		}
 		
 		FindDominanta fD = new FindDominanta(vectorRules, dominantes);
 		
-		for(Integer ruleModa : fD.ileZnalazloDominant()){
-			System.out.println("Dominanat to: " + ruleModa);
-		}
 		
+		System.out.println("Dominanta to: " + fD.calculateDominanta().getIdRules());
+		System.out.println();
+		System.out.println();
+		
+		SimilaryWithDominanta sm = new SimilaryWithDominanta(vectorRules, fD.calculateDominanta(), listAttributesDetails, listAttributes.size());
+		
+		for(HelperForCalculateSimilary<SingleVectorRule, Double> help : sm.getSimilaryBetweenRules()) {
+			System.out.println("reguła = " + help.getObject().getIdRules() + " similary: "+help.getValue());
+		}
 	}
 	
 	

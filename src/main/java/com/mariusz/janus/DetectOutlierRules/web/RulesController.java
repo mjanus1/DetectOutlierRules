@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -31,6 +32,8 @@ import lombok.Setter;
 public class RulesController extends AbstracController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RulesController.class);
+	private static final String IF = " JEŻELI ";
+	private static final String AND = " ORAZ ";
 	private static final String FILE_PATH = "C:/Users/Mariusz Janus/Desktop/abc.xlsx";
 
 	@Getter
@@ -62,7 +65,7 @@ public class RulesController extends AbstracController {
 
 	private void requestForRules() {
 		listRules = service.listAllRule(tokenForRequest(), getParametr("baseID"));
-		logger.debug("Pobrana liczba reguł ={}",listRules.size());
+		logger.debug("Pobrana liczba reguł ={}", listRules.size());
 		formatRules();
 	}
 
@@ -70,27 +73,28 @@ public class RulesController extends AbstracController {
 		for (Rule rules : listRules) {
 			StringBuilder query = new StringBuilder("");
 			int countElement = rules.getAttributeValues().size();
+
+			Collections.sort(rules.getAttributeValues());
 			for (AttributeValues attributes : rules.getAttributeValues()) {
-				query.append(attributes.getAttribute().getName());
+
+				query.append(attributes.getAttribute().getName() + "  ");
 				--countElement;
-				query.append(" ");
-				query.append(attributes.getOperator());
-				query.append(" ");
+				query.append(attributes.getOperator() + "  ");
 				if (attributes.getValue() != null) {
-					query.append(attributes.getValue().getName());
+					query.append(attributes.getValue().getName() + " ");
 				} else {
-					query.append(attributes.getContinousValue());
+					query.append(attributes.getContinousValue() + " ");
 				}
-				query.append(" ");
 
 				if (attributes.isConclusion()) {
-					query.append("JEŻELI ");
+					query.append(IF);
 				} else {
 					if (countElement != 0)
-						query.append("ORAZ ");
+						query.append(AND);
 				}
+
 			}
-			//logger.debug("reguła ={}", query);
+			logger.debug("reguła ={}", query);
 			listRulesHelper.add(new ViewRulesHelper(rules.getId(), rules.getDescription(), query));
 		}
 	}
