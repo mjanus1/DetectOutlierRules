@@ -12,17 +12,29 @@
 	<ui:define name="content">
 		
 		<h:form id="baseForm">
-		<p:dataTable var="base"  value="#{kwnowledgeBaseController.listBases}" emptyMessage="Nie znaleziono rekordów." widgetVar="rulesTable" filteredValue="#{kwnowledgeBaseController.filteredListBases}">
+		<p:dataTable var="base" styleClass="available-base" value="#{kwnowledgeBaseController.listBases}" filteredValue="#{kwnowledgeBaseController.filteredListBases}" emptyMessage="Nie znaleziono rekordów." widgetVar="rulesTable" >
 		
 			<f:facet name="header">
-				Dostępne bazy wiedzy
+            	<p:outputPanel style="font-size:16px;margin-top:5px;float:right">
+                	<h:outputText value="Wyszukaj:"/>
+                	<p:inputText id="globalFilter" onkeyup="PF('rulesTable').filter()" style="width:120px;margin-right:10px" placeholder="szukaj..."/>
+            	</p:outputPanel>
+            	<p style="clear:both" />
+            	<table>
+            		<tr>
+            			<td>
+            				<h:graphicImage name="icon_home.png" library="graphics" title="home" height="28" width="28" style="vertical-align:middle;margin-right:8px"/>		
+							<h:outputText value="Bazy wiedzy" style="vertical-align:middle"/>
+            			</td>
+            		</tr>
+            	</table>
    	 		</f:facet>
     
-		    <p:column headerText="Index" width="100" style="text-align:center;font-size:16px" filterBy="#{base.id}" >
+		    <p:column headerText="Index" width="100" style="text-align:center;font-size:16px">
 		        <h:outputText value="#{kwnowledgeBaseController.index}" />
 		    </p:column>
 		 
-		    <p:column headerText="Nazwa" style="text-align:center;font-size:16px" filterBy="#{base.name}" >
+		    <p:column headerText="Nazwa" style="text-align:center;font-size:16px" filterBy="#{base.name}">
 		        <h:outputText value="#{base.name}" />
 		    </p:column>
 		 

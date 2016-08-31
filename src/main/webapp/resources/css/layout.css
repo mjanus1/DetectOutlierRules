@@ -30,7 +30,6 @@ ul li.ui-menuitem-active>a{
 	z-index: 0 !important; 
 	display: block !important; 
 	visibility: visible !important;
-	height: auto !important;
 	background-color: #efefef !important;
 }
 
@@ -40,10 +39,13 @@ ul li.ui-menuitem-active>a{
 	background-color: #efefef !important;
 }
 
+.ui-layout-center .ui-layout-unit-content{
+	height: auto !important;
+	background-color: #efefef !important;
+}
 
-
-.ui-layout-center .ui-layout-unit-content,.ui-layout-south .ui-layout-unit-content {
-    
+.ui-layout-south .ui-layout-unit-content {
    background-color: #efefef !important;
 }
+
 

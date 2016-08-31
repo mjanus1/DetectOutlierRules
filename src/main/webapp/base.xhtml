@@ -10,60 +10,60 @@
 	<ui:composition template="/resources/template/template.xhtml">
 	
 	<ui:define name="content">
-		
-		<h1> #{baseController.knowledgeBase.name}</h1>
-		<h3>Właściciel: Agnieszka Nowak </h3>
-		<h4> #{baseController.knowledgeBase.description}</h4>
-		
-		<table class="tab" width="500" cellpadding="10">
-			<thead>
-				<tr>
-					<th> <p:outputLabel value="Element"/> </th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr onclick="location.href='attributes.xhtml?baseID=#{baseController.knowledgeBase.id}'">
-					<td>
-						<p:outputLabel value="Atrybuty"/>
-					</td>
-					
-					<td>
-						<p:outputLabel value="#{baseController.attributeCount}"/>
-					</td>
-				</tr>
-				<tr onclick="location.href='facts.xhtml?baseID=#{baseController.knowledgeBase.id}'">
-					<td>
-						<p:outputLabel value="Fakty"/>
-					</td>
-					
-					<td>
-						<p:outputLabel value="#{baseController.factCount}"/>
-					</td>
-				</tr>
-				<tr onclick="location.href='rules.xhtml?baseID=#{baseController.knowledgeBase.id}'">
-					<td>
-						<p:outputLabel value="Reguły"/>
-					</td>
-					
-					<td>
-						<p:outputLabel value="#{baseController.rulesCount}"/>
-					</td>
-				</tr>
-			</tbody>
 			
-			<tfoot>
-				<tr>
-					<td>
-						<h:link outcome="available-bases"> 
-							<h:graphicImage name="back.png" library="graphics" height="64" width="64" title="Go to base" style="vertical-align:middle;"/>
-						</h:link> 
-					</td>
-				</tr>
+			<h1> #{baseController.knowledgeBase.name}</h1>
+			<h3>Właściciel: Agnieszka Nowak </h3>
+			<h4> #{baseController.knowledgeBase.description}</h4>
 			
-			</tfoot>
-		</table>
-		
+			<table class="tab" width="500" cellpadding="10">
+				<thead>
+					<tr>
+						<th> <p:outputLabel value="Elementy"/> </th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr onclick="location.href='attributes.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+						<td>
+							<p:outputLabel value="Atrybuty"/>
+						</td>
+						
+						<td>
+							<p:outputLabel value="#{baseController.attributeCount}"/>
+						</td>
+					</tr>
+					<tr onclick="location.href='facts.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+						<td>
+							<p:outputLabel value="Fakty"/>
+						</td>
+						
+						<td>
+							<p:outputLabel value="#{baseController.factCount}"/>
+						</td>
+					</tr>
+					<tr onclick="location.href='rules.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+						<td>
+							<p:outputLabel value="Reguły"/>
+						</td>
+						
+						<td>
+							<p:outputLabel value="#{baseController.rulesCount}"/>
+						</td>
+					</tr>
+				</tbody>
+				
+				<tfoot>
+					<tr>
+						<td>
+							<h:link outcome="available-bases"> 
+								<h:graphicImage name="back.png" library="graphics" height="64" width="64" title="Go to base" style="vertical-align:middle;"/>
+							</h:link> 
+						</td>
+					</tr>
+				
+				</tfoot>
+			</table>
+
 	</ui:define>
 	</ui:composition>
 </html>

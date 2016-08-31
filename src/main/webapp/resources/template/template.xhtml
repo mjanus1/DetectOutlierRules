@@ -9,39 +9,46 @@
 <h:head>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<h:outputStylesheet library="css" name="layout.css" />
-	<h:outputStylesheet library="css" name="layout_table_prim.css" />
-	<h:outputStylesheet library="css" name="bottom.css" />
+
+	<h:outputStylesheet library="css" name="common-style.css" />
 
 </h:head> 
-<body> 
+<h:body> 
 
-	<!-- style="width:1300px;height:900px;margin: 0 auto;" -->
-	<p:layout fullPage="true" >
-	 
-	    <p:layoutUnit position="north" size="65">
-	    	<table width="100%" style="background-color: #efefef;height:60px">
-	    		<tr>
-	    			<td width="50%">
-	    				<ui:include src="header-menu.xhtml"></ui:include>
-	    			</td>
-	    			<td width="50%">
-	    				<ui:include src="login-panel.xhtml"></ui:include>
-	    			</td>
-	    		</tr>
-	    	</table>  
-	    </p:layoutUnit>
-	 
-	    <p:layoutUnit position="south" size="38" resizable="true" collapsible="true">
-	        <ui:include src="footer.xhtml"></ui:include>
-	    </p:layoutUnit>
-	 
-	    <p:layoutUnit position="center">
-	    	<ui:insert name="content" />    
-	    </p:layoutUnit>
+	<div id="page">
+    
+	    <div id="header-container">
+	      	<div id="header-menu">
+	      		<ui:include src="header-menu.xhtml"/>	
+	     	 </div>
+	      
+	      	<div id="login">
+	      		<ui:include src="login-panel.xhtml"/>
+	      	</div>
+	    </div>
 	    
-	</p:layout>
-	
+	    <div id="messages-container">
+			<div id="messages">
+				<ui:insert name="messages">
+					
+				</ui:insert>
+			</div>
+		</div>
+	      
+	    <div id="content-container">
+	    	<div id="content">
+		         <ui:insert name="content" >
 
-</body> 
+		         </ui:insert>
+	        </div>
+	    </div>
+	        
+	    <div id="footer-container">
+	        <ui:include src="footer.xhtml"/>
+	    </div>
+      
+    </div>
+	
+	
+</h:body> 
 </html>

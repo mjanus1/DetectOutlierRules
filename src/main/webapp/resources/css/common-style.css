@@ -1,0 +1,173 @@
+@CHARSET "UTF-8";
+
+#page {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#header-container {
+	width: 100%;
+	height: 60px;
+	margin-bottom: 10px;
+	border-radius: 15px;
+	border: 2px solid #c0c0c0;
+	background: #f5f5f5 !important;
+}
+
+#messages-container {
+	clear: both;
+	display: none;
+	width: 1200px;
+	height: 50px;
+	border: 1px solid #000;
+	margin-bottom: 16px;
+	margin: 0 auto;
+	background: #f5f5f5 !important;
+}
+
+#content-container {
+	width: 1200px;
+	height: auto;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	border-radius: 15px;
+	border: 2px solid #c0c0c0;
+	background: #f5f5f5 !important;
+}
+
+#footer-container {
+	width: 1200px;
+	height: 30px;
+	border: 1px solid #000;
+	margin: 0 auto;
+	border-radius: 15px;
+	border: 2px solid #c0c0c0;
+	background: #f5f5f5 !important;
+}
+
+#header-menu {
+	width: 49%;
+	height: 60px;
+	float: left;
+}
+
+#login {
+	float: right;
+	width: 49%;
+	height: 60px;
+	margin-right: 10px;
+}
+
+.logo {
+	height: 50px;
+	margin-top: 5px;
+}
+
+.form {
+	height: 50px;
+	margin-top: 11px;
+	margin-right: 10px;
+	float: right;
+}
+
+.footer {
+	font-weight: 700; font-size : 14px;
+	margin: 0 auto;
+	font-size: 14px;
+}
+
+.button-sign {
+	font-size: 14px;
+	margin-top: 5px;
+	color: black;
+	font-weight: 800;
+}
+
+.logout-form {
+	margin-top: 4px;
+}
+
+.available-base {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 1180px;
+	text-align: center;
+	margin-left: 10px;
+	border-radius: 5px;
+	border: 2px solid #019ffe !important;
+}
+
+
+
+
+.ui-panel {
+	width: 1174px;
+	margin-left: 10px;
+	height: 70px !important;
+	background: #fff0dd !important;
+	color: black !important;
+	font-size: 16px !important;
+	vertical-align: middle !important;
+	border-color: #ffdeb7 !important;
+	margin-bottom: 30px !important;;
+}
+
+.ui-panel-content {
+	margin-top: 16px !important;
+}
+
+.ui-datatable-header {
+	background: #019ffe !important;
+	color: white !important;
+	text-align: left !important;
+	font-size: 30px !important;
+	font-style: italic !important;
+	font-weight: inherit !important;
+	border-bottom: 1px solid #437bfe !important;
+}
+
+.ui-datatable thead th {
+	background: #ffffff !important;
+	color: black !important;
+	font-size: 18px !important;
+	border-left: hidden !important;
+	border-right: hidden !important;
+	border-bottom: 2px solid black !important;
+}
+
+.ui-datatable .ui-paginator {
+	background: #019ffe !important;
+}
+
+.ui-datatable tbody td {
+	border-top: 1px solid #d1d1d1 !important;
+	border-left: hidden !important;
+	border-right: hidden !important;
+	border-bottom: 1px solid #d1d1d1 !important;
+}
+
+.ui-datatable tr.ui-datatable-even:hover, .ui-datatable tr.ui-datatable-odd:hover
+	{
+	background: #e9e9e9 !important;
+}
+
+
+
+
+.tab thead {
+	color: #ffffff;
+	text-align: left;
+	background: #019ffe;
+	font-size: 20px !important;
+	font-weight: inherit;
+	border-right: 2px solid #019ffe;
+}
+
+.tab th, .tab td {
+	text-align: left;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+.tab tbody tr:hover {
+	background: #e9e9e9 !important;
+}

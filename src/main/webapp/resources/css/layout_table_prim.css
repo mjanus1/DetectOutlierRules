@@ -18,6 +18,10 @@
     border: hidden !important;	
    
 }
+
+.ui-datatable .ui-paginator {
+	background: #9dceff !important;
+}
 .ui-datatable tbody td{
     border-top: 1px solid #d1d1d1!important;
     border-left: hidden!important;

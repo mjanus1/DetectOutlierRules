@@ -10,30 +10,36 @@
 	<ui:composition template="/resources/template/template.xhtml">
 	
 	<ui:define name="content">
-	
-		<p:button outcome="detect-outlier.xhtml?baseID=#{rulesController.getParametr('baseID')}" value="Odchylenia" style="margin-bottom:5px"/>
+		<h:form>
 		
-		<p:dataTable var="rules" value="#{rulesController.listRulesHelper}" emptyMessage="Nie znaleziono rekordów.">
+
+			<p:button outcome="base?baseID=#{rulesController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
+			<p:button outcome="detect-outlier.xhtml?baseID=#{rulesController.getParametr('baseID')}" value="Odchylenia" style="margin-bottom:5px;margin-left:5px;margin-top:10px;color:black"/>
 			
-			<f:facet name="header">
-        		Dostępne reguły   		
-   	 		</f:facet>
-    
-		    <p:column headerText="Index" width="60" style="text-align:center;font-size:15px">
-		        <h:outputText value="#{rules.id}" />
-		    </p:column>
-		 
-		    <p:column headerText="Opis" width="60" style="text-align:left;font-size:15px">
-		        <h:outputText value="#{rules.description}" />
-		        <h:outputText value="brak!" rendered="#{rules.description ==null or rules.description ==''}"/>
-		    </p:column>
-		 
-		    <p:column headerText="Reguła" style="text-align:left; font-size:15px">
-		        <h:outputText value="#{rules.query}" />
-		    </p:column>
-		    
-		</p:dataTable>
-		
+			<p:dataTable var="rules" styleClass="available-base" value="#{rulesController.listRulesHelper}" emptyMessage="Nie znaleziono rekordów." rows="15"
+							paginator="true"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="15,30,50">
+				
+				<f:facet name="header">
+	        		Dostępne reguły   		
+	   	 		</f:facet>
+	    
+			    <p:column headerText="Index" width="60" style="text-align:center;font-size:15px">
+			        <h:outputText value="#{rules.id}" />
+			    </p:column>
+			 
+			    <p:column headerText="Opis" width="60" style="text-align:left;font-size:15px">
+			        <h:outputText value="#{rules.description}" />
+			        <h:outputText value="brak!" rendered="#{rules.description ==null or rules.description ==''}"/>
+			    </p:column>
+			 
+			    <p:column headerText="Reguła" style="text-align:left; font-size:15px">
+			        <h:outputText value="#{rules.query}" />
+			    </p:column>
+			    
+			</p:dataTable>
+		</h:form>
 	</ui:define>
 	</ui:composition>
 	

@@ -9,12 +9,12 @@
 
 	<ui:composition>
 			    
-		    <h:form id="loginForm" rendered="#{!sessionUserController.checkIsLoggedUser()}"  style="float:right;" >
-				<p:button style="font-size:14px;vertical-align: middle;" value="Zaloguj" href="http://les.szymon.net.pl/oauth/authorize?response_type=code&amp;client_id=Test&amp;redirect_uri=http://localhost:8000/DetectOutlierRules/auth.xhtml" icon="ui-icon-extlink" />
+		    <h:form styleClass="form" id="loginForm" rendered="#{!sessionUserController.checkIsLoggedUser()}" >
+				<p:button styleClass="button-sign" value="Zaloguj" href="http://les.szymon.net.pl/oauth/authorize?response_type=code&amp;client_id=Test&amp;redirect_uri=http://localhost:8000/DetectOutlierRules/auth.xhtml" icon="ui-icon-extlink" />
 			</h:form>
 			
-			<h:form id="logutForm" rendered="#{sessionUserController.checkIsLoggedUser()}" style="float:right;">
-				<table>
+			<h:form styleClass="form" id="logutForm" rendered="#{sessionUserController.checkIsLoggedUser()}">
+				<table class="logout-form">
 					<tr>
 						<td>
 							<h:outputText value="Witaj, " style="font-size:14px;color:black;font-weight:bold"/>
@@ -31,7 +31,7 @@
 				</table>
 			</h:form>
 			
-			<br style="clear:both;"/>
+
 	
 	</ui:composition>
 </html>
