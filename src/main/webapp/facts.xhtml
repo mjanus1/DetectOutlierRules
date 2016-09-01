@@ -9,24 +9,26 @@
 	<ui:composition template="/resources/template/template.xhtml">
 	
 	<ui:define name="content">
+		<form>
+			<p:button outcome="base?baseID=#{factController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
 			
-		<p:dataTable var="atr" styleClass="available-base" value="#{factController.listOfFact}" emptyMessage="Nie znaleziono rekordów.">
-		
-			<f:facet name="header">
-        		Fakty
-   	 		</f:facet>
-    
-		    <p:column headerText="Indeks" width="80" style="text-align:left;font-size:15px">
-		        <h:outputText value="#{factController.index}" />
-		    </p:column>
-		 
-		    <p:column headerText="Fakt" width="400" style="text-align:left;font-size:15px">
-		        <h:outputText value="#{atr.attribute.name} #{atr.operator} #{atr.value.name}" />
-		    </p:column>
-		 
-		    
-		</p:dataTable>
-	
+			<p:dataTable var="atr" styleClass="available-base" value="#{factController.listOfFact}" emptyMessage="Nie znaleziono rekordów.">
+			
+				<f:facet name="header">
+	        		Fakty
+	   	 		</f:facet>
+	    
+			    <p:column headerText="Indeks" width="80" style="text-align:left;font-size:15px">
+			        <h:outputText value="#{factController.index}" />
+			    </p:column>
+			 
+			    <p:column headerText="Fakt" width="400" style="text-align:left;font-size:15px">
+			        <h:outputText value="#{atr.attribute.name} #{atr.operator} #{atr.value.name}" />
+			    </p:column>
+			 
+			    
+			</p:dataTable>
+		</form>
 	</ui:define>
 	
 	</ui:composition>

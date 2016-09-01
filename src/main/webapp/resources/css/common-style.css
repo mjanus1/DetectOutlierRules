@@ -11,7 +11,7 @@
 	margin-bottom: 10px;
 	border-radius: 15px;
 	border: 2px solid #c0c0c0;
-	background: #f5f5f5 !important;
+	background: #f5f5f5;
 }
 
 #messages-container {
@@ -22,7 +22,7 @@
 	border: 1px solid #000;
 	margin-bottom: 16px;
 	margin: 0 auto;
-	background: #f5f5f5 !important;
+	background: #f5f5f5;
 }
 
 #content-container {
@@ -32,17 +32,17 @@
 	margin-bottom: 10px;
 	border-radius: 15px;
 	border: 2px solid #c0c0c0;
-	background: #f5f5f5 !important;
+	background: #f5f5f5;
 }
 
 #footer-container {
 	width: 1200px;
-	height: 30px;
+	height: 40px;
 	border: 1px solid #000;
 	margin: 0 auto;
 	border-radius: 15px;
 	border: 2px solid #c0c0c0;
-	background: #f5f5f5 !important;
+	background: #f5f5f5;
 }
 
 #header-menu {
@@ -60,31 +60,42 @@
 
 .logo {
 	height: 50px;
-	margin-top: 5px;
+	position: relative;
+    top: 50%;
+    margin-top: -25px;
 }
 
 .form {
-	height: 50px;
-	margin-top: 11px;
-	margin-right: 10px;
+    height: 50px;
+	position: relative;
+    top: 50%;
+    margin-top: -25px;
+    margin-right:5px;
 	float: right;
+	vertical-align: middle;
 }
 
 .footer {
-	font-weight: 700; font-size : 14px;
-	margin: 0 auto;
+	font-weight:700;
+	width: 500px;
+	height: 30px;
 	font-size: 14px;
+	position: relative;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -15px;
 }
 
 .button-sign {
 	font-size: 14px;
-	margin-top: 5px;
 	color: black;
 	font-weight: 800;
+	margin-top: 10px;
 }
 
 .logout-form {
-	margin-top: 4px;
+	margin-top: 10px;
 }
 
 .available-base {
@@ -95,6 +106,21 @@
 	margin-left: 10px;
 	border-radius: 5px;
 	border: 2px solid #019ffe !important;
+}
+
+.fieldset {
+	width:600px;
+    border: 2px solid #2094d2;
+	margin-left: 10px;
+	border-radius: 10px;
+	margin-top: 10px;
+	padding: 8px;
+	margin-bottom: 15px;
+}
+.fieldset legend{
+	font-weight:900;
+	color: black;
+	font-size: 15px;
 }
 
 
@@ -153,12 +179,16 @@
 
 
 
+.tab {
+	width: 500px;
+	margin-left: 5px;
+}
 
 .tab thead {
 	color: #ffffff;
 	text-align: left;
 	background: #019ffe;
-	font-size: 20px !important;
+	font-size: 17px !important;
 	font-weight: inherit;
 	border-right: 2px solid #019ffe;
 }

@@ -1,6 +1,4 @@
-package com.mariusz.janus.DetectOutlierRules.Algorithm;
-
-import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
+package com.mariusz.janus.DetectOutlierRules.domain;
 
 import lombok.Getter;
 import lombok.Setter;

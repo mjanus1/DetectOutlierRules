@@ -11,15 +11,15 @@
 	
 	<ui:define name="content">
 			
-			<h1> #{baseController.knowledgeBase.name}</h1>
-			<h3>Właściciel: Agnieszka Nowak </h3>
-			<h4> #{baseController.knowledgeBase.description}</h4>
+			<h1 style="margin-left:5px"> #{baseController.knowledgeBase.name}</h1>
+			<h3 style="margin-left:5px"> Właściciel: Agnieszka Nowak </h3>
+			<h4 style="margin-left:5px"> #{baseController.knowledgeBase.description}</h4>
 			
-			<table class="tab" width="500" cellpadding="10">
+			<table class="tab" cellpadding="8">
 				<thead>
 					<tr>
-						<th> <p:outputLabel value="Elementy"/> </th>
-						<th></th>
+						<th> <p:outputLabel value="Elementy bazy"/> </th>
+						<th> <p:outputLabel value="ilość"/> </th>
 					</tr>
 				</thead>
 				<tbody>

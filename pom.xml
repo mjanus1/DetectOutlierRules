@@ -32,6 +32,7 @@
 		<version.org.apache.poi>3.10-FINAL</version.org.apache.poi>
 		<version.org.projectlombok>1.16.8</version.org.projectlombok>
 		<version.com.google.guava>19.0</version.com.google.guava>
+		<version.org.apache.myfaces.tomahawk>1.1.14</version.org.apache.myfaces.tomahawk>
 	</properties>
   
   <build>
@@ -126,6 +127,12 @@
 					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		
+		<dependency>
+    		<groupId>org.apache.myfaces.tomahawk</groupId>
+    		<artifactId>tomahawk20</artifactId>
+    		<version>${version.org.apache.myfaces.tomahawk}</version>
 		</dependency>
 
 		<!-- Dependency for Primfaces -->

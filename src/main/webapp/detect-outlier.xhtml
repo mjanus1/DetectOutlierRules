@@ -4,18 +4,67 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://myfaces.apache.org/tomahawk"> 
 
 
 	<ui:composition template="/resources/template/template.xhtml">
 	
 		<ui:define name="content">
+			<h:form>
+				<p:dataTable value="#{detectOutlierController.showModa()}" var="blbl" />
+				<p:button outcome="base?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
+			
+				<t:fieldset legend="Ustawienia" styleClass="fieldset">
+					<table>
+						<tr>
+							<td>
+								<p:outputLabel value="Wybierz metode:"/>
+							</td>
+							<td>
+								<p:selectOneMenu>
+									<f:selectItem itemLabel="---wybierz---" itemValue=""/>
+									<f:selectItem itemLabel="VSM" itemValue=""/>
+								</p:selectOneMenu>	
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<p:commandButton value="Generuj odchylenia" action="#" style="color:black"/>
+							</td>
+						</tr>
+					</table>
+				</t:fieldset>
+				
+				<table style="margin-left:10px;margin-bottom:15px">
+					<tr>
+						<td>
+							<p:outputLabel value="Określ liczbe odchleń: "/>
+						</td>
+							
+						<td>
+							<p:inputText style="width:50px; margin-left:5px" />	
+						</td>
+						
+						<td>
+							<p:commandButton value="Pokaż" style="margin-left:10px;color:black"/>
+						</td>
+					</tr>
+				</table>
+			
+			</h:form>
 		
-		<p:dataTable value="#{detectOutlierController.listAttributes}" var="red" />
 		
-		<p:dataTable value="#{detectOutlierController.review()}" var="red" />
+		<ui:remove>
+			<p:dataTable value="#{detectOutlierController.listAttributes}" var="red" />
+			
+			<p:dataTable value="#{detectOutlierController.review()}" var="red" />
+			
+			<p:dataTable value="#{detectOutlierController.showModa()}" var="blbl" />
 		
-		<p:dataTable value="#{detectOutlierController.showModa()}" var="blbl" />
+		</ui:remove>
+		
+			
 			
 		</ui:define>
 	

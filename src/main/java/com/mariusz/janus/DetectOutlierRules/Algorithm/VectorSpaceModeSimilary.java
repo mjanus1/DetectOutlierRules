@@ -5,12 +5,15 @@ import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.DISCRETE;
 import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class SimilaryWithDominanta {
+public class VectorSpaceModeSimilary {
 	
 	@Getter @Setter private List<SingleVectorRule> listVectorRule;
 	@Getter @Setter private SingleVectorRule dominanta;
@@ -20,11 +23,20 @@ public class SimilaryWithDominanta {
 	@Getter @Setter private List<AttributeDetails> attributesDetails;
 	@Getter @Setter private int countAllAttributes;
 	
-	public SimilaryWithDominanta(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
+	public VectorSpaceModeSimilary(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
 		this.listVectorRule = listVectorRule;
 		this.dominanta = dominanta;
 		this.attributesDetails = attributesDetails;
 		this.countAllAttributes = countAllAttributes;
+	}
+	
+	public List<HelperForCalculateSimilary<SingleVectorRule, Double>> getOutlierRules(int parametr) {
+		int countOutlier = getSimilaryBetweenRules().size() * parametr / 100;
+			
+		
+
+		
+		return outliers;
 	}
 	
 	public List<HelperForCalculateSimilary<SingleVectorRule, Double>> getSimilaryBetweenRules() {

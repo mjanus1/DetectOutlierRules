@@ -9,32 +9,34 @@
 	<ui:composition template="/resources/template/template.xhtml">
 	
 	<ui:define name="content">
+		<form>
+			<p:button outcome="base?baseID=#{attributesController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
+				
+			<p:dataTable var="atr" styleClass="available-base" value="#{attributesController.attributesList}" emptyMessage="Nie znaleziono rekordów.">
 			
-		<p:dataTable var="atr" styleClass="available-base" value="#{attributesController.attributesList}" emptyMessage="Nie znaleziono rekordów.">
-		
-			<f:facet name="header">
-        		Atrybuty
-   	 		</f:facet>
-    
-		    <p:column headerText="Indeks" width="80" style="text-align:center;font-size:15px">
-		        <h:outputText value="#{attributesController.index}" />
-		    </p:column>
-		 
-		    <p:column headerText="Nazwa" width="200" style="text-align:left;font-size:15px">
-		        <h:outputText value="#{atr.name}" />
-		    </p:column>
-		 
-		    <p:column headerText="Opis" width="350" style="text-align:left;font-size:15px">
-		        <h:outputText value="#{atr.description}" />
-		        <h:outputText value="brak!" rendered="#{atr.description ==null or atr.description ==''}"/>
-		    </p:column>
-		    
-		    <p:column headerText="Typ" width="100" style="text-align:left;font-size:15px">
-		        <h:outputText value="#{atr.type}" />
-		    </p:column>
-		    
-		</p:dataTable>
-	
+				<f:facet name="header">
+	        		Atrybuty
+	   	 		</f:facet>
+	    
+			    <p:column headerText="Indeks" width="80" style="text-align:center;font-size:15px">
+			        <h:outputText value="#{attributesController.index}" />
+			    </p:column>
+			 
+			    <p:column headerText="Nazwa" width="200" style="text-align:left;font-size:15px">
+			        <h:outputText value="#{atr.name}" />
+			    </p:column>
+			 
+			    <p:column headerText="Opis" width="350" style="text-align:left;font-size:15px">
+			        <h:outputText value="#{atr.description}" />
+			        <h:outputText value="brak!" rendered="#{atr.description ==null or atr.description ==''}"/>
+			    </p:column>
+			    
+			    <p:column headerText="Typ" width="100" style="text-align:left;font-size:15px">
+			        <h:outputText value="#{atr.type}" />
+			    </p:column>
+			    
+			</p:dataTable>
+		</form>
 	</ui:define>
 	
 	</ui:composition>
