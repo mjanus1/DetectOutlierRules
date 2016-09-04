@@ -1,5 +1,7 @@
 package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
+import com.mariusz.janus.DetectOutlierRules.domain.Rule;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,13 +10,16 @@ public class SingleVectorRule {
 	private final static String defaulValue = "0";
 	private final static int countRows = 2;
 	@Getter @Setter private int countColumn;
-	@Getter @Setter private int idRules;
+	@Getter @Setter private Rule rule;
 	@Getter @Setter private String[][] vectorRule;
 
-	public SingleVectorRule(int coutColumn, int idRules) {
+	public SingleVectorRule(int coutColumn, Rule rule) {
 		this.countColumn = coutColumn;
-		this.setIdRules(idRules);
+		this.rule = rule;
 		setDefaultValueForVectorRule(countColumn);
+	}
+	
+	public SingleVectorRule() {
 	}
 	
 	private void setDefaultValueForVectorRule(int coutColumn) {

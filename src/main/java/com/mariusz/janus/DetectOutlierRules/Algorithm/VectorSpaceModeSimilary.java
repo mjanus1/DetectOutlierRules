@@ -5,21 +5,23 @@ import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.DISCRETE;
 import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
+ 
 public class VectorSpaceModeSimilary {
 	
 	@Getter @Setter private List<SingleVectorRule> listVectorRule;
 	@Getter @Setter private SingleVectorRule dominanta;
 	@Getter @Setter private Integer parametrForCalculateOutlier;
-	@Getter @Setter private List<HelperForCalculateSimilary<SingleVectorRule, Double>> similary;
-	@Getter @Setter private List<HelperForCalculateSimilary<SingleVectorRule, Double>> outliers;
+	@Getter @Setter private List<HelperForCalculateSimilary> similary;
+	@Getter @Setter private List<HelperForCalculateSimilary> outliers;
 	@Getter @Setter private List<AttributeDetails> attributesDetails;
 	@Getter @Setter private int countAllAttributes;
 	
@@ -30,16 +32,19 @@ public class VectorSpaceModeSimilary {
 		this.countAllAttributes = countAllAttributes;
 	}
 	
-	public List<HelperForCalculateSimilary<SingleVectorRule, Double>> getOutlierRules(int parametr) {
+	public List<HelperForCalculateSimilary> getOutlierRules(int parametr) {
+		outliers = new ArrayList<>();
 		int countOutlier = getSimilaryBetweenRules().size() * parametr / 100;
-			
-		
-
-		
+		System.out.println("count outlier: "+countOutlier);
+		Collections.sort(similary);
+		for(int i =0; i<countOutlier; i++){
+			outliers.add(similary.get(i));
+		}
+		System.out.println("sprawdzenie listy "+outliers.size());
 		return outliers;
 	}
 	
-	public List<HelperForCalculateSimilary<SingleVectorRule, Double>> getSimilaryBetweenRules() {
+	public List<HelperForCalculateSimilary> getSimilaryBetweenRules() {
 		similary = new ArrayList<>();
 		int mianownik = countAllAttributes;
 	
@@ -66,10 +71,10 @@ public class VectorSpaceModeSimilary {
 					break;
 				default:
 					break;
-				}	
+				}
 			}
-			System.out.println(builder.toString());
-			similary.add(new HelperForCalculateSimilary<SingleVectorRule, Double>(singleVector, licznik/mianownik));
+			System.out.println("Reguła: " + singleVector.getRule().getId() + "  " + builder.toString());
+			similary.add(new HelperForCalculateSimilary(singleVector, licznik/mianownik));
 		}
 		return similary;
 	}
@@ -104,11 +109,6 @@ public class VectorSpaceModeSimilary {
 				return 1.0;
 		}
 		return 0;		
-	}
-	
-	public List<HelperForCalculateSimilary<SingleVectorRule, Double>> getOutlier(int cutParametr) {
-		
-		return null;
 	}
 	
 }

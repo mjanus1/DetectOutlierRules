@@ -36,7 +36,7 @@ public class SaveRulesAsVector {
 		vectorRules = new ArrayList<>();
 
 		for (Rule rules : rules) {
-			SingleVectorRule vector = new SingleVectorRule(attributesDetails.size(), rules.getId());
+			SingleVectorRule vector = new SingleVectorRule(attributesDetails.size(), rules);
 			for (AttributeValues attributes : rules.getAttributeValues()) {
 				int index = getIndexInVectorByAttribute(attributes.getAttribute());
 				System.out.println("sprawdzenie pozycji przy zapisie " + index);

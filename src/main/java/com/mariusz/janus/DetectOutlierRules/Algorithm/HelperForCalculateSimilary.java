@@ -2,22 +2,26 @@ package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
 import java.util.Comparator;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class HelperForCalculateSimilary<T, V> implements Comparator<HelperForCalculateSimilary<T, Double>>{
+public class HelperForCalculateSimilary implements Comparator<HelperForCalculateSimilary>, Comparable<HelperForCalculateSimilary>{
 
-	@Getter @Setter private T object;
-	@Getter @Setter private V value;
+	@Getter @Setter private SingleVectorRule object;
+	@Getter @Setter private Double value;
 	
-	public HelperForCalculateSimilary(T object, V value) {
+	
+	public HelperForCalculateSimilary(SingleVectorRule object, Double value) {
 		this.object = object;
 		this.value = value;
 	}
 	
 
 	@Override
-	public int compare(HelperForCalculateSimilary<T, Double> o1, HelperForCalculateSimilary<T, Double> o2) {
+	public int compare(HelperForCalculateSimilary o1, HelperForCalculateSimilary o2) {
 		
 		if(o1.getValue()>o2.getValue())
 			return 1;
@@ -27,10 +31,8 @@ public class HelperForCalculateSimilary<T, V> implements Comparator<HelperForCal
 			return -1;
 	}
 
-
-	public HelperForCalculateSimilary() {
-		super();
+	@Override
+	public int compareTo(HelperForCalculateSimilary o) {
+		return this.value.compareTo(o.value);
 	}
-
-	
 }

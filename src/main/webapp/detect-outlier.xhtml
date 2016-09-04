@@ -11,61 +11,95 @@
 	<ui:composition template="/resources/template/template.xhtml">
 	
 		<ui:define name="content">
-			<h:form>
-				<p:dataTable value="#{detectOutlierController.showModa()}" var="blbl" />
-				<p:button outcome="base?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
+
+			<p:button id="button" outcome="rules?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
 			
-				<t:fieldset legend="Ustawienia" styleClass="fieldset">
-					<table>
-						<tr>
-							<td>
-								<p:outputLabel value="Wybierz metode:"/>
-							</td>
-							<td>
-								<p:selectOneMenu>
-									<f:selectItem itemLabel="---wybierz---" itemValue=""/>
-									<f:selectItem itemLabel="VSM" itemValue=""/>
-								</p:selectOneMenu>	
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<p:commandButton value="Generuj odchylenia" action="#" style="color:black"/>
-							</td>
-						</tr>
-					</table>
-				</t:fieldset>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    			<h:graphicImage name="ajax-loader.gif" library="graphics"/>
+			</p:dialog>
+			
+			<h:form id="outlierForm">
+					
+				<h:panelGroup id="sett" layout="block">
+					<t:fieldset id="fieldSet" legend="Ustawienia" styleClass="fieldset">
+						<table id="tab2">
+							<tr>
+								<td>
+									<p:outputLabel value="Wybierz metode:"/>
+								</td>
+								<td>
+									<p:selectOneMenu>
+										<f:selectItem itemLabel="---wybierz---" itemValue=""/>
+										<f:selectItem itemLabel="VSM" itemValue=""/>
+									</p:selectOneMenu>	
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:commandButton id="gen" action="#{detectOutlierController.calculateSimilary}" value="Generuj odchylenia" update="@form" actionListener="#{detectOutlierController.clickGenerateOutlier}" >
+										
+									</p:commandButton>
+								</td>
+							</tr>
+						</table>
+					</t:fieldset>
+				</h:panelGroup>
 				
-				<table style="margin-left:10px;margin-bottom:15px">
-					<tr>
-						<td>
-							<p:outputLabel value="Określ liczbe odchleń: "/>
-						</td>
+				<h:panelGroup id="prop" rendered="#{detectOutlierController.showProperties}" layout="block" style="margin-left:10px;margin-bottom:15px">
+					
+					<h:panelGrid columns="1" style="margin-top:10px">
+						<p:outputLabel value="DOMINANTA: " style="color:red" />
+						<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
+					</h:panelGrid>
+					
+					<table id="tab" style="margin-top:15px">
+						<tr>
+							<td>
+								<p:outputLabel value="Określ liczbe odchleń: " />
+							</td>
+								
+							<td>
+								<p:inputText value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" />	
+								<p:outputLabel value=" %"/>
+							</td>
 							
-						<td>
-							<p:inputText style="width:50px; margin-left:5px" />	
-						</td>
+							<td>
+								<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlier}" update="outlierForm:outlier" style="margin-left:10px;color:black"/>
+							</td>
+						</tr>
 						
-						<td>
-							<p:commandButton value="Pokaż" style="margin-left:10px;color:black"/>
-						</td>
-					</tr>
-				</table>
-			
+					</table>
+										
+				</h:panelGroup>
+				
+				<h:panelGroup id="outlier" layout="block" >
+						
+					<p:dataTable var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
+					
+					<f:facet name="header">
+		        		Elementy odstające  		
+		   	 		</f:facet>
+		   	 		
+				    <p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
+				        <h:outputText value="#{outlier.object.rule.id}" />
+				    </p:column>
+				 
+				    <p:column headerText="Reguła"  style="text-align:left;font-size:15px">
+				        <h:outputText value="#{outlier.object.rule.saveRuleAsString()}" />
+				    </p:column>
+				 
+				    <p:column headerText="Podobieństwo" width="115" style="text-align:left;font-size:15px">
+				        <h:outputText value="#{outlier.value}" />
+				    </p:column>
+				    
+				    </p:dataTable>
+				
+				</h:panelGroup>
+	
 			</h:form>
-		
-		
-		<ui:remove>
-			<p:dataTable value="#{detectOutlierController.listAttributes}" var="red" />
-			
-			<p:dataTable value="#{detectOutlierController.review()}" var="red" />
-			
-			<p:dataTable value="#{detectOutlierController.showModa()}" var="blbl" />
-		
-		</ui:remove>
-		
-			
-			
+	
 		</ui:define>
 	
 	</ui:composition>

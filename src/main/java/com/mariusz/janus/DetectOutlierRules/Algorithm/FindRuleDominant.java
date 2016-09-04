@@ -23,6 +23,9 @@ public class FindRuleDominant {
 		this.listVectorRules = listVectorRules;
 		this.mods = mods;
 	}
+	
+	public FindRuleDominant() {
+	}
 
 	public SingleVectorRule calculateDominanta() {
 		boolean checkIsSelectDominanta = true;
