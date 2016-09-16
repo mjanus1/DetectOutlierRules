@@ -34,24 +34,25 @@ public class CreateAttributeDetails {
 				if (attributesValue.isConclusion()) {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
 						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), true, index));
-						logger.debug("dodano: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
+						logger.debug("dodano:: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
 					}
 					continue;
 				} else if (attributesValue.getValue() != null) {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
 						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false, index));
-						logger.debug("dodano: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
+						logger.debug("dodano:: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
 					}
 					continue;
 				} else {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
 						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false, index));
-						logger.debug("dodano: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
+						logger.debug("dodano:: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
 					}
 					continue;
 				}
 			}
 		}
+		System.out.println("sprawdzenie ile elementów na liscie =" + attributesDetails.size());
 		compareAttributesAndAddIfNoExistInAttributeDetails();
 		System.out.println("sprawdzenie ile elementów na liscie =" + attributesDetails.size());
 		

@@ -30,15 +30,17 @@
 									<p:outputLabel value="Wybierz metode:"/>
 								</td>
 								<td>
-									<p:selectOneMenu>
-										<f:selectItem itemLabel="---wybierz---" itemValue=""/>
-										<f:selectItem itemLabel="VSM" itemValue=""/>
+									<p:selectOneMenu  value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
+										<f:selectItem itemLabel="---wybierz---" itemValue="null" noSelectionOption="true"/>
+										<f:selectItem itemLabel="VSM" itemValue="VSM"/>
+										
+										<f:ajax execute="@this" render="gen"/>
 									</p:selectOneMenu>	
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:commandButton id="gen" action="#{detectOutlierController.calculateSimilary}" value="Generuj odchylenia" update="@form" actionListener="#{detectOutlierController.clickGenerateOutlier}" >
+									<p:commandButton id="gen" action="#{detectOutlierController.calculateSimilary}" value="Generuj odchylenia" update="@form" disabled="#{detectOutlierController.selectMethod == ''}" actionListener="#{detectOutlierController.clickGenerateOutlier}" >
 										
 									</p:commandButton>
 								</td>

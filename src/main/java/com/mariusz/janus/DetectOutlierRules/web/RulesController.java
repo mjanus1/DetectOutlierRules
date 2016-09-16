@@ -73,15 +73,17 @@ public class RulesController extends AbstracController {
 		for (Rule rules : listRules) {
 			StringBuilder query = new StringBuilder("");
 			int countElement = rules.getAttributeValues().size();
-
+			
 			Collections.sort(rules.getAttributeValues());
 			for (AttributeValues attributes : rules.getAttributeValues()) {
-
+	
 				query.append(attributes.getAttribute().getName() + "  ");
 				--countElement;
 				query.append(attributes.getOperator() + "  ");
 				if (attributes.getValue() != null) {
 					query.append(attributes.getValue().getName() + " ");
+					
+					
 				} else {
 					query.append(attributes.getContinousValue() + " ");
 				}

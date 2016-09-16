@@ -34,12 +34,12 @@ public class SaveRulesAsVector {
 
 	public List<SingleVectorRule> createRulesAsVector() {
 		vectorRules = new ArrayList<>();
-
+		System.out.println();
 		for (Rule rules : rules) {
 			SingleVectorRule vector = new SingleVectorRule(attributesDetails.size(), rules);
 			for (AttributeValues attributes : rules.getAttributeValues()) {
 				int index = getIndexInVectorByAttribute(attributes.getAttribute());
-				System.out.println("sprawdzenie pozycji przy zapisie " + index);
+				//System.out.println("tworzenie vektora, dodano: "+ attributes.getAttribute().getName()+" na pozycji " + index);
 				if (attributes.isConclusion()) {
 					vector.getVectorRule()[1][0] = attributes.getValue().getName();
 				} else if (attributes.getValue() != null) {
@@ -49,6 +49,10 @@ public class SaveRulesAsVector {
 				}
 			}
 			vectorRules.add(vector);
+			
+			vector.printVector();
+			System.out.println();
+			
 		}
 		return vectorRules;
 	}

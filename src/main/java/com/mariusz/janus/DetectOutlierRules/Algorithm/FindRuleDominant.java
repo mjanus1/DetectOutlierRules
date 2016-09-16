@@ -58,16 +58,17 @@ public class FindRuleDominant {
 		boolean checkIsVectorMayBeDominanta = false;
 
 		for (DominantAttributes attModa : mods) {
-			if (attModa.getAttributeDetails().isConclussion()) {
+			boolean isConclusion = attModa.getAttributeDetails().isConclussion();
+			
+			if (isConclusion) {
 				if (attModa.getValue().equals(vector[DECISION_ROW][DECISION_COLUMN])) {
 					checkIsVectorMayBeDominanta = true;
 				} else {
 					checkIsVectorMayBeDominanta = false;
 					break;
 				}
-			} else if (!attModa.getAttributeDetails().isConclussion()) {
-				if (attModa.getValue()
-						.equals(vector[CONDITION_ROW][attModa.getAttributeDetails().getPossitionOnVector()])) {
+			} else if (!isConclusion) {
+				if (attModa.getValue().equals(vector[CONDITION_ROW][attModa.getAttributeDetails().getPossitionOnVector()])) {
 					checkIsVectorMayBeDominanta = true;
 				} else {
 					checkIsVectorMayBeDominanta = false;

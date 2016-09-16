@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,89 +29,130 @@ import com.mariusz.janus.DetectOutlierRules.service.IRestRequestService;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @ManagedBean
 @ViewScoped
 public class DetectOutlierController extends AbstracController {
 
 	private final static Logger logger = LoggerFactory.getLogger(DetectOutlierController.class);
-	@Getter @Setter private List<Attribute> attributes;
-	@Getter @Setter private List<AttributeDetails> listAttributesDetails;
-	@Getter @Setter private List<SingleVectorRule> vectorRules;
-	@Getter @Setter private List<Rule>rules;
-	@Getter @Setter private int ruleCount;
-	@Getter @Setter private int parameterOutlier;
-	@Getter @Setter private SingleVectorRule dominanta;
-	@Getter @Setter private String dominantaAsString;
-	@Getter @Setter List<HelperForCalculateSimilary> similaryOutlier;
-	@Getter @Setter private boolean showProperties;
-	
-	
-	@Getter @Setter
+	@Getter
+	@Setter
+	private List<Attribute> attributes;
+	@Getter
+	@Setter
+	private List<AttributeDetails> listAttributesDetails;
+	@Getter
+	@Setter
+	private List<SingleVectorRule> vectorsRules;
+	@Getter
+	@Setter
+	private List<DominantAttributes> dominantAttributes;
+	@Getter
+	@Setter
+	private List<Rule> rules;
+	@Getter
+	@Setter
+	private int ruleCount;
+	@Getter
+	@Setter
+	private int parameterOutlier;
+	@Getter
+	@Setter
+	private SingleVectorRule dominanta;
+	@Getter
+	@Setter
+	private String dominantaAsString;
+	@Getter
+	@Setter
+	List<HelperForCalculateSimilary> similaryOutlier;
+	@Getter
+	@Setter
+	private boolean showProperties;
+	@Getter
+	@Setter
+	private String selectMethod;
+
+	@Getter
+	@Setter
 	@ManagedProperty(value = "#{IRestRequestService}")
 	private IRestRequestService service;
 
 	public DetectOutlierController() {
+		dominantAttributes = new ArrayList<>();
+		listAttributesDetails = new ArrayList<>();
+		vectorsRules = new ArrayList<>();
 		dominanta = new SingleVectorRule();
-		System.out.println("Ustawienia KO = "+showProperties);
+		selectMethod = "";
 	}
 
 	@PostConstruct
 	public void init() {
-			int idKnowledgeBase = getParametr("baseID");
-			attributes = service.listAllAttributes(tokenForRequest(), idKnowledgeBase);
-			rules = service.listAllRule(tokenForRequest(), idKnowledgeBase);
-			ruleCount = service.countRules(tokenForRequest(), idKnowledgeBase);
+		int idKnowledgeBase = getParametr("baseID");
+		attributes = service.listAllAttributes(tokenForRequest(), idKnowledgeBase);
+		rules = service.listAllRule(tokenForRequest(), idKnowledgeBase);
+		ruleCount = service.countRules(tokenForRequest(), idKnowledgeBase);
 	}
 
-
 	public VectorSpaceModeSimilary calculateSimilary() {
-		
 		CreateAttributeDetails attributeDetails = new CreateAttributeDetails(attributes, rules);
-		SaveRulesAsVector vectorRules = new SaveRulesAsVector(rules, attributeDetails.createListAttributeDetails());
-		SearchAllDominantsInAttribute allDominants = new SearchAllDominantsInAttribute(attributeDetails.createListAttributeDetails(), vectorRules.createRulesAsVector());
+		listAttributesDetails = attributeDetails.createListAttributeDetails();
 
-		for(DominantAttributes m:allDominants.searchDominantesInSymbolicAttribute()) {
-			if(m!=null)
-				System.out.println(m.getAttributeDetails().getAttribute().getName()+": " + m.getValue() + " = " + m.getCount());
+		SaveRulesAsVector vectorRule = new SaveRulesAsVector(rules, listAttributesDetails);
+		vectorsRules = vectorRule.createRulesAsVector();
+
+		SearchAllDominantsInAttribute allDominants = new SearchAllDominantsInAttribute(listAttributesDetails, vectorsRules);
+		dominantAttributes = allDominants.searchDominantesInSymbolicAttribute();
+
+		System.out.println();
+		System.out.println("Wyznaczenie dominant w atrybutach:");
+		for (DominantAttributes m : dominantAttributes) {
+			if (m != null)
+				System.out.println(
+						m.getAttributeDetails().getAttribute().getName() + ": " + m.getValue() + " = " + m.getCount());
 		}
-		
-		FindRuleDominant ruleModa = new FindRuleDominant(vectorRules.createRulesAsVector(), allDominants.searchDominantesInSymbolicAttribute());
+		System.out.println();
+
+		FindRuleDominant ruleModa = new FindRuleDominant(vectorsRules, dominantAttributes);
 		dominanta = ruleModa.calculateDominanta();
 		dominantaAsString = dominanta.getRule().saveRuleAsString();
-		
-		System.out.println("Dominanta to: " + ruleModa.calculateDominanta().getRule().getId());
+
+		System.out.println("Wybrana dominanta : " + dominanta.getRule().getId());
 		System.out.println();
 		System.out.println();
-		
-		VectorSpaceModeSimilary outlier = new VectorSpaceModeSimilary(vectorRules.createRulesAsVector(), dominanta, attributeDetails.createListAttributeDetails(), attributes.size());
+
+		VectorSpaceModeSimilary outlier = new VectorSpaceModeSimilary(vectorsRules, dominanta, listAttributesDetails, attributes.size());
 		List<HelperForCalculateSimilary> d = outlier.getSimilaryBetweenRules();
-		
+
 		System.out.println();
 		System.out.println("Wyliczone podobienstwa");
-		for(HelperForCalculateSimilary help : d) {
-			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: "+help.getValue());
+		for (HelperForCalculateSimilary help : d) {
+			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
 		}
 		return outlier;
 	}
-	
+
 	public void selectOutlier() {
 		similaryOutlier = new ArrayList<>();
 		similaryOutlier = calculateSimilary().getOutlierRules(parameterOutlier);
-		
+
 		System.out.println();
 		System.out.println("Odchylenia:");
-		for(HelperForCalculateSimilary help : similaryOutlier) {
-			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: "+help.getValue());
+		for (HelperForCalculateSimilary help : similaryOutlier) {
+			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
 		}
-		
-		
-		
+
 	}
 
-	public void clickGenerateOutlier(ActionEvent e){
-		if(!showProperties)
-			showProperties=true;
-		System.out.println("Ustawienia = "+showProperties);
+	public void clickGenerateOutlier(ActionEvent e) {
+		if (!showProperties)
+			showProperties = true;
+		System.out.println("Ustawienia = " + showProperties);
+	}
+
+	public void selectCalculateMethod(ValueChangeEvent e) {
+		String method = null;
+		method = (String) e.getNewValue();
+		if (method.isEmpty() || method == null)
+			selectMethod = "";
+		selectMethod = method;
 	}
 }

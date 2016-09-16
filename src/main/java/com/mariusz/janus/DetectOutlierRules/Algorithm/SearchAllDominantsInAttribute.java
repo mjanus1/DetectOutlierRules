@@ -26,7 +26,7 @@ public class SearchAllDominantsInAttribute {
 		allDominants = new ArrayList<>();
 		for(AttributeDetails attrDetails:attributesDetails) {
 			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && !attrDetails.isConclussion()) {
-				allDominants.add(searcsModsInCondition(attrDetails));
+				allDominants.add(searchModaInCondition(attrDetails));
 			}
 			
 			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && attrDetails.isConclussion()) {
@@ -37,7 +37,7 @@ public class SearchAllDominantsInAttribute {
 		return allDominants;
 	}
 	
-	private DominantAttributes searcsModsInCondition(AttributeDetails attributeDetails) {
+	private DominantAttributes searchModaInCondition(AttributeDetails attributeDetails) {
 		Multiset<String> elements = HashMultiset.create();
 	
 		for(SingleVectorRule rule: vectorRules) {

@@ -2,9 +2,6 @@ package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
 import java.util.Comparator;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import lombok.Getter;
 import lombok.Setter;
 
