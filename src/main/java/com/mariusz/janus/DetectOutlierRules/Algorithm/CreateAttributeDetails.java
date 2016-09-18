@@ -1,6 +1,7 @@
 package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,40 +30,58 @@ public class CreateAttributeDetails {
 		attributesDetails = new ArrayList<>();
 		for (Rule rules : rules) {
 			for (AttributeValues attributesValue : rules.getAttributeValues()) {
-				int index = attributes.indexOf(attributesValue.getAttribute());
 
 				if (attributesValue.isConclusion()) {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
-						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), true, index));
-						logger.debug("dodano:: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
+						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), true));
 					}
 					continue;
 				} else if (attributesValue.getValue() != null) {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
-						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false, index));
-						logger.debug("dodano:: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
+						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false));
 					}
 					continue;
 				} else {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
-						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false, index));
-						logger.debug("dodano:: {} nr pozycji: {}", attributesValue.getAttribute().getName(), index);
+						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false));
 					}
 					continue;
 				}
 			}
 		}
-		System.out.println("sprawdzenie ile elementów na liscie =" + attributesDetails.size());
+			
+		logger.debug("sprawdzenie ile elementów na liscie = {}", attributesDetails.size());
 		compareAttributesAndAddIfNoExistInAttributeDetails();
-		System.out.println("sprawdzenie ile elementów na liscie =" + attributesDetails.size());
+		logger.debug("sprawdzenie ile elementów na liscie = {}", attributesDetails.size());
 		
+		Collections.sort(attributesDetails);
+		setPositionOnListAttributes();
+		
+		printAllAttributes();
 		return attributesDetails;
+	}
+	
+	private void setPositionOnListAttributes() {
+		int position = 0;
+		for(AttributeDetails attDetails : attributesDetails) {
+			attDetails.setPossitionOnVector(position);
+			++position;
+		}
+	}
+	
+	private void printAllAttributes() {
+		System.out.println();
+		System.out.println("Kolejności atrybutów:");
+		for(AttributeDetails attDetails : attributesDetails) {
+			System.out.print(attDetails.getAttribute().getName()+":"+attDetails.getPossitionOnVector() + ", ");
+		}
+		System.out.println();
 	}
 
 	private void compareAttributesAndAddIfNoExistInAttributeDetails() {
 		for (Attribute attribute : attributes) {
 			if (checkIsExistAttribute(attribute.getName())) {
-				attributesDetails.add(new AttributeDetails(attribute, false, attributes.indexOf(attribute)));
+				attributesDetails.add(new AttributeDetails(attribute, false));
 			}
 		}
 	}

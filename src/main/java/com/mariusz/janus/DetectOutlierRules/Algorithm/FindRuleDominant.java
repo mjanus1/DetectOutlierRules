@@ -58,7 +58,7 @@ public class FindRuleDominant {
 		boolean checkIsVectorMayBeDominanta = false;
 
 		for (DominantAttributes attModa : mods) {
-			boolean isConclusion = attModa.getAttributeDetails().isConclussion();
+			boolean isConclusion = attModa.getAttributeDetails().isConclusion();
 			
 			if (isConclusion) {
 				if (attModa.getValue().equals(vector[DECISION_ROW][DECISION_COLUMN])) {

@@ -1,13 +1,11 @@
 package com.mariusz.janus.DetectOutlierRules.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
-public class AttributeValues implements Serializable, Comparable<AttributeValues> {
+public class AttributeValues implements Comparable<AttributeValues> {
 
 	private static final long serialVersionUID = 1L;
 	

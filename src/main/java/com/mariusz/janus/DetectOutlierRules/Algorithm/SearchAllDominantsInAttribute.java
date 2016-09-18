@@ -25,11 +25,11 @@ public class SearchAllDominantsInAttribute {
 	public List<DominantAttributes> searchDominantesInSymbolicAttribute(){
 		allDominants = new ArrayList<>();
 		for(AttributeDetails attrDetails:attributesDetails) {
-			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && !attrDetails.isConclussion()) {
+			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && !attrDetails.isConclusion()) {
 				allDominants.add(searchModaInCondition(attrDetails));
 			}
 			
-			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && attrDetails.isConclussion()) {
+			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && attrDetails.isConclusion()) {
 				allDominants.add(searchModaInDecision(attrDetails));
 			}
 			

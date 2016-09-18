@@ -56,7 +56,7 @@ public class SaveRulesAsVector {
 		}
 		return vectorRules;
 	}
-
+	
 	private int getIndexInVectorByAttribute(Attribute attribute) {
 		for (AttributeDetails attDetails : attributesDetails) {
 			if (attDetails.getAttribute().equals(attribute)) {

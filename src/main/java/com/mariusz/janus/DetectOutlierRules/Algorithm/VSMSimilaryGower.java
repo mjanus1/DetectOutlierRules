@@ -5,18 +5,16 @@ import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.DISCRETE;
 import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
- 
-public class VectorSpaceModeSimilary {
-	
+
+public class VSMSimilaryGower extends VectorSpaceModelSimilary{
+
 	@Getter @Setter private List<SingleVectorRule> listVectorRule;
 	@Getter @Setter private SingleVectorRule dominanta;
 	@Getter @Setter private Integer parametrForCalculateOutlier;
@@ -25,7 +23,7 @@ public class VectorSpaceModeSimilary {
 	@Getter @Setter private List<AttributeDetails> attributesDetails;
 	@Getter @Setter private int countAllAttributes;
 	
-	public VectorSpaceModeSimilary(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
+	public VSMSimilaryGower(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
 		this.listVectorRule = listVectorRule;
 		this.dominanta = dominanta;
 		this.attributesDetails = attributesDetails;
@@ -74,21 +72,16 @@ public class VectorSpaceModeSimilary {
 				}
 			}
 			System.out.println("Reguła: " + singleVector.getRule().getId() + "  " + builder.toString());
-			similary.add(new HelperForCalculateSimilary(singleVector, licznik/mianownik));
+			similary.add(new HelperForCalculateSimilary(singleVector, getRoundSimillary(licznik/mianownik)));
 		}
 		return similary;
 	}
 	
 	private double valueForSybolic(AttributeDetails attDetails, SingleVectorRule singleVector) {
-		if(attDetails.isConclussion()) {
-			return 1.0;
-		}
-		else {
 			if(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()].equals(singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 				return 1.0;
 			}
-		}
-		return 0;	
+			return 0;	
 	}
 	
 	private double valueForContinous(AttributeDetails attDetails, SingleVectorRule singleVector) {
@@ -110,5 +103,4 @@ public class VectorSpaceModeSimilary {
 		}
 		return 0;		
 	}
-	
 }
