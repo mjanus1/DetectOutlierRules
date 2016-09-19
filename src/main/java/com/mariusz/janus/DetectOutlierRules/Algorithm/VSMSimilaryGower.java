@@ -30,27 +30,33 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 
 	public List<Cluster> calculateGowerSimilary() {
 		List<Cluster> list = new ArrayList<>();
-		for (int i = 0; i < listVectorRule.size(); i++) {
-			for (int j = 1; j < listVectorRule.size() - 1; i++) {
-				
-				double result = 0.0;
-				for (AttributeDetails attDetails : attributesDetails) {
-					switch (attDetails.getAttribute().getType()) {
-					case CONTINOUS:
-						result += valueForContinous(attDetails, listVectorRule.get(i), listVectorRule.get(j));
-						break;
-					case SYMBOLIC:
-						result += valueForSybolic(attDetails, listVectorRule.get(i), listVectorRule.get(j));
-						break;
-					case DISCRETE:
-						result += valueForDiscrete(attDetails, listVectorRule.get(i), listVectorRule.get(j));
-						break;
-					default:
-						break;
+		int licz = 0;
+		while(listVectorRule.size() > 0) {
+			for (int i = 0; i < listVectorRule.size(); i++) {
+				for (int j = 1; j < listVectorRule.size() - 1; j++) {
+					
+					double result = 0.0;
+					for (AttributeDetails attDetails : attributesDetails) {
+						switch (attDetails.getAttribute().getType()) {
+						case CONTINOUS:
+							result += valueForContinous(attDetails, listVectorRule.get(i), listVectorRule.get(j));
+							break;
+						case SYMBOLIC:
+							result += valueForSybolic(attDetails, listVectorRule.get(i), listVectorRule.get(j));
+							break;
+						case DISCRETE:
+							result += valueForDiscrete(attDetails, listVectorRule.get(i), listVectorRule.get(j));
+							break;
+						default:
+							break;
+						}
 					}
+					list.add(new Cluster("R" + licz, listVectorRule.get(i).getRule().getId(), listVectorRule.get(j).getRule().getId(), result));
+					licz++;
 				}
-				list.add(new Cluster("R", listVectorRule.get(i).getRule().getId(), listVectorRule.get(j).getRule().getId(), result));
+				listVectorRule.remove(i);
 			}
+			System.out.println("Rozmiar : "+listVectorRule.size());
 		}
 		return list;
 	}
@@ -74,7 +80,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 				double valueFirst = Double.parseDouble(valueF);
 				double valueSecond = Double.parseDouble(valueS);
 				double sim = 1 - ((Math.abs(valueFirst - valueSecond)) / (max - min)); 
-				System.out.println("Sprawdzenie podobieństwa dla atrybuty ciągłego: "+sim);
+				System.out.println("Sprawdzenie podobieństwa dla atrybuty ciągłego: " + sim);
 				return sim;
 			}	
 	}
@@ -105,8 +111,8 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 				tempMax = z;
 			}
 		}
-		System.out.println("Maksymalna wartość w kolumnie: "+tempMax);
-		System.out.println("Minimalna wartość w kolumnie: "+tempMin);
+		//System.out.println("Maksymalna wartość w kolumnie: "+tempMax);
+		//System.out.println("Minimalna wartość w kolumnie: "+tempMin);
 		max = tempMax;
 		min = tempMin;
 	}

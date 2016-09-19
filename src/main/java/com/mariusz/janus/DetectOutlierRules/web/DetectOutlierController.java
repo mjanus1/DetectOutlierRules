@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.CreateAttributeDetails;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.FindRuleDominant;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.HelperForCalculateSimilary;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.MatrixSimilaryGower;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SaveRulesAsVector;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SearchAllDominantsInAttribute;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
@@ -100,8 +101,8 @@ public class DetectOutlierController extends AbstracController {
 		System.out.println();
 		System.out.println();
 	
-		calculateSimilaryXXX();
-		//calculateSimilaryGower();
+		//calculateSimilaryXXX();
+		calculateSimilaryGower();
 	}
 	
 	private void calculateSimilaryXXX() {
@@ -117,17 +118,12 @@ public class DetectOutlierController extends AbstracController {
 	
 	
 	
-//	private void calculateSimilaryGower() {
-//		vsmSimilaryGower = new VSMSimilaryGower(vectorsRules, dominanta, listAttributesDetails, attributes.size());
-//		List<HelperForCalculateSimilary> d = vsmSimilaryGower.calculateGowerSimilary();
-//
-//		System.out.println();
-//		System.out.println("Wyliczone podobienstwa dla Gowera");
-//		for (HelperForCalculateSimilary help : d) {
-//			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
-//		}
-//	}
-//	
+	private void calculateSimilaryGower() {
+		
+		MatrixSimilaryGower msg = new MatrixSimilaryGower(vectorsRules, listAttributesDetails);
+		msg.getOutlierByParametr(3);
+	}
+	
 
 	
 	
