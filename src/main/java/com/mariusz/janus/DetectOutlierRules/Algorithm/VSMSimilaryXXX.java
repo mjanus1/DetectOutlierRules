@@ -18,8 +18,8 @@ public class VSMSimilaryXXX extends VectorSpaceModelSimilary{
 	@Getter @Setter private List<SingleVectorRule> listVectorRule;
 	@Getter @Setter private SingleVectorRule dominanta;
 	@Getter @Setter private Integer parametrForCalculateOutlier;
-	@Getter @Setter private List<HelperForCalculateSimilary> similary;
-	@Getter @Setter private List<HelperForCalculateSimilary> outliers;
+	@Getter @Setter private List<HelperForCalculateSimilary<SingleVectorRule>> similary;
+	@Getter @Setter private List<HelperForCalculateSimilary<SingleVectorRule>> outliers;
 	@Getter @Setter private List<AttributeDetails> attributesDetails;
 	@Getter @Setter private int countAllAttributes;
 	
@@ -30,7 +30,7 @@ public class VSMSimilaryXXX extends VectorSpaceModelSimilary{
 		this.countAllAttributes = countAllAttributes;
 	}
 	
-	public List<HelperForCalculateSimilary> getOutlierRules(int parametr) {
+	public List<HelperForCalculateSimilary<SingleVectorRule>> getOutlierRules(int parametr) {
 		outliers = new ArrayList<>();
 		int countOutlier = getSimilaryBetweenRules().size() * parametr / 100;
 		System.out.println("count outlier: "+countOutlier);
@@ -42,7 +42,7 @@ public class VSMSimilaryXXX extends VectorSpaceModelSimilary{
 		return outliers;
 	}
 	
-	public List<HelperForCalculateSimilary> getSimilaryBetweenRules() {
+	public List<HelperForCalculateSimilary<SingleVectorRule>> getSimilaryBetweenRules() {
 		similary = new ArrayList<>();
 		int mianownik = countAllAttributes;
 	
@@ -72,7 +72,7 @@ public class VSMSimilaryXXX extends VectorSpaceModelSimilary{
 				}
 			}
 			System.out.println("Reguła: " + singleVector.getRule().getId() + "  " + builder.toString());
-			similary.add(new HelperForCalculateSimilary(singleVector, getRoundSimillary(licznik/mianownik)));
+			similary.add(new HelperForCalculateSimilary<SingleVectorRule>(singleVector, getRoundSimillary(licznik/mianownik)));
 		}
 		return similary;
 	}

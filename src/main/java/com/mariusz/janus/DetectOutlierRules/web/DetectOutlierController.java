@@ -21,7 +21,6 @@ import com.mariusz.janus.DetectOutlierRules.Algorithm.SearchAllDominantsInAttrib
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilaryGower;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilaryXXX;
-import com.mariusz.janus.DetectOutlierRules.Algorithm.VectorSpaceModelSimilary;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
 import com.mariusz.janus.DetectOutlierRules.domain.DominantAttributes;
@@ -46,7 +45,7 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private int parameterOutlier;
 	@Getter@Setter private SingleVectorRule dominanta;
 	@Getter@Setter private String dominantaAsString;
-	@Getter@Setter List<HelperForCalculateSimilary> similaryOutlier;
+	@Getter@Setter List<HelperForCalculateSimilary<SingleVectorRule>> similaryOutlier;
 	@Getter@Setter private boolean showProperties;
 	@Getter@Setter private String selectMethod;	
 	@Getter@Setter private String selectMeasure;
@@ -107,39 +106,38 @@ public class DetectOutlierController extends AbstracController {
 	
 	private void calculateSimilaryXXX() {
 		vsmSimilaryXXX = new VSMSimilaryXXX(vectorsRules, dominanta, listAttributesDetails, attributes.size());
-		List<HelperForCalculateSimilary> d = vsmSimilaryXXX.getSimilaryBetweenRules();
+		List<HelperForCalculateSimilary<SingleVectorRule>> d = vsmSimilaryXXX.getSimilaryBetweenRules();
 
 		System.out.println();
 		System.out.println("Wyliczone podobienstwa dla XXX");
-		for (HelperForCalculateSimilary help : d) {
+		for (HelperForCalculateSimilary<SingleVectorRule> help : d) {
 			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
 		}
 	}
 	
-	private void calculateSimilaryGower() {
-		vsmSimilaryGower = new VSMSimilaryGower(vectorsRules, dominanta, listAttributesDetails, attributes.size());
-		List<HelperForCalculateSimilary> d = vsmSimilaryGower.getSimilaryBetweenRules();
-
-		System.out.println();
-		System.out.println("Wyliczone podobienstwa dla Gowera");
-		for (HelperForCalculateSimilary help : d) {
-			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
-		}
-	}
 	
+	
+//	private void calculateSimilaryGower() {
+//		vsmSimilaryGower = new VSMSimilaryGower(vectorsRules, dominanta, listAttributesDetails, attributes.size());
+//		List<HelperForCalculateSimilary> d = vsmSimilaryGower.calculateGowerSimilary();
+//
+//		System.out.println();
+//		System.out.println("Wyliczone podobienstwa dla Gowera");
+//		for (HelperForCalculateSimilary help : d) {
+//			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
+//		}
+//	}
+//	
 
 	
 	
 	public void selectOutlier() {
 		similaryOutlier = vsmSimilaryXXX.getOutlierRules(parameterOutlier);
-		
-
 		System.out.println();
 		System.out.println("Odchylenia:");
-		for (HelperForCalculateSimilary help : similaryOutlier) {
+		for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
 			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
 		}
-
 	}
 
 	public void clickGenerateOutlier(ActionEvent e) {
