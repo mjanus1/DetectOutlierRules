@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:t="http://myfaces.apache.org/tomahawk"> 
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:pp="http://java.sun.com/jsf/composite/popup"> 
 
 
 	<ui:composition template="/resources/template/template.xhtml">
@@ -14,11 +15,7 @@
 
 			<p:button id="button" outcome="rules?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
 			
-			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
- 
-			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-    			<h:graphicImage name="ajax-loader.gif" library="graphics"/>
-			</p:dialog>
+
 			
 			<h:form id="outlierForm">
 					
@@ -30,19 +27,23 @@
 									<p:outputLabel value="Wybierz metode:"/>
 								</td>
 								<td>
-									<p:selectOneMenu  value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
+									<p:selectOneMenu value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
 										<f:selectItem itemLabel="---wybierz---" itemValue="null" noSelectionOption="true"/>
 										<f:selectItem itemLabel="VSM" itemValue="VSM"/>
 										
-										<f:ajax execute="@this" render="gen"/>
+										<p:ajax update="outlierForm:sett" event="change"/>
 									</p:selectOneMenu>	
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:commandButton id="gen" action="#{detectOutlierController.vectorSpaceModel}" value="Generuj odchylenia" update="@form" disabled="#{detectOutlierController.selectMethod == ''}" actionListener="#{detectOutlierController.clickGenerateOutlier}" >
+									<p:commandButton id="gen" onfocus="ajaxProcess" update="@form" action="#{detectOutlierController.vectorSpaceModel}" value="Generuj odchylenia" disabled="#{detectOutlierController.selectMethod == ''}" actionListener="#{detectOutlierController.clickGenerateOutlier}" >
 										
 									</p:commandButton>
+									
+									<h:commandButton value="Popup" action="#{detectOutlierController.selectedRules}" onclick="DOR.showPopup('popupRules:popupRules')">
+										<f:ajax render=":popupRules:PopupRules "/>
+									</h:commandButton>
 								</td>
 							</tr>
 						</table>
@@ -115,6 +116,10 @@
 	
 			</h:form>
 	
+		</ui:define>
+		
+		<ui:define name="modals">
+			<pp:selectedRules id="popupRules"/>		
 		</ui:define>
 	
 	</ui:composition>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:prim="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite"> 
+
+<h:head>
+	
+</h:head> 
+<body> 
+		
+	<composite:interface>
+		<composite:attribute name="height" default="800"/>
+		<composite:attribute name="width" default="1000"/>
+		<composite:attribute name="header" default="Lista reguł"/>
+		<composite:attribute name="scrol" default="false"/>
+		<composite:attribute name="ajaxRender" default=":Form"/>
+	</composite:interface>
+	
+	<composite:implementation>
+		<prim:dialog widgetVar="#{cc.attrs}" dynamic="true" header="#{cc.attrs.header}" height="#{cc.attrs.height}" width="#{cc.attrs.width}" resizable="false">
+			<h:form id="PopupRules">
+				<prim:dataTable	id="listRules" value="#" selectionMode="none" var="rul" styleClass="available-base">
+					<prim:column width="35">
+						<h:selectBooleanCheckbox value="" />
+					</prim:column>
+				
+				</prim:dataTable>
+			</h:form>	
+		</prim:dialog>
+	</composite:implementation>
+	
+	
+</body> 
+</html>

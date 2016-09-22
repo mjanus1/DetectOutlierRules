@@ -23,7 +23,10 @@ public abstract class AbstracController extends AbstractMessageHandling {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		ExternalContext etx = ctx.getExternalContext();
 		Map<String, String> parameters = etx.getRequestParameterMap();
-		return Integer.parseInt(parameters.get(parametr));
+		try{
+			return Integer.parseInt(parameters.get(parametr));
+		} catch(NumberFormatException e){System.out.println("Błąd podczas formatu liczby");}
+		return 0;
 	}
 
 	

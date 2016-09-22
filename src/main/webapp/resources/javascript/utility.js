@@ -1,17 +1,23 @@
-addEventHandler(window, 'load', invokeMessage);
-
 function ajaxProcess(data) {
 	try {
 		if (data.status == 'begin') {
-			RichFaces.$('ajax').show();
+			PF('ajaxStatus').show();
 		} else if (data.status == 'complete') {
 
 		} else if (data.status == 'success') {
-			RichFaces.$('ajax').hide();
-			invokeMessage();
+			PF('ajaxStatus').hide();
 		}
 	} catch (error) {
-		RichFaces.$('ajax').hide();
+		PF('ajaxStatus').hide();
 		alert('Error=' + error);
 	}
+}
+
+
+var DOR = {
+	
+	showPopup:function(id) {
+		
+			PF.$id.show();
+	}	
 }

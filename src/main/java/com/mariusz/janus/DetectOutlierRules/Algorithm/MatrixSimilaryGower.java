@@ -24,7 +24,7 @@ public class MatrixSimilaryGower extends VSMSimilaryGower{
 		//Collections.sort(listOfCluster);
 		
 		for(int i =0; i<listOfCluster.size(); i++){
-			System.out.println(listOfCluster.get(i).getName());
+			//System.out.println(listOfCluster.get(i).getName());
 		}
 		
 	}

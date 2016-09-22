@@ -33,6 +33,4 @@ public class Cluster implements Comparable<Cluster>, Comparator<Cluster>{
 	public int compareTo(Cluster o) {
 		return this.gowerSimilary.compareTo(o.gowerSimilary);
 	}
-
-
 }

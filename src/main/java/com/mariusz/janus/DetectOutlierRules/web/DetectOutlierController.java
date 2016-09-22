@@ -149,4 +149,8 @@ public class DetectOutlierController extends AbstracController {
 			selectMethod = "";
 		selectMethod = method;
 	}
+	
+	public void selectedRules() {
+		
+	}
 }

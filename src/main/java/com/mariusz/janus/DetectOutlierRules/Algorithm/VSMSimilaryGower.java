@@ -31,10 +31,8 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 	public List<Cluster> calculateGowerSimilary() {
 		List<Cluster> list = new ArrayList<>();
 		int licz = 0;
-		while(listVectorRule.size() > 0) {
 			for (int i = 0; i < listVectorRule.size(); i++) {
-				for (int j = 1; j < listVectorRule.size() - 1; j++) {
-					
+				for (int j = i + 1; j < listVectorRule.size(); j++) {
 					double result = 0.0;
 					for (AttributeDetails attDetails : attributesDetails) {
 						switch (attDetails.getAttribute().getType()) {
@@ -54,10 +52,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 					list.add(new Cluster("R" + licz, listVectorRule.get(i).getRule().getId(), listVectorRule.get(j).getRule().getId(), result));
 					licz++;
 				}
-				listVectorRule.remove(i);
 			}
-			System.out.println("Rozmiar : "+listVectorRule.size());
-		}
 		return list;
 	}
 
@@ -80,7 +75,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 				double valueFirst = Double.parseDouble(valueF);
 				double valueSecond = Double.parseDouble(valueS);
 				double sim = 1 - ((Math.abs(valueFirst - valueSecond)) / (max - min)); 
-				System.out.println("Sprawdzenie podobieństwa dla atrybuty ciągłego: " + sim);
+				//System.out.println("Sprawdzenie podobieństwa dla atrybuty ciągłego: " + sim);
 				return sim;
 			}	
 	}
