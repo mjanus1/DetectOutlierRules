@@ -63,7 +63,6 @@ public class DetectOutlierController extends AbstracController {
 		listAttributesDetails = new ArrayList<>();
 		vectorsRules = new ArrayList<>();
 		dominanta = new SingleVectorRule();
-		selectMethod = "";
 	}
 
 	@PostConstruct
@@ -101,8 +100,8 @@ public class DetectOutlierController extends AbstracController {
 		System.out.println();
 		System.out.println();
 	
-		//calculateSimilaryXXX();
-		calculateSimilaryGower();
+		calculateSimilaryXXX();
+		//calculateSimilaryGower();
 	}
 	
 	private void calculateSimilaryXXX() {
@@ -119,12 +118,9 @@ public class DetectOutlierController extends AbstracController {
 	
 	
 	private void calculateSimilaryGower() {
-		
 		MatrixSimilaryGower msg = new MatrixSimilaryGower(vectorsRules, listAttributesDetails);
 		msg.getOutlierByParametr(3);
 	}
-	
-
 	
 	
 	public void selectOutlier() {
@@ -135,22 +131,31 @@ public class DetectOutlierController extends AbstracController {
 			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
 		}
 	}
+	
+	
 
 	public void clickGenerateOutlier(ActionEvent e) {
-		if (!showProperties)
-			showProperties = true;
-		System.out.println("Ustawienia = " + showProperties);
+		showProperties = true;
 	}
 
 	public void selectCalculateMethod(ValueChangeEvent e) {
-		String method = null;
+		String method;
 		method = (String) e.getNewValue();
-		if (method.isEmpty() || method == null)
-			selectMethod = "";
-		selectMethod = method;
+		if (method == null){
+			System.out.println("metoda jest nulem");
+			selectMethod = null;
+			showProperties = false;
+		} else {
+		selectMethod = method;  
+		}
+	}
+
+	public void selectCalculateMeasure(ValueChangeEvent e) {
+		
 	}
 	
 	public void selectedRules() {
 		
 	}
+	
 }

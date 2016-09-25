@@ -18,14 +18,6 @@
 
 	<div id="page">
 	
-		<p:ajaxStatus onstart="PF('statusDialog').show()"
-					onsuccess="PF('statusDialog').hide()" />
-
-				<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
-					closable="false" resizable="false" showHeader="false">
-					<h:graphicImage name="ajax-loader.gif" library="graphics" />
-				</p:dialog>
-
 		<div id="header-container">
 			<div id="header-menu">
 				<ui:include src="header-menu.xhtml" />
@@ -39,7 +31,6 @@
 		<div id="messages-container">
 			<div id="messages">
 				<ui:insert name="messages">
-
 				</ui:insert>
 			</div>
 		</div>
@@ -47,10 +38,10 @@
 		<div id="content-container">
 			<div id="content">
 				<ui:insert name="content">
-
-				</ui:insert>
-				
+				</ui:insert>	
 			</div>
+			
+
 		</div>
 
 		<div id="footer-container">
@@ -60,7 +51,6 @@
 		<div id="hidden">
 			<ui:insert name="modals">
 			</ui:insert>
-
 			<ui:include src="../template/panele.xhtml" />
 		</div>
 
