@@ -24,16 +24,16 @@
 									<p:outputLabel value="Wybierz metode:"/>
 								</td>
 								<td>
-									<p:selectOneMenu value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
+									<p:selectOneMenu id="select" value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
 										<f:selectItem itemLabel="---wybierz---" itemValue=""/>
 										<f:selectItem itemLabel="VSM" itemValue="VSM"/>
-										<p:ajax update="@form" />
+										<p:ajax update="@form" process="select" />
 									</p:selectOneMenu>	
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:commandButton action="#{detectOutlierController.vectorSpaceModel}" value="Generuj odchylenia" update="@form" disabled="#{detectOutlierController.selectMethod == null}" actionListener="#{detectOutlierController.clickGenerateOutlier}" />
+									<p:commandButton action="#{detectOutlierController.vectorSpaceModel}" value="Generuj odchylenia" process="@form" update="@form" disabled="#{detectOutlierController.selectMethod == null}" actionListener="#{detectOutlierController.clickGenerateOutlier}" />
 								</td>
 							</tr>
 						</table>
@@ -59,21 +59,13 @@
 							</td>
 							
 							<td>
-								<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlier}" ajax="true" update="@form" style="margin-left:10px;color:black"/>
+								<p:commandButton value="Pokaż" update="@form" action="#{detectOutlierController.selectOutlier}" style="margin-left:10px; color:black" />
 							</td>
 							
 							<td>
 								<p:outputLabel value="Wybierz miare podobieństwa: " style="margin-left:10px"/>
 							</td>
-							
-							<td>
-								<p:selectOneMenu  value="#{detectOutlierController.selectMeasure}" valueChangeListener="#{detectOutlierController.selectCalculateMeasure}" >
-									<f:selectItem itemLabel="---wybierz---" itemValue="null" />
-									<f:selectItem itemLabel="Miara Gowera" itemValue="Gower"/>
-									<f:selectItem itemLabel="Miara Xxxx" itemValue="Xxx"/>	
-							
-								</p:selectOneMenu>									
-							</td>
+						
 						</tr>
 					</table>
 										
