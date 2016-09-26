@@ -14,65 +14,74 @@
 
 			<p:button id="button" outcome="rules?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
 			
-			<h:form id="outlierForm">
-					
-				<h:panelGroup id="sett" layout="block">
-					<t:fieldset legend="Ustawienia" styleClass="fieldset">
-						<table>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					<h:graphicImage name="ajax-loader.gif" library="graphics" />
+			</p:dialog>	
+			
+			<h:form>		
+				<h:panelGroup id="panetSettings" layout="block">
+					<t:fieldset id="fieldSet" legend="Ustawienia" styleClass="fieldset">
+						<table id="tab">
 							<tr>
 								<td>
-									<p:outputLabel value="Wybierz metode:"/>
+									<p:outputLabel id="selectMethod" value="Wybierz metode:"/>
 								</td>
 								<td>
 									<p:selectOneMenu id="select" value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
 										<f:selectItem itemLabel="---wybierz---" itemValue=""/>
 										<f:selectItem itemLabel="VSM" itemValue="VSM"/>
-										<p:ajax update="@form" process="select" />
+										<p:ajax update="generate panelProperty"/>
 									</p:selectOneMenu>	
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<p:commandButton action="#{detectOutlierController.vectorSpaceModel}" value="Generuj odchylenia" process="@form" update="@form" disabled="#{detectOutlierController.selectMethod == null}" actionListener="#{detectOutlierController.clickGenerateOutlier}" />
+									<p:commandButton id="generate" action="#{detectOutlierController.vectorSpaceModel}" 
+											update="prop" value="Generuj odchylenia" 
+											disabled="#{detectOutlierController.selectMethod == ''}"  
+											actionListener="#{detectOutlierController.test}" >
+									</p:commandButton>		
 								</td>
 							</tr>
 						</table>
 					</t:fieldset>
 				</h:panelGroup>
 				
-				<h:panelGroup id="prop" layout="block"  rendered="#{detectOutlierController.showProperties}" style="margin-left:10px;margin-bottom:15px">
-					
-					<h:panelGrid columns="1" style="margin-top:10px">
-						<p:outputLabel value="DOMINANTA: " style="color:red" />
-						<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
-					</h:panelGrid>
-					
-					<table id="tab" style="margin-top:15px">
-						<tr>
-							<td>
-								<p:outputLabel value="Określ liczbe odchleń: " />
-							</td>
-								
-							<td>
-								<p:inputText value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" />	
-								<p:outputLabel value=" %"/>
-							</td>
-							
-							<td>
-								<p:commandButton value="Pokaż" update="@form" action="#{detectOutlierController.selectOutlier}" style="margin-left:10px; color:black" />
-							</td>
-							
-							<td>
-								<p:outputLabel value="Wybierz miare podobieństwa: " style="margin-left:10px"/>
-							</td>
+				<h:panelGroup id="panelProperty">
+					<h:panelGroup layout="block"  rendered="#{detectOutlierController.showProperties == true}" style="margin-left:10px; margin-bottom:15px;">
 						
-						</tr>
-					</table>
-										
+					<p:outputLabel id="dd" value="DOMINANTA: " style="color:red" />
+					
+						
+						<table id="tab2" style="margin-top:15px">
+							<tr>
+								<td>
+									<p:outputLabel id="howOutlier" value="Określ liczbe odchleń: " />
+								</td>
+									
+								<td>
+									<p:inputText id="parametr" value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" /> <p:outputLabel id="percent" value=" %"/>
+								</td>
+								
+								<td>
+									<p:commandButton id="show" value="Pokaż" action="#{detectOutlierController.selectOutlier}" style="margin-left:10px; color:black">
+										<p:ajax update="@form"/>	
+									</p:commandButton>
+								</td>
+								
+								<td>
+									<p:outputLabel id="measure" value="Wybierz miare podobieństwa: " style="margin-left:10px"/>
+								</td>
+							
+							</tr>
+						</table>
+	
+					</h:panelGroup>
 				</h:panelGroup>
 				
 				<h:panelGroup id="outlier" layout="block">
-					<p:dataTable var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
+					<p:dataTable id="tableOutliers" var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
 						<f:facet name="header">
 			        		Elementy odstające  		
 			   	 		</f:facet>

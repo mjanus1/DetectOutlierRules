@@ -58,6 +58,7 @@ public class DetectOutlierController extends AbstracController {
 	private IRestRequestService service;
 
 	public DetectOutlierController() {		
+		selectMethod = "";
 		similaryOutlier = new ArrayList<>();
 		dominantAttributes = new ArrayList<>();
 		listAttributesDetails = new ArrayList<>();
@@ -74,6 +75,7 @@ public class DetectOutlierController extends AbstracController {
 	}
 
 	public void vectorSpaceModel() {
+		
 		CreateAttributeDetails attributeDetails = new CreateAttributeDetails(attributes, rules);
 		listAttributesDetails = attributeDetails.createListAttributeDetails();
 
@@ -143,7 +145,7 @@ public class DetectOutlierController extends AbstracController {
 		method = (String) e.getNewValue();
 		if (method == null){
 			System.out.println("metoda jest nulem");
-			selectMethod = null;
+			selectMethod = "";
 			showProperties = false;
 		} else {
 		selectMethod = method;  
@@ -156,6 +158,11 @@ public class DetectOutlierController extends AbstracController {
 	
 	public void selectedRules() {
 		
+	}
+	
+	public void test(ActionEvent e) {
+		System.out.println("pokaz property");
+		showProperties = true;
 	}
 	
 }
