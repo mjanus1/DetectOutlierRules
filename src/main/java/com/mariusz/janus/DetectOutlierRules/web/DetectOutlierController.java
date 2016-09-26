@@ -134,19 +134,13 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
-	
-
-	public void clickGenerateOutlier(ActionEvent e) {
-		showProperties = true;
-	}
-
 	public void selectCalculateMethod(ValueChangeEvent e) {
 		String method;
 		method = (String) e.getNewValue();
 		if (method == null){
-			System.out.println("metoda jest nulem");
 			selectMethod = "";
 			showProperties = false;
+			similaryOutlier = new ArrayList<>();
 		} else {
 		selectMethod = method;  
 		}
@@ -160,8 +154,7 @@ public class DetectOutlierController extends AbstracController {
 		
 	}
 	
-	public void test(ActionEvent e) {
-		System.out.println("pokaz property");
+	public void showProperties(ActionEvent e) {
 		showProperties = true;
 	}
 	

@@ -19,7 +19,7 @@
 					<h:graphicImage name="ajax-loader.gif" library="graphics" />
 			</p:dialog>	
 			
-			<h:form>		
+			<h:form id="outlierForm">		
 				<h:panelGroup id="panetSettings" layout="block">
 					<t:fieldset id="fieldSet" legend="Ustawienia" styleClass="fieldset">
 						<table id="tab">
@@ -38,9 +38,9 @@
 							<tr>
 								<td>
 									<p:commandButton id="generate" action="#{detectOutlierController.vectorSpaceModel}" 
-											update="prop" value="Generuj odchylenia" 
+											update="panelProperty" value="Generuj odchylenia" 
 											disabled="#{detectOutlierController.selectMethod == ''}"  
-											actionListener="#{detectOutlierController.test}" >
+											actionListener="#{detectOutlierController.showProperties}" >
 									</p:commandButton>		
 								</td>
 							</tr>
@@ -51,9 +51,11 @@
 				<h:panelGroup id="panelProperty">
 					<h:panelGroup layout="block"  rendered="#{detectOutlierController.showProperties == true}" style="margin-left:10px; margin-bottom:15px;">
 						
-					<p:outputLabel id="dd" value="DOMINANTA: " style="color:red" />
+						<h:panelGrid columns="1" style="margin-top:10px">
+							<p:outputLabel value="DOMINANTA: " style="color:red" />
+							<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
+						</h:panelGrid>
 					
-						
 						<table id="tab2" style="margin-top:15px">
 							<tr>
 								<td>
@@ -65,8 +67,8 @@
 								</td>
 								
 								<td>
-									<p:commandButton id="show" value="Pokaż" action="#{detectOutlierController.selectOutlier}" style="margin-left:10px; color:black">
-										<p:ajax update="@form"/>	
+									<p:commandButton id="show" value="Pokaż" action="#{detectOutlierController.selectOutlier}" 
+													 update="panelOutlier" style="margin-left:10px; color:black" >
 									</p:commandButton>
 								</td>
 								
@@ -80,24 +82,25 @@
 					</h:panelGroup>
 				</h:panelGroup>
 				
-				<h:panelGroup id="outlier" layout="block">
+				<h:panelGroup id="panelOutlier">
 					<p:dataTable id="tableOutliers" var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
 						<f:facet name="header">
-			        		Elementy odstające  		
-			   	 		</f:facet>
-			   	 		
-					    <p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
-					        <h:outputText value="#{outlier.object.rule.id}" />
-					    </p:column>
-					 
-					    <p:column headerText="Reguła"  style="text-align:left;font-size:15px">
-					        <h:outputText value="#{outlier.object.rule.saveRuleAsString}" />
-					    </p:column>
-					 
-					    <p:column headerText="Podobieństwo" width="120" style="text-align:center;font-size:15px">
+				        	Elementy odstające  		
+				   	 	</f:facet>
+				   	 		
+						<p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
+						    <h:outputText value="#{outlier.object.rule.id}" />
+						</p:column>
+						 
+						<p:column headerText="Reguła"  style="text-align:left;font-size:15px">
+						    <h:outputText value="#{outlier.object.rule.saveRuleAsString()}" />
+				        </p:column>
+						 
+					   <p:column headerText="Podobieństwo" width="120" style="text-align:center;font-size:15px">
 					        <h:outputText value="#{outlier.value}" />
-					    </p:column>
-				    </p:dataTable>
+					   </p:column>
+			     	</p:dataTable>
+				
 				</h:panelGroup>
 	
 			</h:form>
