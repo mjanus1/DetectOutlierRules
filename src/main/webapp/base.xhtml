@@ -10,59 +10,39 @@
 	<ui:composition template="/resources/template/template.xhtml">
 	
 	<ui:define name="content">
+
+			<p:button id="button" outcome="available-bases" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
+						
+			<h1 style="margin-left:10px"> #{baseController.knowledgeBase.name}</h1>
+			<h4 style="margin-left:10px">(#{baseController.knowledgeBase.description})</h4>
 			
-			<h1 style="margin-left:5px"> #{baseController.knowledgeBase.name}</h1>
-			<h3 style="margin-left:5px"> Właściciel: Agnieszka Nowak </h3>
-			<h4 style="margin-left:5px"> #{baseController.knowledgeBase.description}</h4>
+			<h3 style="margin-left:10px"> Właściciel: Agnieszka Nowak - Brzezińska </h3>
+			<h3 style="margin-left:10px; margin-top:10px"> Elementy bazy:</h3>
 			
-			<table class="tab" cellpadding="8">
-				<thead>
-					<tr>
-						<th> <p:outputLabel value="Elementy bazy"/> </th>
-						<th> <p:outputLabel value="ilość"/> </th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr onclick="location.href='attributes.xhtml?baseID=#{baseController.knowledgeBase.id}'">
-						<td>
-							<p:outputLabel value="Atrybuty"/>
-						</td>
-						
-						<td>
-							<p:outputLabel value="#{baseController.attributeCount}"/>
-						</td>
-					</tr>
-					<tr onclick="location.href='facts.xhtml?baseID=#{baseController.knowledgeBase.id}'">
-						<td>
-							<p:outputLabel value="Fakty"/>
-						</td>
-						
-						<td>
-							<p:outputLabel value="#{baseController.factCount}"/>
-						</td>
-					</tr>
-					<tr onclick="location.href='rules.xhtml?baseID=#{baseController.knowledgeBase.id}'">
-						<td>
-							<p:outputLabel value="Reguły"/>
-						</td>
-						
-						<td>
-							<p:outputLabel value="#{baseController.rulesCount}"/>
-						</td>
-					</tr>
-				</tbody>
+			
+			<ul class="ul">
+				<li onclick="location.href='attributes.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+					<h3>Atrybuty</h3>
+					<span>
+						<p:outputLabel value="#{baseController.attributeCount}"/>
+					</span>
+				</li>
 				
-				<tfoot>
-					<tr>
-						<td>
-							<h:link outcome="available-bases"> 
-								<h:graphicImage name="back.png" library="graphics" height="64" width="64" title="Go to base" style="vertical-align:middle;"/>
-							</h:link> 
-						</td>
-					</tr>
+				<li onclick="location.href='rules.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+					<h3>Reguły</h3>
+					<span>
+						<p:outputLabel value="#{baseController.rulesCount}"/>
+					</span>
+				</li>
 				
-				</tfoot>
-			</table>
+				<li onclick="location.href='facts.xhtml?baseID=#{baseController.knowledgeBase.id}'">
+					<h3>Fakty</h3>
+					<span>
+						<p:outputLabel value="#{baseController.factCount}"/>
+					</span>
+				</li>			
+			</ul>
+					
 
 	</ui:define>
 	</ui:composition>
