@@ -52,6 +52,8 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private String selectMeasure;
 	@Getter@Setter private VSMSimilaryXXX vsmSimilaryXXX;
 	@Getter@Setter private VSMSimilaryGower vsmSimilaryGower;
+	@Getter@Setter private boolean rulesNotRelate;
+	@Getter@Setter private boolean rulesGrouped;
 
 	@Getter@Setter
 	@ManagedProperty(value = "#{IRestRequestService}")
@@ -59,6 +61,7 @@ public class DetectOutlierController extends AbstracController {
 
 	public DetectOutlierController() {		
 		selectMethod = "";
+		selectMeasure = "";
 		similaryOutlier = new ArrayList<>();
 		dominantAttributes = new ArrayList<>();
 		listAttributesDetails = new ArrayList<>();
@@ -75,35 +78,38 @@ public class DetectOutlierController extends AbstracController {
 	}
 
 	public void vectorSpaceModel() {
-		
-		CreateAttributeDetails attributeDetails = new CreateAttributeDetails(attributes, rules);
-		listAttributesDetails = attributeDetails.createListAttributeDetails();
-
-		SaveRulesAsVector vectorRule = new SaveRulesAsVector(rules, listAttributesDetails);
-		vectorsRules = vectorRule.createRulesAsVector();
-
-		SearchAllDominantsInAttribute allDominants = new SearchAllDominantsInAttribute(listAttributesDetails, vectorsRules);
-		dominantAttributes = allDominants.searchDominantesInSymbolicAttribute();
-
-		System.out.println();
-		System.out.println("Wyznaczenie dominant w atrybutach:");
-		for (DominantAttributes m : dominantAttributes) {
-			if (m != null)
-				System.out.println(
-						m.getAttributeDetails().getAttribute().getName() + ": " + m.getValue() + " = " + m.getCount());
-		}
-		System.out.println();
-
-		FindRuleDominant ruleModa = new FindRuleDominant(vectorsRules, dominantAttributes);
-		dominanta = ruleModa.calculateDominanta();
-		dominantaAsString = dominanta.getRule().saveRuleAsString();
-
-		System.out.println("Wybrana dominanta : " + dominanta.getRule().getId());
-		System.out.println();
-		System.out.println();
+		if(checkCanContinueDetectOutlier()) {
+			showProperties = true;
+			
+			CreateAttributeDetails attributeDetails = new CreateAttributeDetails(attributes, rules);
+			listAttributesDetails = attributeDetails.createListAttributeDetails();
 	
-		calculateSimilaryXXX();
-		//calculateSimilaryGower();
+			SaveRulesAsVector vectorRule = new SaveRulesAsVector(rules, listAttributesDetails);
+			vectorsRules = vectorRule.createRulesAsVector();
+	
+			SearchAllDominantsInAttribute allDominants = new SearchAllDominantsInAttribute(listAttributesDetails, vectorsRules);
+			dominantAttributes = allDominants.searchDominantesInSymbolicAttribute();
+	
+			System.out.println();
+			System.out.println("Wyznaczenie dominant w atrybutach:");
+			for (DominantAttributes m : dominantAttributes) {
+				if (m != null)
+					System.out.println(
+							m.getAttributeDetails().getAttribute().getName() + ": " + m.getValue() + " = " + m.getCount());
+			}
+			System.out.println();
+	
+			FindRuleDominant ruleModa = new FindRuleDominant(vectorsRules, dominantAttributes);
+			dominanta = ruleModa.calculateDominanta();
+			dominantaAsString = dominanta.getRule().saveRuleAsString();
+	
+			System.out.println("Wybrana dominanta : " + dominanta.getRule().getId());
+			System.out.println();
+			System.out.println();
+		
+			calculateSimilaryXXX();
+			//calculateSimilaryGower();
+		}
 	}
 	
 	private void calculateSimilaryXXX() {
@@ -117,13 +123,10 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
-	
-	
 	private void calculateSimilaryGower() {
 		MatrixSimilaryGower msg = new MatrixSimilaryGower(vectorsRules, listAttributesDetails);
 		msg.getOutlierByParametr(3);
 	}
-	
 	
 	public void selectOutlier() {
 		similaryOutlier = vsmSimilaryXXX.getOutlierRules(parameterOutlier);
@@ -139,6 +142,9 @@ public class DetectOutlierController extends AbstracController {
 		method = (String) e.getNewValue();
 		if (method == null){
 			selectMethod = "";
+			selectMeasure = "";
+			rulesGrouped = false;
+			rulesNotRelate = false;
 			showProperties = false;
 			similaryOutlier = new ArrayList<>();
 		} else {
@@ -150,12 +156,33 @@ public class DetectOutlierController extends AbstracController {
 		
 	}
 	
-	public void selectedRules() {
-		
-	}
-	
 	public void showProperties(ActionEvent e) {
 		showProperties = true;
 	}
 	
+	private boolean checkCanContinueDetectOutlier() {
+		if(mustSelectMeasure() & mustSelectWayCalculateOutlier())
+			return true;
+		return false;
+	}
+	
+	private boolean mustSelectMeasure() {
+		if(selectMeasure == null || selectMeasure.isEmpty()) {
+			addWarningGlobal("Musisz wybrać miare podobieństwa");
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean mustSelectWayCalculateOutlier() {
+		if(!rulesNotRelate & !rulesGrouped) {
+			addWarningGlobal("Musisz zaznaczyć jedną z opcji");
+			return false;
+		}
+		if(rulesGrouped & rulesNotRelate) {
+			addErrorGlobal("Nie możesz wybrać dwóch opcji jednocześnie");
+			return false;
+		}
+		return true;
+	}
 }

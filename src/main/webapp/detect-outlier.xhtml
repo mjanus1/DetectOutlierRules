@@ -9,38 +9,60 @@
 
 
 	<ui:composition template="/resources/template/template.xhtml">
+		
+		<ui:define name="messages">
+				<p:messages id="msg" globalOnly="true" closable="true" showDetail="true" autoUpdate="true" showSummary="true" errorStyle="color:red;" infoStyle="color:blue;" warnStyle="color:black" />
+		</ui:define>
 	
 		<ui:define name="content">
 
 			<p:button id="button" outcome="rules?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
-			
-			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-					<h:graphicImage name="ajax-loader.gif" library="graphics" />
-			</p:dialog>	
-			
+					
 			<h:form id="outlierForm">		
 				<h:panelGroup id="panetSettings" layout="block">
 					<t:fieldset id="fieldSet" legend="Ustawienia" styleClass="fieldset">
 						<table id="tab">
 							<tr>
 								<td>
-									<p:outputLabel id="selectMethod" value="Wybierz metode:"/>
-								</td>
-								<td>
-									<p:selectOneMenu id="select" value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
-										<f:selectItem itemLabel="---wybierz---" itemValue=""/>
-										<f:selectItem itemLabel="VSM" itemValue="VSM"/>
-										<p:ajax update="generate panelProperty"/>
-									</p:selectOneMenu>	
-								</td>
+									<h:panelGrid columns="4" cellspacing="3" cellpadding="3">
+										<p:outputLabel value="Wybierz metode: "/>
+										
+										<p:selectOneMenu id="selectMethod" value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
+											<f:selectItem itemLabel="---wybierz---" itemValue=""/>
+											<f:selectItem itemLabel="VSM" itemValue="VSM"/>
+											<p:ajax update="generate panelProperty panelOutlier"/>
+										</p:selectOneMenu>		
+										
+										<p:outputLabel value="Wybierz miare podobieństwa: "/>
+										
+										<p:selectOneMenu id="selectMeasure" value="#{detectOutlierController.selectMeasure}" valueChangeListener="#{detectOutlierController.selectCalculateMeasure}" >
+											<f:selectItem itemLabel="---wybierz---" itemValue=""/>
+											<f:selectItem itemLabel="SMC" itemValue="Simple matching coefficient"/>
+											<f:selectItem itemLabel="GOWER" itemValue="Gowera"/>
+											<p:ajax update=""/>
+										</p:selectOneMenu>																			
+									</h:panelGrid>
+								</td>						
 							</tr>
+							
+							<tr>
+								<td>
+									<h:panelGroup>
+										<h:panelGrid columns="2" cellspacing="3" cellpadding="3">
+											<p:outputLabel value="Dla reguł nie związanych:"/>
+											<p:selectBooleanCheckbox value="#{detectOutlierController.rulesNotRelate}"/>
+											<p:outputLabel value="Dla reguł pogrupowanych:"/>											
+											<p:selectBooleanCheckbox value="#{detectOutlierController.rulesGrouped}"/>	
+										</h:panelGrid>
+									</h:panelGroup>								
+								</td>
+							</tr>							
+							
 							<tr>
 								<td>
 									<p:commandButton id="generate" action="#{detectOutlierController.vectorSpaceModel}" 
 											update="panelProperty" value="Generuj odchylenia" 
-											disabled="#{detectOutlierController.selectMethod == ''}"  
-											actionListener="#{detectOutlierController.showProperties}" >
+											disabled="#{detectOutlierController.selectMethod == ''}" >
 									</p:commandButton>		
 								</td>
 							</tr>
@@ -49,7 +71,7 @@
 				</h:panelGroup>
 				
 				<h:panelGroup id="panelProperty">
-					<h:panelGroup layout="block"  rendered="#{detectOutlierController.showProperties == true}" style="margin-left:10px; margin-bottom:15px;">
+					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties == true}" style="margin-left:10px; margin-bottom:15px;">
 						
 						<h:panelGrid columns="1" style="margin-top:10px">
 							<p:outputLabel value="DOMINANTA: " style="color:red" />
@@ -70,12 +92,7 @@
 									<p:commandButton id="show" value="Pokaż" action="#{detectOutlierController.selectOutlier}" 
 													 update="panelOutlier" style="margin-left:10px; color:black" >
 									</p:commandButton>
-								</td>
-								
-								<td>
-									<p:outputLabel id="measure" value="Wybierz miare podobieństwa: " style="margin-left:10px"/>
-								</td>
-							
+								</td>						
 							</tr>
 						</table>
 	
@@ -102,11 +119,9 @@
 			     	</p:dataTable>
 				
 				</h:panelGroup>
-	
 			</h:form>
 	
 		</ui:define>
 		
-	
 	</ui:composition>
 </html>

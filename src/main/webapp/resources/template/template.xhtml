@@ -37,6 +37,11 @@
 
 		<div id="content-container">
 			<div id="content">
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+					<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+						<h:graphicImage name="ajax-loader.gif" library="graphics" />
+					</p:dialog>	
+					
 				<ui:insert name="content">
 				</ui:insert>	
 			</div>

@@ -8,6 +8,10 @@
 
 	<ui:composition template="/resources/template/template.xhtml">
 	
+		<ui:define name="messages">
+				<p:messages id="msg" globalOnly="true" closable="true" showDetail="true" autoUpdate="true" showSummary="true" errorStyle="color:red;" infoStyle="color:blue;" warnStyle="color:black" />
+		</ui:define>
+	
 		<ui:define name="content">
 	
 			<h1 style="margin-left:10px">Witaj !!!</h1>

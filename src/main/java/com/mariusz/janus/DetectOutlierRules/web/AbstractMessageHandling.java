@@ -5,18 +5,18 @@ import javax.faces.context.FacesContext;
 
 public abstract class AbstractMessageHandling {
 
-	public static void addMessageGlobal(String details, String summary) {
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, details);
+	public static void addMessageGlobal(String message) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Wiadomość!", message);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public static void addWarningGlobal(String details, String summary) {
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, summary, details);
+	public static void addWarningGlobal(String message) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Ostrzeżenie!", message);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public static void addErrorGlobal(String details, String summary) {
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, details);
+	public static void addErrorGlobal(String message) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", message);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 

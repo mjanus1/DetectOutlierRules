@@ -79,7 +79,6 @@
 							<resources>
 								<resource>
 									<directory>src/main/db</directory>
-
 								</resource>
 							</resources>
 						</configuration>
