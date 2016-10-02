@@ -18,6 +18,8 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 	private List<SingleVectorRule> listVectorRule;
 	@Getter@Setter
 	private List<AttributeDetails> attributesDetails;
+	@Setter
+	private List<Cluster> clusterList;
 	@Getter@Setter
 	private int max;
 	@Getter@Setter
@@ -26,10 +28,12 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 	public VSMSimilaryGower(List<SingleVectorRule> listVectorRule, List<AttributeDetails> attributesDetails) {
 		this.listVectorRule = listVectorRule;
 		this.attributesDetails = attributesDetails;
+		calculateGowerSimilary();
 	}
 
-	public List<Cluster> calculateGowerSimilary() {
-		List<Cluster> list = new ArrayList<>();
+	public void calculateGowerSimilary() {
+		System.out.println("Liczy Gowera");
+		clusterList = new ArrayList<>();
 		int licz = 0;
 			for (int i = 0; i < listVectorRule.size(); i++) {
 				for (int j = i + 1; j < listVectorRule.size(); j++) {
@@ -49,11 +53,10 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 							break;
 						}
 					}
-					list.add(new Cluster("R" + licz, listVectorRule.get(i).getRule().getId(), listVectorRule.get(j).getRule().getId(), result));
+					clusterList.add(new Cluster("R" + licz, listVectorRule.get(i).getRule(), listVectorRule.get(j).getRule(), getRoundSimillary(result)));
 					licz++;
 				}
 			}
-		return list;
 	}
 
 	private double valueForSybolic(AttributeDetails attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
@@ -110,5 +113,9 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 		//System.out.println("Minimalna wartość w kolumnie: "+tempMin);
 		max = tempMax;
 		min = tempMin;
+	}
+	
+	public List<Cluster> getClusterList() {
+		return clusterList;
 	}
 }

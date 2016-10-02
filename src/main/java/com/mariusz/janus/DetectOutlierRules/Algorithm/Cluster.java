@@ -2,17 +2,19 @@ package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
 import java.util.Comparator;
 
+import com.mariusz.janus.DetectOutlierRules.domain.Rule;
+
 import lombok.Getter;
 import lombok.Setter;
 
 public class Cluster implements Comparable<Cluster>, Comparator<Cluster>{
 
 	@Getter @Setter private String name;
-	@Getter @Setter private Integer leftRule;
-	@Getter @Setter private Integer rightRule;
+	@Getter @Setter private Rule leftRule;
+	@Getter @Setter private Rule rightRule;
 	@Getter @Setter private Double gowerSimilary;
 	
-	public Cluster(String name, int leftRule, int rightRule, double gowerSimilary) {
+	public Cluster(String name, Rule leftRule, Rule rightRule, double gowerSimilary) {
 		this.name = name;
 		this.leftRule = leftRule;
 		this.rightRule = rightRule;

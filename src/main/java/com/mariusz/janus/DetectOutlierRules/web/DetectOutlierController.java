@@ -13,6 +13,7 @@ import javax.faces.event.ValueChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mariusz.janus.DetectOutlierRules.Algorithm.Cluster;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.CreateAttributeDetails;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.FindRuleDominant;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.HelperForCalculateSimilary;
@@ -47,13 +48,13 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private SingleVectorRule dominanta;
 	@Getter@Setter private String dominantaAsString;
 	@Getter@Setter List<HelperForCalculateSimilary<SingleVectorRule>> similaryOutlier;
+	@Getter@Setter List<HelperForCalculateSimilary<Cluster>> similaryOutlierGower;	
 	@Getter@Setter private boolean showProperties;
 	@Getter@Setter private String selectMethod;	
 	@Getter@Setter private String selectMeasure;
 	@Getter@Setter private VSMSimilaryXXX vsmSimilaryXXX;
-	@Getter@Setter private VSMSimilaryGower vsmSimilaryGower;
-	@Getter@Setter private boolean rulesNotRelate;
-	@Getter@Setter private boolean rulesGrouped;
+	@Getter@Setter private MatrixSimilaryGower matrixSimilaryGower;
+
 
 	@Getter@Setter
 	@ManagedProperty(value = "#{IRestRequestService}")
@@ -62,6 +63,7 @@ public class DetectOutlierController extends AbstracController {
 	public DetectOutlierController() {		
 		selectMethod = "";
 		selectMeasure = "";
+		similaryOutlierGower = new ArrayList<>();
 		similaryOutlier = new ArrayList<>();
 		dominantAttributes = new ArrayList<>();
 		listAttributesDetails = new ArrayList<>();
@@ -107,8 +109,12 @@ public class DetectOutlierController extends AbstracController {
 			System.out.println();
 			System.out.println();
 		
-			calculateSimilaryXXX();
-			//calculateSimilaryGower();
+			if(selectMeasure.equals("SMC")) {
+				calculateSimilaryXXX();
+			}
+			if(selectMeasure.equals("GOWER")) {
+				calculateSimilaryGower();
+			}
 		}
 	}
 	
@@ -124,11 +130,10 @@ public class DetectOutlierController extends AbstracController {
 	}
 	
 	private void calculateSimilaryGower() {
-		MatrixSimilaryGower msg = new MatrixSimilaryGower(vectorsRules, listAttributesDetails);
-		msg.getOutlierByParametr(3);
+		matrixSimilaryGower = new MatrixSimilaryGower(vectorsRules, listAttributesDetails);
 	}
 	
-	public void selectOutlier() {
+	public void selectOutlierSMC() {
 		similaryOutlier = vsmSimilaryXXX.getOutlierRules(parameterOutlier);
 		System.out.println();
 		System.out.println("Odchylenia:");
@@ -137,14 +142,18 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
+	public void selectOutlierGower() {
+		System.out.println("jestem w wyliczaniu miary gowera");
+		similaryOutlierGower =  matrixSimilaryGower.getOutlierByParametr(parameterOutlier);
+	}
+	
 	public void selectCalculateMethod(ValueChangeEvent e) {
 		String method;
 		method = (String) e.getNewValue();
 		if (method == null){
 			selectMethod = "";
+			parameterOutlier = 0;
 			selectMeasure = "";
-			rulesGrouped = false;
-			rulesNotRelate = false;
 			showProperties = false;
 			similaryOutlier = new ArrayList<>();
 		} else {
@@ -153,17 +162,22 @@ public class DetectOutlierController extends AbstracController {
 	}
 
 	public void selectCalculateMeasure(ValueChangeEvent e) {
-		
-	}
-	
-	public void showProperties(ActionEvent e) {
-		showProperties = true;
+		String measure;
+		measure = (String) e.getNewValue();
+		if(measure == null) {
+			measure = "";
+		}
+		selectMeasure = measure;
+		if(selectMeasure.equals("SMC") || selectMeasure.equals("GOWER")) {
+			showProperties = false;
+			parameterOutlier = 0;
+			similaryOutlierGower = new ArrayList<>();
+			similaryOutlier = new ArrayList<>();
+		}
 	}
 	
 	private boolean checkCanContinueDetectOutlier() {
-		if(mustSelectMeasure() & mustSelectWayCalculateOutlier())
-			return true;
-		return false;
+		return mustSelectMeasure() ? true : false;
 	}
 	
 	private boolean mustSelectMeasure() {
@@ -174,15 +188,4 @@ public class DetectOutlierController extends AbstracController {
 		return true;
 	}
 	
-	private boolean mustSelectWayCalculateOutlier() {
-		if(!rulesNotRelate & !rulesGrouped) {
-			addWarningGlobal("Musisz zaznaczyć jedną z opcji");
-			return false;
-		}
-		if(rulesGrouped & rulesNotRelate) {
-			addErrorGlobal("Nie możesz wybrać dwóch opcji jednocześnie");
-			return false;
-		}
-		return true;
-	}
 }
