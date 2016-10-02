@@ -38,5 +38,8 @@ public class Attribute implements Serializable{
 		this.name = name;
 	}	
 	
+	public Attribute(String name) {
+		this.name = name;
+	}	
 	
 }

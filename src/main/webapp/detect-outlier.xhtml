@@ -47,7 +47,7 @@
 							
 							<tr>
 								<td>
-									<p:commandButton id="generate" action="#{detectOutlierController.vectorSpaceModel}" 
+									<p:commandButton id="generate" action="#{detectOutlierController.generateOutliers}" 
 											update="panelPropertyForSMC panelPropertyForGower" value="Generuj odchylenia" 
 											disabled="#{detectOutlierController.selectMethod == ''}" >
 									</p:commandButton>		
@@ -61,12 +61,12 @@
 					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties == true and detectOutlierController.selectMeasure == 'SMC'}" style="margin-bottom:15px;">
 						<h:panelGroup>
 							
-							<h:panelGrid columns="1" style="margin-top:10px">
+							<h:panelGrid columns="1" style="margin-top:10px;margin-left: 5px">
 								<p:outputLabel value="DOMINANTA: " style="color:red" />
 								<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
 							</h:panelGrid>
 						
-							<table style="margin-top:15px">
+							<table style="margin-top:15px; margin-left: 5px">
 								<tr>
 									<td>
 										<p:outputLabel value="Określ liczbe odchleń: " />
@@ -114,11 +114,11 @@
 					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties == true and detectOutlierController.selectMeasure == 'GOWER'}" style="margin-bottom:15px;">
 						
 						<h:panelGroup>
-							<h:panelGrid columns="1" style="margin-top:10px">
+							<h:panelGrid columns="1" style="margin-top:10px; margin-left: 5px">
 								<p:outputLabel value="Wyliczono macierz podobieństwa między wszytkimi regułami."  />
 							</h:panelGrid>
 						
-							<table style="margin-top:15px">
+							<table style="margin-top:15px; margin-left: 5px">
 								<tr>
 									<td>
 										<p:outputLabel value="Określ liczbe odchleń: " />

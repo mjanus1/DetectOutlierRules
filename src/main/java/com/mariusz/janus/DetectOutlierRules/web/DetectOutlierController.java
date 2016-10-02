@@ -22,10 +22,10 @@ import com.mariusz.janus.DetectOutlierRules.Algorithm.SaveRulesAsVector;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SearchAllDominantsInAttribute;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilaryGower;
-import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilaryXXX;
+import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilarySmc;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
-import com.mariusz.janus.DetectOutlierRules.domain.DominantAttributes;
+import com.mariusz.janus.DetectOutlierRules.domain.DominantAttribute;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 import com.mariusz.janus.DetectOutlierRules.service.IRestRequestService;
 
@@ -41,7 +41,7 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private List<Attribute> attributes;
 	@Getter@Setter private List<AttributeDetails> listAttributesDetails;
 	@Getter@Setter private List<SingleVectorRule> vectorsRules;
-	@Getter@Setter private List<DominantAttributes> dominantAttributes;
+	@Getter@Setter private List<DominantAttribute> dominantAttributes;
 	@Getter@Setter private List<Rule> rules;
 	@Getter@Setter private int ruleCount;
 	@Getter@Setter private int parameterOutlier;
@@ -52,7 +52,7 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private boolean showProperties;
 	@Getter@Setter private String selectMethod;	
 	@Getter@Setter private String selectMeasure;
-	@Getter@Setter private VSMSimilaryXXX vsmSimilaryXXX;
+	@Getter@Setter private VSMSimilarySmc vsmSimilaryXXX;
 	@Getter@Setter private MatrixSimilaryGower matrixSimilaryGower;
 
 
@@ -79,7 +79,7 @@ public class DetectOutlierController extends AbstracController {
 		ruleCount = service.countRules(tokenForRequest(), idKnowledgeBase);
 	}
 
-	public void vectorSpaceModel() {
+	public void generateOutliers() {
 		if(checkCanContinueDetectOutlier()) {
 			showProperties = true;
 			
@@ -89,12 +89,12 @@ public class DetectOutlierController extends AbstracController {
 			SaveRulesAsVector vectorRule = new SaveRulesAsVector(rules, listAttributesDetails);
 			vectorsRules = vectorRule.createRulesAsVector();
 	
-			SearchAllDominantsInAttribute allDominants = new SearchAllDominantsInAttribute(listAttributesDetails, vectorsRules);
-			dominantAttributes = allDominants.searchDominantesInSymbolicAttribute();
+			SearchAllDominantsInAttribute dominants = new SearchAllDominantsInAttribute(listAttributesDetails, vectorsRules);
+			dominantAttributes = dominants.getAllDominantesInAttributes();
 	
 			System.out.println();
 			System.out.println("Wyznaczenie dominant w atrybutach:");
-			for (DominantAttributes m : dominantAttributes) {
+			for (DominantAttribute m : dominantAttributes) {
 				if (m != null)
 					System.out.println(
 							m.getAttributeDetails().getAttribute().getName() + ": " + m.getValue() + " = " + m.getCount());
@@ -119,7 +119,7 @@ public class DetectOutlierController extends AbstracController {
 	}
 	
 	private void calculateSimilaryXXX() {
-		vsmSimilaryXXX = new VSMSimilaryXXX(vectorsRules, dominanta, listAttributesDetails, attributes.size());
+		vsmSimilaryXXX = new VSMSimilarySmc(vectorsRules, dominanta, listAttributesDetails, attributes.size());
 		List<HelperForCalculateSimilary<SingleVectorRule>> d = vsmSimilaryXXX.getSimilaryBetweenRules();
 
 		System.out.println();

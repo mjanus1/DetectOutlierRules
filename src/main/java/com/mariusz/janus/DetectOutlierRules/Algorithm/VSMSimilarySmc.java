@@ -13,7 +13,7 @@ import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
 import lombok.Getter;
 import lombok.Setter;
 
-public class VSMSimilaryXXX extends VectorSpaceModelSimilary{
+public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 
 	@Getter @Setter private List<SingleVectorRule> listVectorRule;
 	@Getter @Setter private SingleVectorRule dominanta;
@@ -23,7 +23,7 @@ public class VSMSimilaryXXX extends VectorSpaceModelSimilary{
 	@Getter @Setter private List<AttributeDetails> attributesDetails;
 	@Getter @Setter private int countAllAttributes;
 	
-	public VSMSimilaryXXX(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
+	public VSMSimilarySmc(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
 		this.listVectorRule = listVectorRule;
 		this.dominanta = dominanta;
 		this.attributesDetails = attributesDetails;

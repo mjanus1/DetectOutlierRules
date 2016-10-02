@@ -1,5 +1,6 @@
 package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
+import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.DISCRETE;
 import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 
 import java.util.ArrayList;
@@ -7,14 +8,15 @@ import java.util.List;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
-import com.mariusz.janus.DetectOutlierRules.domain.DominantAttributes;
+import com.mariusz.janus.DetectOutlierRules.domain.DominantAttribute;
 
 public class SearchAllDominantsInAttribute {
 
 	private List<AttributeDetails> attributesDetails;
 	private List<SingleVectorRule> vectorRules;
-	private List<DominantAttributes> allDominants;
+	private List<DominantAttribute> allDominants;
 	
 	
 	public SearchAllDominantsInAttribute(List<AttributeDetails> attributesDetails, List<SingleVectorRule> vectorRules) {
@@ -22,22 +24,21 @@ public class SearchAllDominantsInAttribute {
 		this.vectorRules = vectorRules;
 	}
 	
-	public List<DominantAttributes> searchDominantesInSymbolicAttribute(){
+	public List<DominantAttribute> getAllDominantesInAttributes(){
 		allDominants = new ArrayList<>();
-		for(AttributeDetails attrDetails:attributesDetails) {
-			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && !attrDetails.isConclusion()) {
+		
+		for(AttributeDetails attrDetails : attributesDetails) {
+			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) || attrDetails.getAttribute().getType().equals(DISCRETE)) {
 				allDominants.add(searchModaInCondition(attrDetails));
 			}
-			
-			if(attrDetails.getAttribute().getType().equals(SYMBOLIC) && attrDetails.isConclusion()) {
-				allDominants.add(searchModaInDecision(attrDetails));
-			}
-			
+			else
+				continue;
 		}
+			allDominants.add(searchModaInDecision());
 		return allDominants;
 	}
 	
-	private DominantAttributes searchModaInCondition(AttributeDetails attributeDetails) {
+	private DominantAttribute searchModaInCondition(AttributeDetails attributeDetails) {
 		Multiset<String> elements = HashMultiset.create();
 	
 		for(SingleVectorRule rule: vectorRules) {
@@ -55,10 +56,10 @@ public class SearchAllDominantsInAttribute {
 			}
 		}
 		
-		return new DominantAttributes(attributeDetails, dominanta, maxCount);
+		return new DominantAttribute(new AttributeDetails(attributeDetails.getAttribute(), false, attributeDetails.getPossitionOnVector()), dominanta, maxCount);
 	}
 	
-	private DominantAttributes searchModaInDecision(AttributeDetails attributeDetails) {
+	private DominantAttribute searchModaInDecision() {
 		Multiset<String> elements = HashMultiset.create();
 
 		for(SingleVectorRule rule: vectorRules) {
@@ -75,7 +76,7 @@ public class SearchAllDominantsInAttribute {
 				dominanta = moda;
 			}
 		}
-		return new DominantAttributes(attributeDetails, dominanta, maxCount);	
+		return new DominantAttribute(new AttributeDetails(new Attribute("Decyzja"), true), dominanta, maxCount);	
 	}
 
 }
