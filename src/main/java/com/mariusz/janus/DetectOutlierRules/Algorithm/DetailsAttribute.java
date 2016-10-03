@@ -8,62 +8,62 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
-import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 
 import lombok.Getter;
-import lombok.Setter;
 
-public class CreateAttributeDetails {
-	private static final Logger logger = LoggerFactory.getLogger(CreateAttributeDetails.class);
-	@Getter @Setter private List<AttributeDetails> attributesDetails;
-	@Getter @Setter private List<Attribute> attributes;
-	@Getter @Setter private List<Rule> rules;
+public class DetailsAttribute {
 	
-	public CreateAttributeDetails(List<Attribute> attributes, List<Rule> rules) {
-		this.attributes = attributes;
+	private static final Logger logger = LoggerFactory.getLogger(DetailsAttribute.class);
+	@Getter private List<Rule> rules;
+	@Getter private List<Attribute> attributes;
+	@Getter private List<AttributeAdditionDetail> attributeAdditionDetails;
+	
+	public DetailsAttribute(List<Rule> rules, List<Attribute> attributes) {
 		this.rules = rules;
+		this.attributes = attributes;
+		createListAttributeDetails();
 	}
 	
-	public List<AttributeDetails> createListAttributeDetails() {
-		attributesDetails = new ArrayList<>();
+	public void createListAttributeDetails() {
+		attributeAdditionDetails = new ArrayList<>();
 		for (Rule rules : rules) {
 			for (AttributeValues attributesValue : rules.getAttributeValues()) {
 
 				if (attributesValue.isConclusion()) {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
-						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), true));
+						attributeAdditionDetails.add(new AttributeAdditionDetail(attributesValue.getAttribute(), true));
 					}
 					continue;
 				} else if (attributesValue.getValue() != null) {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
-						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false));
+						attributeAdditionDetails.add(new AttributeAdditionDetail(attributesValue.getAttribute(), false));
 					}
 					continue;
 				} else {
 					if (checkIsExistAttribute(attributesValue.getAttribute().getName())) {
-						attributesDetails.add(new AttributeDetails(attributesValue.getAttribute(), false));
+						attributeAdditionDetails.add(new AttributeAdditionDetail(attributesValue.getAttribute(), false));
 					}
 					continue;
 				}
 			}
 		}
 			
-		logger.debug("sprawdzenie ile elementów na liscie = {}", attributesDetails.size());
+		logger.debug("sprawdzenie ile elementów na liscie = {}", attributeAdditionDetails.size());
 		compareAttributesAndAddIfNoExistInAttributeDetails();
-		logger.debug("sprawdzenie ile elementów na liscie = {}", attributesDetails.size());
+		logger.debug("sprawdzenie ile elementów na liscie = {}", attributeAdditionDetails.size());
 		
-		Collections.sort(attributesDetails);
+		Collections.sort(attributeAdditionDetails);
 		setPositionOnListAttributes();
 		
 		printAllAttributes();
-		return attributesDetails;
 	}
 	
 	private void setPositionOnListAttributes() {
 		int position = 0;
-		for(AttributeDetails attDetails : attributesDetails) {
+		for(AttributeAdditionDetail attDetails : attributeAdditionDetails) {
 			attDetails.setPossitionOnVector(position);
 			++position;
 		}
@@ -72,7 +72,7 @@ public class CreateAttributeDetails {
 	private void printAllAttributes() {
 		System.out.println();
 		System.out.println("Kolejności atrybutów:");
-		for(AttributeDetails attDetails : attributesDetails) {
+		for(AttributeAdditionDetail attDetails : attributeAdditionDetails) {
 			System.out.print(attDetails.getAttribute().getName()+":"+attDetails.getPossitionOnVector() + ", ");
 		}
 		System.out.println();
@@ -81,18 +81,17 @@ public class CreateAttributeDetails {
 	private void compareAttributesAndAddIfNoExistInAttributeDetails() {
 		for (Attribute attribute : attributes) {
 			if (checkIsExistAttribute(attribute.getName())) {
-				attributesDetails.add(new AttributeDetails(attribute, false));
+				attributeAdditionDetails.add(new AttributeAdditionDetail(attribute, false));
 			}
 		}
 	}
 
 	private boolean checkIsExistAttribute(String attributeName) {
-		for (AttributeDetails attDetails : attributesDetails) {
+		for (AttributeAdditionDetail attDetails : attributeAdditionDetails) {
 			if ((attDetails.getAttribute().getName()).equals(attributeName)) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 }

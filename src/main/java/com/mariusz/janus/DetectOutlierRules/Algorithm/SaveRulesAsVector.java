@@ -7,39 +7,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
-import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 
 import lombok.Getter;
-import lombok.Setter;
 
-public class SaveRulesAsVector {
+public class SaveRulesAsVector extends DetailsAttribute {
 
 	private static final Logger logger = LoggerFactory.getLogger(SaveRulesAsVector.class);
+	@Getter private List<SingleVectorRule> vectorRuleLists;
 
-	@Getter @Setter
-	private List<Rule> rules;
-	@Getter @Setter
-	private List<SingleVectorRule> vectorRules;
-	@Getter @Setter
-	private List<AttributeDetails> attributesDetails;
-
-
-
-	public SaveRulesAsVector(List<Rule> listRules, List<AttributeDetails> listAttributesDetails) {
-		this.rules = listRules;
-		this.attributesDetails = listAttributesDetails;
+	public SaveRulesAsVector(List<Rule> rules, List<Attribute> attributes) {
+		super(rules, attributes);
+		createRulesAsVector();
 	}
 
 	public List<SingleVectorRule> createRulesAsVector() {
-		vectorRules = new ArrayList<>();
-		System.out.println();
-		for (Rule rules : rules) {
-			SingleVectorRule vector = new SingleVectorRule(attributesDetails.size(), rules);
-			for (AttributeValues attributes : rules.getAttributeValues()) {
+		vectorRuleLists = new ArrayList<>();
+		for (Rule rule : getRules()) {
+			SingleVectorRule vector = new SingleVectorRule(getAttributeAdditionDetails().size(), rule);
+			for (AttributeValues attributes : rule.getAttributeValues()) {
 				int index = getIndexInVectorByAttribute(attributes.getAttribute());
-				//System.out.println("tworzenie vektora, dodano: "+ attributes.getAttribute().getName()+" na pozycji " + index);
 				if (attributes.isConclusion()) {
 					vector.getVectorRule()[1][0] = attributes.getValue().getName();
 				} else if (attributes.getValue() != null) {
@@ -48,24 +37,18 @@ public class SaveRulesAsVector {
 					vector.getVectorRule()[0][index] = attributes.getContinousValue();
 				}
 			}
-			vectorRules.add(vector);
-			
+			vectorRuleLists.add(vector);
 			vector.printVector();
-			System.out.println();
-			
 		}
-		return vectorRules;
+		return vectorRuleLists;
 	}
-	
+
 	private int getIndexInVectorByAttribute(Attribute attribute) {
-		for (AttributeDetails attDetails : attributesDetails) {
+		for (AttributeAdditionDetail attDetails : getAttributeAdditionDetails()) {
 			if (attDetails.getAttribute().equals(attribute)) {
 				return attDetails.getPossitionOnVector();
 			}
 		}
 		return 0;
 	}
-
-
-
 }

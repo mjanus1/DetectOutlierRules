@@ -7,7 +7,7 @@ import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 	@Getter@Setter
 	private List<SingleVectorRule> listVectorRule;
 	@Getter@Setter
-	private List<AttributeDetails> attributesDetails;
+	private List<AttributeAdditionDetail> attributesDetails;
 	@Setter
 	private List<Cluster> clusterList;
 	@Getter@Setter
@@ -25,7 +25,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 	@Getter@Setter
 	private int min;
 
-	public VSMSimilaryGower(List<SingleVectorRule> listVectorRule, List<AttributeDetails> attributesDetails) {
+	public VSMSimilaryGower(List<SingleVectorRule> listVectorRule, List<AttributeAdditionDetail> attributesDetails) {
 		this.listVectorRule = listVectorRule;
 		this.attributesDetails = attributesDetails;
 		calculateGowerSimilary();
@@ -38,7 +38,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 			for (int i = 0; i < listVectorRule.size(); i++) {
 				for (int j = i + 1; j < listVectorRule.size(); j++) {
 					double result = 0.0;
-					for (AttributeDetails attDetails : attributesDetails) {
+					for (AttributeAdditionDetail attDetails : attributesDetails) {
 						switch (attDetails.getAttribute().getType()) {
 						case CONTINOUS:
 							result += valueForContinous(attDetails, listVectorRule.get(i), listVectorRule.get(j));
@@ -59,7 +59,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 			}
 	}
 
-	private double valueForSybolic(AttributeDetails attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
+	private double valueForSybolic(AttributeAdditionDetail attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
 		if (singleVectorL.getVectorRule()[0][attDetails.getPossitionOnVector()]
 				.equals(singleVectorR.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;
@@ -67,7 +67,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 		return 0;
 	}
 
-	private double valueForContinous(AttributeDetails attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
+	private double valueForContinous(AttributeAdditionDetail attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
 		findMaxAndMinForContinousValue(attDetails.getPossitionOnVector());
 		String valueF = singleVectorL.getVectorRule()[0][attDetails.getPossitionOnVector()];
 		String valueS = singleVectorR.getVectorRule()[0][attDetails.getPossitionOnVector()];
@@ -83,7 +83,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 			}	
 	}
 
-	private double valueForDiscrete(AttributeDetails attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
+	private double valueForDiscrete(AttributeAdditionDetail attDetails, SingleVectorRule singleVectorL, SingleVectorRule singleVectorR) {
 		if (singleVectorL.getVectorRule()[0][attDetails.getPossitionOnVector()]
 				.equals(singleVectorR.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;

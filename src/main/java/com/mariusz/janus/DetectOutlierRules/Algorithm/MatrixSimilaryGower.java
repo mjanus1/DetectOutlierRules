@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ public class MatrixSimilaryGower extends VSMSimilaryGower {
 	@Getter@Setter
 	List<Cluster> listOfCluster;
 
-	public MatrixSimilaryGower(List<SingleVectorRule> listVectorRule, List<AttributeDetails> attributesDetails) {
+	public MatrixSimilaryGower(List<SingleVectorRule> listVectorRule, List<AttributeAdditionDetail> attributesDetails) {
 		super(listVectorRule, attributesDetails);
 	}
 

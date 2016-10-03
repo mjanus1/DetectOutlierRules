@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.mariusz.janus.DetectOutlierRules.domain.AttributeDetails;
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,10 +20,10 @@ public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 	@Getter @Setter private Integer parametrForCalculateOutlier;
 	@Getter @Setter private List<HelperForCalculateSimilary<SingleVectorRule>> similary;
 	@Getter @Setter private List<HelperForCalculateSimilary<SingleVectorRule>> outliers;
-	@Getter @Setter private List<AttributeDetails> attributesDetails;
+	@Getter @Setter private List<AttributeAdditionDetail> attributesDetails;
 	@Getter @Setter private int countAllAttributes;
 	
-	public VSMSimilarySmc(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeDetails> attributesDetails, int countAllAttributes) {
+	public VSMSimilarySmc(List<SingleVectorRule> listVectorRule, SingleVectorRule dominanta, List<AttributeAdditionDetail> attributesDetails, int countAllAttributes) {
 		this.listVectorRule = listVectorRule;
 		this.dominanta = dominanta;
 		this.attributesDetails = attributesDetails;
@@ -49,7 +49,7 @@ public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 		for(SingleVectorRule singleVector : listVectorRule) {
 			double licznik = 0.0;
 			StringBuilder builder = new StringBuilder();
-			for(AttributeDetails attDetails :attributesDetails) {
+			for(AttributeAdditionDetail attDetails :attributesDetails) {
 				double result = 0.0;
 				switch (attDetails.getAttribute().getType()) {
 				case CONTINOUS:
@@ -77,14 +77,14 @@ public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 		return similary;
 	}
 	
-	private double valueForSybolic(AttributeDetails attDetails, SingleVectorRule singleVector) {
+	private double valueForSybolic(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
 		if(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()].equals(singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;
 		}		
 		return 0;	
 	}
 	
-	private double valueForContinous(AttributeDetails attDetails, SingleVectorRule singleVector) {
+	private double valueForContinous(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
 		double variableForVector = Double.parseDouble(singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()]);
 		double variableForDominanta = Double.parseDouble(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()]);
 		
@@ -97,7 +97,7 @@ public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 		return 0;
 	}
 	
-	private double valueForDiscrete(AttributeDetails attDetails, SingleVectorRule singleVector) {
+	private double valueForDiscrete(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
 		if(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()].equals(singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 				return 1.0;
 		}

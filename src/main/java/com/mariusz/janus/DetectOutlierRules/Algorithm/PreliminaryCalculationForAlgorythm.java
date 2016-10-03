@@ -2,65 +2,56 @@ package com.mariusz.janus.DetectOutlierRules.Algorithm;
 
 import java.util.List;
 
-import com.mariusz.janus.DetectOutlierRules.domain.DominantAttribute;
+import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
+import com.mariusz.janus.DetectOutlierRules.domain.AttributeMostOftenRepeated;
+import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 
 import lombok.Getter;
-import lombok.Setter;
 
-public class FindRuleDominant {
+public class PreliminaryCalculationForAlgorythm extends CalculateDominants {
 
 	private final static int DECISION_ROW = 1;
 	private final static int DECISION_COLUMN = 0;
 	private final static int CONDITION_ROW = 0;
+	
 	@Getter
-	@Setter
-	private List<SingleVectorRule> listVectorRules;
-	@Getter
-	@Setter
-	private List<DominantAttribute> mods;
-	@Getter
-	@Setter
-	private String[][] dominanta;
-
-	public FindRuleDominant(List<SingleVectorRule> listVectorRules, List<DominantAttribute> mods) {
-		this.listVectorRules = listVectorRules;
-		this.mods = mods;
+	private SingleVectorRule dominanta;
+	
+	public PreliminaryCalculationForAlgorythm(List<Rule> rules, List<Attribute> attributes) {
+		super(rules, attributes);
+		calculateDominanta();
 	}
 
-	public FindRuleDominant() {
-	}
-
-	public SingleVectorRule calculateDominanta() {
+	public void calculateDominanta() {
 		boolean checkIsSelectDominanta = true;
 		while (checkIsSelectDominanta) {
-			for (SingleVectorRule vector : listVectorRules) {
+			for (SingleVectorRule vector : getVectorRuleLists()) {
 				if (searchRuleWhichPorobablyDominanta(vector.getVectorRule())) {
 					vector.printVector();
 					checkIsSelectDominanta = false;
-					return vector;
+					dominanta  = vector;
 				}
 			}
 			removeAttributeWithTheSmallestCount();
 		}
-		return null;
 	}
 
 	private void removeAttributeWithTheSmallestCount() {
 		int min = 1000;
-		DominantAttribute attModaToRemove = null;
-		for (DominantAttribute attModa : mods) {
+		AttributeMostOftenRepeated attModaToRemove = null;
+		for (AttributeMostOftenRepeated attModa : getAttributeMostOftenRepeated()) {
 			if (attModa.getCount() < min) {
 				min = attModa.getCount();
 				attModaToRemove = attModa;
 			}
 		}
-		mods.remove(attModaToRemove);
+		getAttributeMostOftenRepeated().remove(attModaToRemove);
 	}
 
 	private boolean searchRuleWhichPorobablyDominanta(String[][] vector) {
 		boolean checkIsVectorMayBeDominanta = false;
 
-		for (DominantAttribute attModa : mods) {
+		for (AttributeMostOftenRepeated attModa : getAttributeMostOftenRepeated()) {
 			boolean isConclusion = attModa.getAttributeDetails().isConclusion();
 
 			if (isConclusion) {
