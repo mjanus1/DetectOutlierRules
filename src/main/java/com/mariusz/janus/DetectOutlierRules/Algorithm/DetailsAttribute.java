@@ -49,8 +49,7 @@ public class DetailsAttribute {
 					continue;
 				}
 			}
-		}
-			
+		}	
 		logger.debug("sprawdzenie ile elementów na liscie = {}", attributeAdditionDetails.size());
 		compareAttributesAndAddIfNoExistInAttributeDetails();
 		logger.debug("sprawdzenie ile elementów na liscie = {}", attributeAdditionDetails.size());
@@ -71,11 +70,10 @@ public class DetailsAttribute {
 	
 	private void printAllAttributes() {
 		System.out.println();
-		System.out.println("Kolejności atrybutów:");
+		System.out.println("KOLEJNOŚCI ATRUBUTÓW:");
 		for(AttributeAdditionDetail attDetails : attributeAdditionDetails) {
 			System.out.print(attDetails.getAttribute().getName()+":"+attDetails.getPossitionOnVector() + ", ");
 		}
-		System.out.println();
 	}
 
 	private void compareAttributesAndAddIfNoExistInAttributeDetails() {

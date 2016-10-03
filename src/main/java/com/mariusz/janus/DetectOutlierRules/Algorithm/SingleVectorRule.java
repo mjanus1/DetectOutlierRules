@@ -40,6 +40,7 @@ public class SingleVectorRule {
 	}
 
 	public void printVector() {
+		System.out.println();
 		for (int i = 0; i < countRows; i++) {
 			for (int j = 0; j < countColumn; j++) {
 				if (i == 0 && j == 0) {

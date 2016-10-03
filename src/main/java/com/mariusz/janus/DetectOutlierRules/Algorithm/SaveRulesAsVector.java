@@ -3,9 +3,6 @@ package com.mariusz.janus.DetectOutlierRules.Algorithm;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeValues;
@@ -14,8 +11,6 @@ import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 import lombok.Getter;
 
 public class SaveRulesAsVector extends DetailsAttribute {
-
-	private static final Logger logger = LoggerFactory.getLogger(SaveRulesAsVector.class);
 	@Getter private List<SingleVectorRule> vectorRuleLists;
 
 	public SaveRulesAsVector(List<Rule> rules, List<Attribute> attributes) {
@@ -23,7 +18,7 @@ public class SaveRulesAsVector extends DetailsAttribute {
 		createRulesAsVector();
 	}
 
-	public List<SingleVectorRule> createRulesAsVector() {
+	private void createRulesAsVector() {
 		vectorRuleLists = new ArrayList<>();
 		for (Rule rule : getRules()) {
 			SingleVectorRule vector = new SingleVectorRule(getAttributeAdditionDetails().size(), rule);
@@ -39,8 +34,8 @@ public class SaveRulesAsVector extends DetailsAttribute {
 			}
 			vectorRuleLists.add(vector);
 			vector.printVector();
+			System.out.println();
 		}
-		return vectorRuleLists;
 	}
 
 	private int getIndexInVectorByAttribute(Attribute attribute) {

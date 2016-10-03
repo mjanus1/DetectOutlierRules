@@ -7,6 +7,7 @@ import com.mariusz.janus.DetectOutlierRules.domain.AttributeMostOftenRepeated;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class PreliminaryCalculationForAlgorythm extends CalculateDominants {
 
@@ -16,6 +17,8 @@ public class PreliminaryCalculationForAlgorythm extends CalculateDominants {
 	
 	@Getter
 	private SingleVectorRule dominanta;
+	@Getter @Setter
+	private List<AttributeMostOftenRepeated> attributesMostOftenRepeated;
 	
 	public PreliminaryCalculationForAlgorythm(List<Rule> rules, List<Attribute> attributes) {
 		super(rules, attributes);
@@ -23,29 +26,38 @@ public class PreliminaryCalculationForAlgorythm extends CalculateDominants {
 	}
 
 	public void calculateDominanta() {
+		attributesMostOftenRepeated = getAttributeMostOftenRepeated();
 		boolean checkIsSelectDominanta = true;
 		while (checkIsSelectDominanta) {
 			for (SingleVectorRule vector : getVectorRuleLists()) {
 				if (searchRuleWhichPorobablyDominanta(vector.getVectorRule())) {
-					vector.printVector();
+					displaySelectDominant(vector);
 					checkIsSelectDominanta = false;
 					dominanta  = vector;
+					break;
 				}
 			}
 			removeAttributeWithTheSmallestCount();
 		}
 	}
+	
+	private void displaySelectDominant(SingleVectorRule dominanta) {
+		System.out.println();
+		System.out.println("WYBRANA DOMINANTA:");
+		dominanta.printVector();
+		System.out.println();
+	}
 
 	private void removeAttributeWithTheSmallestCount() {
 		int min = 1000;
 		AttributeMostOftenRepeated attModaToRemove = null;
-		for (AttributeMostOftenRepeated attModa : getAttributeMostOftenRepeated()) {
+		for (AttributeMostOftenRepeated attModa : attributesMostOftenRepeated) {
 			if (attModa.getCount() < min) {
 				min = attModa.getCount();
 				attModaToRemove = attModa;
 			}
 		}
-		getAttributeMostOftenRepeated().remove(attModaToRemove);
+		attributesMostOftenRepeated.remove(attModaToRemove);
 	}
 
 	private boolean searchRuleWhichPorobablyDominanta(String[][] vector) {
