@@ -6,6 +6,9 @@ import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
@@ -17,6 +20,7 @@ import lombok.Getter;
 
 public class CalculateDominants extends SaveRulesAsVector {
 
+	private static final Logger logger = LoggerFactory.getLogger(CalculateDominants.class);
 	@Getter List<AttributeMostOftenRepeated> attributeMostOftenRepeated;
 
 	public CalculateDominants(List<Rule> rules, List<Attribute> attributes) {
@@ -78,6 +82,12 @@ public class CalculateDominants extends SaveRulesAsVector {
 		}
 		return new AttributeMostOftenRepeated(new AttributeAdditionDetail(new Attribute("Decyzja"), true), dominanta,
 				maxCount);
+	}
+	
+	public void displayAttributeMostOftenRepeated() {
+		for(AttributeMostOftenRepeated a : attributeMostOftenRepeated) {
+			logger.debug("",a.getValue());
+		}
 	}
 
 }
