@@ -24,7 +24,7 @@
 						<table>
 							<tr>
 								<td>
-									<h:panelGrid columns="4" cellspacing="3" cellpadding="3">
+									<h:panelGrid id="mainPanel" columns="5" cellspacing="3" cellpadding="3">
 										<p:outputLabel value="Wybierz metode: "/>
 										
 										<p:selectOneMenu id="selectMethod" value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
@@ -35,13 +35,30 @@
 										
 										<p:outputLabel value="Wybierz miare podobieństwa: "/>
 										
+										
 										<p:selectOneMenu id="chooseMeasure" value="#{detectOutlierController.selectMeasure}" valueChangeListener="#{detectOutlierController.selectCalculateMeasure}" >
 											<f:selectItem itemLabel="---wybierz---" itemValue=""/>
 											<f:selectItem itemLabel="Simple matching coefficient" itemValue="SMC"/>
 											<f:selectItem itemLabel="Gower" itemValue="GOWER"/>
-											<p:ajax update="panelOutlier panelPropertyForSMC panelPropertyForGower"/>
-										</p:selectOneMenu>																			
+											<p:ajax update="panelOutlier panelPropertyForSMC panelPropertyForGower mainPanel"/>
+										</p:selectOneMenu>	
+										
+										<h:outputLink value="javascript:void(0)" 
+											onclick="if(#{detectOutlierController.selectMeasure == 'SMC'}) {PF('smc').show();} else if(#{detectOutlierController.selectMeasure == 'GOWER'}) {PF('gower').show();}" 
+											rendered="#{detectOutlierController.selectMeasure != ''}" >
+											<h:graphicImage name="help.png" library="graphics" width="25px" height="25px" style="vertical-align:middle"/>	
+										</h:outputLink>
+										
+										<p:dialog widgetVar="smc" header="Similary SMC" resizable="false" showEffect="clip" hideEffect="clip">
+								        	<p:graphicImage name="smc.png" library="graphics"/>
+								    	</p:dialog>
+								    	
+								    	<p:dialog widgetVar="gower" header="Similary Gower" resizable="false" showEffect="clip" hideEffect="clip">
+								        	<p:graphicImage name="gower.png" library="graphics"/>
+								    	</p:dialog>
+										
 									</h:panelGrid>
+									
 								</td>						
 							</tr>													
 							
