@@ -16,7 +16,7 @@
 		<version.tomcat.plugin>2.2</version.tomcat.plugin>
 		<version.javax.servlet>2.5</version.javax.servlet>
 		<version.org.apache.myfaces.core>2.2.10</version.org.apache.myfaces.core>
-		<version.org.primefaces>5.3</version.org.primefaces>
+		<version.org.primefaces>6.0</version.org.primefaces>
 		<version.org.hibernate>4.3.11.Final</version.org.hibernate>
 		<version.org.hibernate.validator>4.3.0.Final</version.org.hibernate.validator>
 		<version.build.helper.plugin>1.9.1</version.build.helper.plugin>
@@ -329,6 +329,12 @@
     		<groupId>com.google.guava</groupId>
     		<artifactId>guava</artifactId>
     		<version>${version.com.google.guava}</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>junit</groupId>
+    		<artifactId>junit</artifactId>
+    		<version>4.12</version>
 		</dependency>
 		
 	</dependencies>

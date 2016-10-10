@@ -90,13 +90,13 @@
 									</td>
 										
 									<td>
-										<p:inputText id="parametrSMC" value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" /> 
+										<p:inputText value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" />    
 										<p:outputLabel value=" %"/>
 									</td>
 									
 									<td>
 										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierSMC}" 
-														 update="panelOutlier" style="margin-left:10px; color:black" >
+														 update="panelOutlier msg" style="margin-left:10px; color:black" >
 										</p:commandButton>
 									</td>						
 								</tr>
@@ -142,7 +142,7 @@
 									</td>
 										
 									<td>
-										<p:inputText id="parametrGower" value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" /> 
+										<p:inputText value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" />    
 										<p:outputLabel value=" %"/>
 									</td>
 									

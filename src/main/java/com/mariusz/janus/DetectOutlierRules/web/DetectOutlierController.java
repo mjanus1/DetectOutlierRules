@@ -20,7 +20,6 @@ import com.mariusz.janus.DetectOutlierRules.Algorithm.SingleVectorRule;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilarySmc;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
-import com.mariusz.janus.DetectOutlierRules.domain.AttributeMostOftenRepeated;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
 import com.mariusz.janus.DetectOutlierRules.service.IRestRequestService;
 
@@ -35,7 +34,7 @@ public class DetectOutlierController extends AbstracController {
 	
 	@Getter@Setter private List<Attribute> attributes;
 	@Getter@Setter private List<Rule> rules;
-	@Getter@Setter private int parameterOutlier;
+	@Getter@Setter private String parameterOutlier;
 	@Getter@Setter private String dominantaAsString;
 	@Getter@Setter List<HelperForCalculateSimilary<SingleVectorRule>> similaryOutlier;
 	@Getter@Setter List<HelperForCalculateSimilary<Cluster>> similaryOutlierGower;	
@@ -90,17 +89,22 @@ public class DetectOutlierController extends AbstracController {
 	}
 	
 	public void selectOutlierSMC() {
-		similaryOutlier = vsmSimilarySmc.getOutlierRules(parameterOutlier);
-		System.out.println();
-		System.out.println("Odchylenia:");
-		for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
-			System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
+		
+		if(validInputParametr(parameterOutlier)) {
+			similaryOutlier = vsmSimilarySmc.getOutlierRules(Integer.parseInt(parameterOutlier));
+			System.out.println();
+			System.out.println("Odchylenia:");
+			for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
+				System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
+			}
 		}
 	}
 	
 	public void selectOutlierGower() {
-		System.out.println("jestem w wyliczaniu miary gowera");
-		similaryOutlierGower =  matrixSimilaryGower.getOutlierByParametr(parameterOutlier);
+		if(validInputParametr(parameterOutlier)) {
+			System.out.println("jestem w wyliczaniu miary gowera");
+			similaryOutlierGower =  matrixSimilaryGower.getOutlierByParametr(Integer.parseInt(parameterOutlier));
+		}
 	}
 	
 	public void selectCalculateMethod(ValueChangeEvent e) {
@@ -108,7 +112,7 @@ public class DetectOutlierController extends AbstracController {
 		method = (String) e.getNewValue();
 		if (method == null){
 			selectMethod = "";
-			parameterOutlier = 0;
+			parameterOutlier = "";
 			selectMeasure = "";
 			showProperties = false;
 			similaryOutlier = new ArrayList<>();
@@ -126,7 +130,7 @@ public class DetectOutlierController extends AbstracController {
 		selectMeasure = measure;
 		if(selectMeasure.equals("SMC") || selectMeasure.equals("GOWER")) {
 			showProperties = false;
-			parameterOutlier = 0;
+			parameterOutlier = "";
 			similaryOutlierGower = new ArrayList<>();
 			similaryOutlier = new ArrayList<>();
 		}
@@ -140,6 +144,23 @@ public class DetectOutlierController extends AbstracController {
 		if(selectMeasure == null || selectMeasure.isEmpty()) {
 			addWarningGlobal("Musisz wybrać miare podobieństwa");
 			return false;
+		}
+		return true;
+	}
+	
+	
+	private boolean validInputParametr(String value) {
+		String patern = "^[1-9][0-9]{0,2}$";
+		
+		boolean isNumber = value.matches(patern);
+		if(!isNumber) {
+			addErrorGlobal("Podaj liczbę całkowitą z zakresu [1 - 100]");
+			return false;
+		} else {
+			int count = Integer.parseInt(value);
+			if(count > 100) {
+				addErrorGlobal("Podaj liczbę całkowitą z zakresu [1 - 100]");
+			}
 		}
 		return true;
 	}

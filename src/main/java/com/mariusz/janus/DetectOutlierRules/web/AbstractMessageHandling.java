@@ -19,6 +19,11 @@ public abstract class AbstractMessageHandling {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", message);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
+	
+	public static FacesMessage addErrorGlobalForInput(String message) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", message);
+		return msg;
+	}
 
 	// below message assigned to tag
 
