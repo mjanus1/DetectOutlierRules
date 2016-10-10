@@ -43,6 +43,7 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private String selectMeasure;
 	@Getter@Setter private VSMSimilarySmc vsmSimilarySmc;
 	@Getter@Setter private MatrixSimilaryGower matrixSimilaryGower;
+	@Getter@Setter private PreliminaryCalculationForAlgorythm calculate;
 
 
 	@Getter@Setter
@@ -67,7 +68,7 @@ public class DetectOutlierController extends AbstracController {
 		if(checkCanContinueDetectOutlier()) {
 			showProperties = true;
 			
-			PreliminaryCalculationForAlgorythm calculate = new PreliminaryCalculationForAlgorythm(rules, attributes);
+			calculate = new PreliminaryCalculationForAlgorythm(rules, attributes);
 			
 			if(selectMeasure.equals("SMC")) {
 				dominantaAsString = calculate.getDominanta().getRule().saveRuleAsString();
@@ -79,6 +80,10 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
+	public void generateMatricSimilary() {
+		calculateSimilaryGowerDominanta(calculate.getVectorRuleLists(), calculate.getAttributeAdditionDetails(), calculate.getDominanta());
+	}
+	
 	private void calculateSimilarySMC(List<SingleVectorRule> vectors, List<AttributeAdditionDetail> details, SingleVectorRule dominanta, int countAttributeAdditionDetails) {
 		vsmSimilarySmc = new VSMSimilarySmc(vectors, dominanta, details, countAttributeAdditionDetails);
 		
@@ -86,6 +91,10 @@ public class DetectOutlierController extends AbstracController {
 	
 	private void calculateSimilaryGower(List<SingleVectorRule> vectors, List<AttributeAdditionDetail> details) {
 		matrixSimilaryGower = new MatrixSimilaryGower(vectors, details);
+	}
+	
+	private void calculateSimilaryGowerDominanta(List<SingleVectorRule> vectors, List<AttributeAdditionDetail> details, SingleVectorRule dominanta) {
+		
 	}
 	
 	public void selectOutlierSMC() {
