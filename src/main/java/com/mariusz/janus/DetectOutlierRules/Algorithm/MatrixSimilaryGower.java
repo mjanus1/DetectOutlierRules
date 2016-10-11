@@ -23,7 +23,7 @@ public class MatrixSimilaryGower extends VSMSimilaryGower {
 
 		listOfCluster = getClusterList();
 		Collections.sort(listOfCluster);
-		Collections.reverse(listOfCluster);
+		//Collections.reverse(listOfCluster);
 		// System.out.println("Ile mamy: " + listOfCluster.size());
 		// listOfCluster = calculateGowerSimilary();
 		int countOutlier = listOfCluster.size() * parametr / 100;

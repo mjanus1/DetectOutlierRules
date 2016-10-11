@@ -18,19 +18,20 @@
 
 			<p:button id="button" outcome="rules?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
 					
-			<h:form id="outlierForm">		
+			<h:form>
+					
 				<h:panelGroup id="panetSettings" layout="block">
 					<t:fieldset id="fieldSet" legend="Ustawienia" styleClass="fieldset">
 						<table>
 							<tr>
 								<td>
-									<h:panelGrid id="mainPanel" columns="5" cellspacing="3" cellpadding="3">
+									<h:panelGrid id="mainPanel" columns="5" cellspacing="3" cellpadding="3" style="margin-left:1px" >
 										<p:outputLabel value="Wybierz metode: "/>
 										
 										<p:selectOneMenu id="selectMethod" value="#{detectOutlierController.selectMethod}" valueChangeListener="#{detectOutlierController.selectCalculateMethod}" >
 											<f:selectItem itemLabel="---wybierz---" itemValue=""/>
 											<f:selectItem itemLabel="VSM" itemValue="VSM"/>
-											<p:ajax update="generate panelPropertyForSMC panelPropertyForGower panelOutlier chooseMeasure"/>
+											<p:ajax update="@form"/>
 										</p:selectOneMenu>		
 										
 										<p:outputLabel value="Wybierz miare podobieństwa: "/>
@@ -40,7 +41,7 @@
 											<f:selectItem itemLabel="---wybierz---" itemValue=""/>
 											<f:selectItem itemLabel="Simple matching coefficient" itemValue="SMC"/>
 											<f:selectItem itemLabel="Gower" itemValue="GOWER"/>
-											<p:ajax update="panelOutlier panelPropertyForSMC panelPropertyForGower mainPanel"/>
+											<p:ajax update="@form"/>
 										</p:selectOneMenu>	
 										
 										<h:outputLink value="javascript:void(0)" 
@@ -49,11 +50,11 @@
 											<h:graphicImage name="help.png" library="graphics" width="25px" height="25px" style="vertical-align:middle"/>	
 										</h:outputLink>
 										
-										<p:dialog widgetVar="smc" header="Similary SMC" resizable="false" showEffect="clip" hideEffect="clip">
+										<p:dialog widgetVar="smc" header="Podobienstwo SMC" resizable="false" showEffect="clip" hideEffect="clip">
 								        	<p:graphicImage name="smc.png" library="graphics"/>
 								    	</p:dialog>
 								    	
-								    	<p:dialog widgetVar="gower" header="Similary Gower" resizable="false" showEffect="clip" hideEffect="clip">
+								    	<p:dialog widgetVar="gower" header="Podobienstwo Gower" resizable="false" showEffect="clip" hideEffect="clip">
 								        	<p:graphicImage name="gower.png" library="graphics"/>
 								    	</p:dialog>
 										
@@ -64,10 +65,33 @@
 							
 							<tr>
 								<td>
-									<p:commandButton id="generate" action="#{detectOutlierController.generateOutliers}" 
-											update="panelPropertyForSMC panelPropertyForGower" value="Generuj odchylenia" 
-											disabled="#{detectOutlierController.selectMethod == ''}" >
-									</p:commandButton>		
+									
+									<p:commandButton id="generate" style="margin-left:3px" 
+												action="#{detectOutlierController.generateOutliers}" 
+												update="@form" value="Generuj odchylenia" 
+												disabled="#{detectOutlierController.selectMethod == ''}" >
+									</p:commandButton>	
+										
+									<h:panelGrid columns="2">
+										
+										<p:commandButton id="generateMatrix" action="#{detectOutlierController.generateMatrixGowerSimilary}" 
+												update="@form" value="Reguły podobne"
+												actionListener="#{detectOutlierController.ruleSimilaryListener}" 
+												disabled="#{detectOutlierController.selectMethod == ''}" >
+										</p:commandButton>
+										
+										<h:outputLink value="javascript:void(0)" 
+											onclick="PF('info').show();" 
+											rendered="#{detectOutlierController.selectMethod != ''}" >
+											<h:graphicImage name="help.png" library="graphics" width="25px" height="25px" style="vertical-align:middle"/>	
+										</h:outputLink>
+										
+										<p:dialog widgetVar="info" header="Informacja" resizable="false" showEffect="clip" hideEffect="clip">
+									        <p:graphicImage name="info.png" library="graphics"/>
+									    </p:dialog>
+								    	
+								    	    	
+									</h:panelGrid>		
 								</td>
 							</tr>
 						</table>
@@ -75,7 +99,7 @@
 				</h:panelGroup>
 				
 				<h:panelGroup id="panelPropertyForSMC">
-					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties == true and detectOutlierController.selectMeasure == 'SMC'}" style="margin-bottom:15px;">
+					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties and detectOutlierController.selectMeasure == 'SMC'}" style="margin-bottom:15px;">
 						<h:panelGroup>
 							
 							<h:panelGrid columns="1" style="margin-top:10px;margin-left: 5px">
@@ -95,16 +119,14 @@
 									</td>
 									
 									<td>
-										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierSMC}" 
-														 update="panelOutlier msg" style="margin-left:10px; color:black" >
-										</p:commandButton>
+										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierSMC}" update="panelOutlierSmc" style="margin-left:10px; color:black" />
 									</td>						
 								</tr>
 							</table>
 		
 						</h:panelGroup>
 						
-						<h:panelGroup id="panelOutlier">
+						<h:panelGroup id="panelOutlierSmc">
 							<p:dataTable var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
 								<f:facet name="header">
 						        	Elementy odstające  		
@@ -128,11 +150,12 @@
 				</h:panelGroup>
 				
 				<h:panelGroup id="panelPropertyForGower">
-					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties == true and detectOutlierController.selectMeasure == 'GOWER'}" style="margin-bottom:15px;">
+					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties and detectOutlierController.selectMeasure == 'GOWER'}" style="margin-bottom:15px;">
 						
-						<h:panelGroup>
-							<h:panelGrid columns="1" style="margin-top:10px; margin-left: 5px">
-								<p:outputLabel value="Wyliczono macierz podobieństwa między wszytkimi regułami."  />
+						<h:panelGroup>			
+							<h:panelGrid columns="1" style="margin-top:10px;margin-left: 5px">
+								<p:outputLabel value="DOMINANTA: " style="color:red" />
+								<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
 							</h:panelGrid>
 						
 							<table style="margin-top:15px; margin-left: 5px">
@@ -147,42 +170,86 @@
 									</td>
 									
 									<td>
-										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierGower}" 
-														 update="panelOutlierGower" style="margin-left:10px; color:black" >
-										</p:commandButton>
+										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierGower}" update="panelOutlierGower" style="margin-left:10px; color:black" />
 									</td>						
 								</tr>
 							</table>
-		
 						</h:panelGroup>
 						
 						<h:panelGroup id="panelOutlierGower">
-							<p:dataTable var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlierGower}" emptyMessage="Nie znaleziono rekordów." >
+							<p:dataTable var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
 								<f:facet name="header">
 						        	Elementy odstające  		
 						   	 	</f:facet>
 						   	 		
 								<p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
-									<h:outputText value="#{outlier.object.leftRule.id}" />
-									<h:outputText value="&lt;br/&gt;" escape="false" />
-									<h:outputText value="#{outlier.object.rightRule.id}" />		
+								    <h:outputText value="#{outlier.object.rule.id}" />
 								</p:column>
-								 	
+								 
 								<p:column headerText="Reguła"  style="text-align:left;font-size:15px">
-						        	<h:outputText value="#{outlier.object.leftRule.saveRuleAsString()}" />
-						        	<h:outputText value="&lt;br/&gt;" escape="false" />
-						        	<h:outputText value="#{outlier.object.rightRule.saveRuleAsString()}" />
+								    <h:outputText value="#{outlier.object.rule.saveRuleAsString()}" />
 						        </p:column>
 								 
 							   <p:column headerText="Podobieństwo" width="120" style="text-align:center;font-size:15px">
-							  		<h:outputText value="#{outlier.value}" />
+							        <h:outputText value="#{outlier.value}" />
 							   </p:column>
 					     	</p:dataTable>
-					</h:panelGroup>
+						</h:panelGroup>
 					
 				</h:panelGroup>
 			</h:panelGroup>
-				
+						
+			<h:panelGroup id="panelPropertyForMatriksSimilary">
+				<h:panelGroup layout="block" rendered="#{detectOutlierController.showMatriksSimilary}" style="margin-bottom:10px;">
+					
+					<h:panelGroup style="margin-left:15px">
+						<p:outputLabel value="Wyliczono macierz podobieństwa między wszytkimi regułami." />
+						
+						<table style="margin-left:15px">
+							<tr>
+								<td>
+									<p:outputLabel value="Określ liczbe odchleń: " />
+								</td>
+									
+								<td>
+									<p:inputText value="#{detectOutlierController.parameterOutlier}" style="width:50px; margin-left:5px" />    
+									<p:outputLabel value=" %"/>
+								</td>
+									
+								<td>
+									<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierFromMatrix}" update="tableMatrixSimilary" style="margin-left:10px; color:black" />
+								</td>						
+							</tr>
+						</table>
+					</h:panelGroup>
+					
+					<h:panelGroup id="tableMatrixSimilary">
+						<p:dataTable var="out"  styleClass="available-base" value="#{detectOutlierController.similaryMatrixGower}" emptyMessage="Nie znaleziono rekordów." >
+								<f:facet name="header">
+							       	Elementy odstające  		
+							   	</f:facet>
+							   	 		
+								<p:column headerText="Id" width="40" style="text-align:center;font-size:15px">
+									<h:outputText value="#{out.object.leftRule.id}" />
+									<h:outputText value="&lt;br/&gt;" escape="false" />
+									<h:outputText value="#{out.object.rightRule.id}" />		
+								</p:column>
+									 	
+								<p:column headerText="Reguła"  style="text-align:left;font-size:15px">
+							       	<h:outputText value="#{out.object.leftRule.saveRuleAsString()}" />
+							       	<h:outputText value="&lt;br/&gt;" escape="false" />
+							       	<h:outputText value="#{out.object.rightRule.saveRuleAsString()}" />
+						       </p:column>
+									 
+							   <p:column headerText="Podobieństwo" width="120" style="text-align:center;font-size:15px">
+							  		<h:outputText value="#{out.value}" />
+							   </p:column>
+					     </p:dataTable>	
+					
+					</h:panelGroup>
+					
+				</h:panelGroup>	
+			</h:panelGroup>	
 
 		</h:form>
 	

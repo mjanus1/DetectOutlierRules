@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:of="http://omnifaces.org/functions"
+	  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+   <h:head>
+   	<h:outputStylesheet name="main.css" library="css"></h:outputStylesheet>
+   	<title>Security&amp;Compliance</title>
+   	<link rel="shortcut icon" type="image/x-icon" href="#{resource['graphics/favicon/favicon.ico']}"/>
+   </h:head>
+   
+   <h:body>
+   		<div id="contentPanel" style="width:1260px;margin:150px auto;">
+		<div class="errorHeader"   >
+			<span><h:outputText value="#{errorsLang.error500Header}"   /></span>
+		</div>
+		<div class="errorContent"  >
+			<h2> 
+				<h:outputFormat value="#{errorsLang.error500Title}" >
+					<f:param value="#{requestScope['javax.servlet.error.status_code']}"></f:param>
+				</h:outputFormat>
+			</h2>
+			<h:graphicImage name="/icons/others/warning_64.png" library="graphics" width="64" height="64" alt="warning" />
+			<p>
+				#{errorsLang.error500Content} <a href="#{request.contextPath}/start.xhtml" >#{errorsLang.returnLinkLabel}</a>
+			</p>
+		</div>
+		<div class="errorFooter" ></div>
+	</div>	
+   </h:body>
+   
+</html>

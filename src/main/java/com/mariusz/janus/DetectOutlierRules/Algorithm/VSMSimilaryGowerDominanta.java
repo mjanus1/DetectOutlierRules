@@ -5,6 +5,7 @@ import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.DISCRETE;
 import static com.mariusz.janus.DetectOutlierRules.Algorithm.TypeValue.SYMBOLIC;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
@@ -20,13 +21,15 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 	@Getter
 	@Setter
 	private List<AttributeAdditionDetail> attributesDetails;
-
 	@Getter
 	@Setter
 	private SingleVectorRule dominanta;
 	@Getter
 	@Setter
 	private List<HelperForCalculateSimilary<SingleVectorRule>> similary;
+	@Getter 
+	@Setter 
+	private List<HelperForCalculateSimilary<SingleVectorRule>> outliers;
 	@Getter
 	@Setter
 	private int max;
@@ -34,36 +37,55 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 	@Setter
 	private int min;
 
-	public VSMSimilaryGowerDominanta(List<SingleVectorRule> listVectorRule,
-			List<AttributeAdditionDetail> attributesDetails, SingleVectorRule dominanta) {
+	public VSMSimilaryGowerDominanta(List<SingleVectorRule> listVectorRule, List<AttributeAdditionDetail> attributesDetails, SingleVectorRule dominanta) {
 		this.listVectorRule = listVectorRule;
 		this.attributesDetails = attributesDetails;
 		this.dominanta = dominanta;
 		calculateGowerDominantaSimilary();
 	}
+	
+	public List<HelperForCalculateSimilary<SingleVectorRule>> getOutlierRules(int parametr) {
+		outliers = new ArrayList<>();
+		int countOutlier = similary.size() * parametr / 100;
+		System.out.println("count outlier: " + countOutlier);
+		Collections.sort(similary);
+		for(int i =0; i<countOutlier; i++){
+			outliers.add(similary.get(i));
+		}
+		System.out.println("sprawdzenie listy "+outliers.size());
+		return outliers;
+	}
+	
 
 	public void calculateGowerDominantaSimilary() {
 		similary = new ArrayList<>();
 		for (SingleVectorRule singleVector : listVectorRule) {
-
+			int countHeighNegativeZero = 0;
+			double value = 0.0;
 			double result = 0.0;
 			for (AttributeAdditionDetail attDetails : attributesDetails) {
 				switch (attDetails.getAttribute().getType()) {
 				case CONTINOUS:
-					result += valueForContinous(attDetails, singleVector);
+					value = valueForContinous(attDetails, singleVector);
+					if(value > 0 ){countHeighNegativeZero++;}
+					result += value; 
 					break;
 				case SYMBOLIC:
-					result += valueForSybolic(attDetails, singleVector);
+					value = valueForSybolic(attDetails, singleVector);
+					if(value > 0 ){countHeighNegativeZero++;}
+					result += value; 
 					break;
 				case DISCRETE:
-					result += valueForDiscrete(attDetails, singleVector);
+					value = valueForDiscrete(attDetails, singleVector);
+					if(value > 0 ){countHeighNegativeZero++;}
+					result += value; 
 					break;
 				default:
 					break;
 				}
 			}
 			
-			similary.add(new HelperForCalculateSimilary<SingleVectorRule>(singleVector, result));
+			similary.add(new HelperForCalculateSimilary<SingleVectorRule>(singleVector, getRoundSimillary(result/countHeighNegativeZero)));
 		}
 	}
 
@@ -72,7 +94,7 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 				.equals(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;
 		}
-		return 0;
+		return 0.0;
 	}
 
 	private double valueForContinous(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
@@ -80,7 +102,7 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 		String valueRule = singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()];
 		String valueDominant = dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()];
 		if (valueRule.equals("0") || valueDominant.equals("0")) {
-			return 0;
+			return 0.0;
 		} else {
 			double valRule = Double.parseDouble(valueRule);
 			double valDominanta = Double.parseDouble(valueDominant);
@@ -96,7 +118,7 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 				.equals(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;
 		}
-		return 0;
+		return 0.0;
 	}
 
 	private void findMaxAndMinForContinousValue(int position) {
