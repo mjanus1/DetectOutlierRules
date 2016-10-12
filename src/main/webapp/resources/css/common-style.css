@@ -215,3 +215,51 @@
 	background: #019ffe;
 	color: #ffffff;
 }
+
+
+/* Error page*/
+
+.errorHeader{
+	background: #2b95ff;
+	height: 28px;
+	width:802px;
+}
+
+.errorHeader span{
+	padding-left:15px;
+	line-height: 28px;
+	font-size: 16px;
+	color:white;
+	font-weight: bold;
+}
+
+.errorContent{
+	width:800px;
+	height:250px;
+	padding-top: 10px;
+	border-left:1px solid #2b95ff;
+	border-right:1px solid #2b95ff;
+	
+}
+
+.errorContent h2{
+	text-align:center;
+}
+
+.errorContent img{
+	margin-left:400px;
+}
+.errorContent p{
+	text-align:center;
+	font-size:14px;
+}
+
+.errorContent p a{
+	font-size:14px !important;
+}
+
+.errorFooter{	
+	background: #2b95ff;
+	height: 7px;
+	width:802px;
+}

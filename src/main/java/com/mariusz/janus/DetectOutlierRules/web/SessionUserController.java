@@ -16,7 +16,7 @@ public class SessionUserController {
 
 	@Getter @Setter
 	private User user;
-	@Getter @Setter
+	@Setter
 	private Token token;
 
 	public SessionUserController(User user, Token token) {
@@ -39,7 +39,7 @@ public class SessionUserController {
 			return false;
 	}
 
-	public String getAccesToken() {
-		return token.getAccess_token();
+	public Token getToken() {
+		return token;
 	}
 }

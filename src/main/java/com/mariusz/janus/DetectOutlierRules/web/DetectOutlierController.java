@@ -10,9 +10,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.mariusz.janus.DetectOutlierRules.Algorithm.Cluster;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.HelperForCalculateSimilary;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.MatrixSimilaryGower;
@@ -31,8 +28,6 @@ import lombok.Setter;
 @ManagedBean
 @ViewScoped
 public class DetectOutlierController extends AbstracController {
-
-	private final static Logger logger = LoggerFactory.getLogger(DetectOutlierController.class);
 	
 	@Getter@Setter private List<Attribute> attributes;
 	@Getter@Setter private List<Rule> rules;

@@ -1,11 +1,16 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.ACCOUNT;
 import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.CLIENT_ID;
 import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.CLIENT_SECRET;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.REDIRECT_URL;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.SERVER_URL;
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.TOKEN_PATH;
 
 import java.io.IOException;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -23,7 +28,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.mariusz.janus.DetectOutlierRules.domain.ServerProperty;
 import com.mariusz.janus.DetectOutlierRules.domain.Token;
 import com.mariusz.janus.DetectOutlierRules.domain.User;
 
@@ -56,19 +60,26 @@ public class AutorizationController {
 
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		code = params.get("code");
+		
+			
 		logger.debug("Sprawdzenie code ={}", code);
 		if (code != null) {
 			requestForToken();
 			requestForUser();
 			setSesionParameters();
+			redirect("/available-bases.xhtml");
+		} else {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", "Niestety nie otrzymałeś dostępu do serwisu");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			redirect("/index.xhtml");
 		}
-		redirectAfterConnectionSuccessfully();
 	}
 
-	private void redirectAfterConnectionSuccessfully() {
+	private void redirect(String page) {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		try {
-			context.redirect(context.getRequestContextPath() + "/available-bases.xhtml");
+			context.redirect(context.getRequestContextPath() + page);
 		} catch (IOException e) {
 			logger.error("Exception in redirect", e);
 		}
@@ -81,13 +92,13 @@ public class AutorizationController {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("grant_type", "authorization_code");
 		map.add("code", code);
-		map.add("redirect_uri", ServerProperty.REDIRECT_URL);
+		map.add("redirect_uri", REDIRECT_URL);
 
 		HttpHeaders header = new HttpHeaders();
 		header.add("Authorization", "Basic " + encode());
 
 		HttpEntity<?> request = new HttpEntity<>(map, header);
-		ResponseEntity<Token> response = rest.exchange(ServerProperty.SERVER_URL + ServerProperty.TOKEN_PATH,
+		ResponseEntity<Token> response = rest.exchange(SERVER_URL + TOKEN_PATH,
 				HttpMethod.POST, request, Token.class);
 		token = response.getBody();
 
@@ -100,7 +111,7 @@ public class AutorizationController {
 		header.add("Authorization", "Bearer " + token.getAccess_token());
 
 		HttpEntity<String> request = new HttpEntity<>(header);
-		ResponseEntity<User> response = rest.exchange(ServerProperty.SERVER_URL + ServerProperty.ACCOUNT,
+		ResponseEntity<User> response = rest.exchange(SERVER_URL + ACCOUNT,
 				HttpMethod.GET, request, User.class);
 		user = response.getBody();
 

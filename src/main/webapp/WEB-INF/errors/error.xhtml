@@ -7,25 +7,26 @@
 	  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
    <h:head>
-   	<h:outputStylesheet name="main.css" library="css"></h:outputStylesheet>
-   	<title>Security&amp;Compliance</title>
-   	<link rel="shortcut icon" type="image/x-icon" href="#{resource['graphics/favicon/favicon.ico']}"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<h:outputStylesheet library="css" name="common-style.css" />
+		<title>DetectOutierRules</title>
    </h:head>
    
    <h:body>
-   		<div id="contentPanel" style="width:1260px;margin:150px auto;">
+   		<div id="contentPanel" style="width:800px;margin:150px auto;">
 		<div class="errorHeader"   >
-			<span><h:outputText value="#{errorsLang.error500Header}"   /></span>
+			<span><h:outputText value="Wystąpił nieoczekiwany błąd w aplikacji"   /></span>
 		</div>
 		<div class="errorContent"  >
 			<h2> 
-				<h:outputFormat value="#{errorsLang.error500Title}" >
-					<f:param value="#{requestScope['javax.servlet.error.status_code']}"></f:param>
+				<h:outputFormat value="Przepraszamy wystąpił błąd 500 w aplikacji" >
+					
 				</h:outputFormat>
 			</h2>
-			<h:graphicImage name="/icons/others/warning_64.png" library="graphics" width="64" height="64" alt="warning" />
+			<h:graphicImage name="warning_64.png" library="graphics" width="64" height="64" alt="warning" />
 			<p>
-				#{errorsLang.error500Content} <a href="#{request.contextPath}/start.xhtml" >#{errorsLang.returnLinkLabel}</a>
+				Skontaktuj się z administratorem system w celu przekazania mu informacji o błędzie.
+				<a href="index.xhtml">Powrót do aplikacji</a>
 			</p>
 		</div>
 		<div class="errorFooter" ></div>
