@@ -1,7 +1,10 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
+import java.io.IOException;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import com.mariusz.janus.DetectOutlierRules.domain.Token;
@@ -27,9 +30,16 @@ public class SessionUserController {
 	public SessionUserController() {
 	}
 
-	public String logoutAction() {
+	public void logoutAction() {
+		System.out.println("tu jestem");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "index?faces-redirect=true";
+		
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			context.redirect(context.getRequestContextPath() + "/index.xhtml");
+		} catch (IOException e) {
+			
+		}
 	}
 
 	public boolean checkIsLoggedUser() {
