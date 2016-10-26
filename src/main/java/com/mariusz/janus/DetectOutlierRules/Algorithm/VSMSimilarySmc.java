@@ -33,12 +33,12 @@ public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 	public List<HelperForCalculateSimilary<SingleVectorRule>> getOutlierRules(int parametr) {
 		outliers = new ArrayList<>();
 		int countOutlier = getSimilaryBetweenRules().size() * parametr / 100;
-		System.out.println("count outlier: "+countOutlier);
+//		System.out.println("count outlier: "+countOutlier);
 		Collections.sort(similary);
-		for(int i =0; i<countOutlier; i++){
+		for(int i = 0; i<countOutlier; i++){
 			outliers.add(similary.get(i));
 		}
-		System.out.println("sprawdzenie listy "+outliers.size());
+//		System.out.println("sprawdzenie listy "+outliers.size());
 		return outliers;
 	}
 	
@@ -71,7 +71,7 @@ public class VSMSimilarySmc extends VectorSpaceModelSimilary{
 					break;
 				}
 			}
-			System.out.println("Reguła: " + singleVector.getRule().getId() + "  " + builder.toString());
+//			System.out.println("Reguła: " + singleVector.getRule().getId() + "  " + builder.toString());
 			similary.add(new HelperForCalculateSimilary<SingleVectorRule>(singleVector, getRoundSimillary(licznik/mianownik)));
 		}
 		return similary;

@@ -102,8 +102,8 @@ public class AutorizationController {
 				HttpMethod.POST, request, Token.class);
 		token = response.getBody();
 
-		logger.debug("Sprawdzenie żadania post pobranie tokena ={}", token.getAccess_token());
-
+		logger.debug("Sprawdzenie żadania post pobranie akces tokena ={}", token.getAccess_token());
+		logger.debug("Sprawdzenie żadania post pobranie refresh tokena ={}", token.getRefresh_token());
 	}
 
 	private void requestForUser() {

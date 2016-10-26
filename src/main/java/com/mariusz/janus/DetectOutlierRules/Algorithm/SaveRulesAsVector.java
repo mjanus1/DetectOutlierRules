@@ -33,8 +33,8 @@ public class SaveRulesAsVector extends DetailsAttribute {
 				}
 			}
 			vectorRuleLists.add(vector);
-			vector.printVector();
-			System.out.println();
+			//vector.printVector();
+			//System.out.println();
 		}
 	}
 

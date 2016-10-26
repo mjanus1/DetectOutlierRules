@@ -27,8 +27,8 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 	@Getter
 	@Setter
 	private List<HelperForCalculateSimilary<SingleVectorRule>> similary;
-	@Getter 
-	@Setter 
+	@Getter
+	@Setter
 	private List<HelperForCalculateSimilary<SingleVectorRule>> outliers;
 	@Getter
 	@Setter
@@ -37,64 +37,103 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 	@Setter
 	private int min;
 
-	public VSMSimilaryGowerDominanta(List<SingleVectorRule> listVectorRule, List<AttributeAdditionDetail> attributesDetails, SingleVectorRule dominanta) {
+	public VSMSimilaryGowerDominanta(List<SingleVectorRule> listVectorRule,
+			List<AttributeAdditionDetail> attributesDetails, SingleVectorRule dominanta) {
 		this.listVectorRule = listVectorRule;
 		this.attributesDetails = attributesDetails;
 		this.dominanta = dominanta;
 		calculateGowerDominantaSimilary();
 	}
-	
+
 	public List<HelperForCalculateSimilary<SingleVectorRule>> getOutlierRules(int parametr) {
 		outliers = new ArrayList<>();
 		int countOutlier = similary.size() * parametr / 100;
-		System.out.println("count outlier: " + countOutlier);
+		//System.out.println("count outlier: " + countOutlier);
 		Collections.sort(similary);
-		for(int i =0; i<countOutlier; i++){
+		for (int i = 0; i < countOutlier; i++) {
 			outliers.add(similary.get(i));
 		}
-		System.out.println("sprawdzenie listy "+outliers.size());
+		//System.out.println("sprawdzenie listy " + outliers.size());
 		return outliers;
 	}
-	
 
 	public void calculateGowerDominantaSimilary() {
 		similary = new ArrayList<>();
+		System.out.println("Dominanta:" + dominanta.getRule().getId());
+		dominanta.printVector();
+		System.out.println();
 		for (SingleVectorRule singleVector : listVectorRule) {
-			int countHeighNegativeZero = 0;
+			int countHeighNegativeZero = 1;
 			double value = 0.0;
 			double result = 0.0;
+			System.out.println("Sprawdzenie Id reguły : " + singleVector.getRule().getId());
+			singleVector.printVector();
 			for (AttributeAdditionDetail attDetails : attributesDetails) {
+				if (attDetails.isConclusion()) {
+					value = valueForDecission(singleVector);
+					if (value > 0) {
+						countHeighNegativeZero++;
+					}
+					result += value;
+					continue;
+				}
 				switch (attDetails.getAttribute().getType()) {
 				case CONTINOUS:
 					value = valueForContinous(attDetails, singleVector);
-					if(value > 0 ){countHeighNegativeZero++;}
-					result += value; 
+					if (value > 0) {
+						countHeighNegativeZero++;
+					}
+					result += value;
 					break;
 				case SYMBOLIC:
 					value = valueForSybolic(attDetails, singleVector);
-					if(value > 0 ){countHeighNegativeZero++;}
-					result += value; 
+					if (value > 0) {
+						countHeighNegativeZero++;
+					}
+					result += value;
 					break;
 				case DISCRETE:
 					value = valueForDiscrete(attDetails, singleVector);
-					if(value > 0 ){countHeighNegativeZero++;}
-					result += value; 
+					if (value > 0) {
+						countHeighNegativeZero++;
+					}
+					result += value;
 					break;
 				default:
 					break;
 				}
 			}
+			System.out.println("Sprawdzanie waroscie wystapień "+countHeighNegativeZero);
+			System.out.println("Sprawdzanie resultu "+result);
 			
-			similary.add(new HelperForCalculateSimilary<SingleVectorRule>(singleVector, getRoundSimillary(result/countHeighNegativeZero)));
+			
+			similary.add(new HelperForCalculateSimilary<SingleVectorRule>(singleVector,
+					getRoundSimillary(result / countHeighNegativeZero)));
+			
+		}
+	}
+	
+	private double valueForDecission(SingleVectorRule singleVector){
+		if (singleVector.getVectorRule()[1][0]
+				.equals(dominanta.getVectorRule()[1][0])) {
+			return 1.0;
+		} else {
+			return 0.0;
 		}
 	}
 
 	private double valueForSybolic(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
+		String valueRule = singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()];
+		String valueDominant = dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()];
+		if (valueRule.equals("0") || valueDominant.equals("0")) {
+			return 0.0;
+		}
 		if (singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()]
 				.equals(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;
+		} else {
+			return 0.0;
 		}
-		return 0.0;
 	}
 
 	private double valueForContinous(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
@@ -114,11 +153,17 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 	}
 
 	private double valueForDiscrete(AttributeAdditionDetail attDetails, SingleVectorRule singleVector) {
+		String valueRule = singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()];
+		String valueDominant = dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()];
+		if (valueRule.equals("0") || valueDominant.equals("0")) {
+			return 0.0;
+		}
 		if (singleVector.getVectorRule()[0][attDetails.getPossitionOnVector()]
 				.equals(dominanta.getVectorRule()[0][attDetails.getPossitionOnVector()])) {
 			return 1.0;
+		} else {
+			return 0.0;
 		}
-		return 0.0;
 	}
 
 	private void findMaxAndMinForContinousValue(int position) {
@@ -131,7 +176,7 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 				tempMin = z;
 			}
 
-			if (z < tempMin) {
+			if (z < tempMin && z > 0) {
 				tempMin = z;
 			}
 
@@ -139,8 +184,8 @@ public class VSMSimilaryGowerDominanta extends VectorSpaceModelSimilary {
 				tempMax = z;
 			}
 		}
-		// System.out.println("Maksymalna wartość w kolumnie: "+tempMax);
-		// System.out.println("Minimalna wartość w kolumnie: "+tempMin);
+		//System.out.println("Maksymalna wartość w kolumnie: "+tempMax);
+		//System.out.println("Minimalna wartość w kolumnie: "+tempMin);
 		max = tempMax;
 		min = tempMin;
 	}

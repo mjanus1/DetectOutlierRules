@@ -39,7 +39,7 @@ public class KwnowledgeBaseController extends AbstracController {
 	@PostConstruct
 	public void initKnowledgeBase() {
 		listBases = service.listAllKnowledgeBase(tokenForRequest());
-		logger.debug("Pobrano liste baza wiedzy ={}",listBases);
+		logger.debug("Pobrano liste baza wiedzy, size = {}",listBases.size());
 	}
 
 	public int getIndex() {

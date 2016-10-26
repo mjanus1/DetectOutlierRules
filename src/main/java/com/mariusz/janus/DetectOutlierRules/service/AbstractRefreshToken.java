@@ -1,5 +1,6 @@
 package com.mariusz.janus.DetectOutlierRules.service;
 
+import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.ACCOUNT;
 import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.CLIENT_ID;
 import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.CLIENT_SECRET;
 import static com.mariusz.janus.DetectOutlierRules.domain.ServerProperty.SERVER_URL;
@@ -17,13 +18,16 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.mariusz.janus.DetectOutlierRules.domain.Token;
+import com.mariusz.janus.DetectOutlierRules.domain.User;
 
 public abstract class AbstractRefreshToken {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractRefreshToken.class);
 	
+	public RestTemplate rest = new RestTemplate();
 	
 	public Token refreshToken(Token token, RestTemplate rest) {
-		
+		logger.debug("Jestem w odswierzaniu tokenu");
+		logger.debug("Sprawdzanie tokenu " + token);
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("grant_type", "refresh_token");
 		map.add("refresh_token", token.getRefresh_token());
@@ -39,6 +43,21 @@ public abstract class AbstractRefreshToken {
 		logger.debug("Sprawdzenie Refresh Token: {}", token);
 		return token;
 	}
+	
+	public User requestForUser(Token token) {
+		User user = new User();
+		HttpHeaders header = new HttpHeaders();
+		header.add("Authorization", "Bearer " + token.getAccess_token());
+
+		HttpEntity<String> request = new HttpEntity<>(header);
+		ResponseEntity<User> response = rest.exchange(SERVER_URL + ACCOUNT,
+				HttpMethod.GET, request, User.class);
+		user = response.getBody();
+
+		logger.debug("Sprawdzenie usera ={}", user.getLogin());
+		return user;
+		
+	}
 
 	private String encode() {
 		String inputContent = CLIENT_ID + ":" + CLIENT_SECRET;
@@ -47,4 +66,13 @@ public abstract class AbstractRefreshToken {
 		String base64Creds = new String(base64CredsBytes);
 		return base64Creds;
 	}
+	
+	public RestTemplate getRest() {
+		return rest;
+	}
+
+	public void setRest(RestTemplate rest) {
+		this.rest = rest;
+	}
+
 }

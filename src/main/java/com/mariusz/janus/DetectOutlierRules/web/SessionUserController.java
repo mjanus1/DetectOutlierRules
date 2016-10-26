@@ -29,9 +29,8 @@ public class SessionUserController {
 
 	public SessionUserController() {
 	}
-
+	
 	public void logoutAction() {
-		System.out.println("tu jestem");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
@@ -40,6 +39,10 @@ public class SessionUserController {
 		} catch (IOException e) {
 			
 		}
+	}
+	
+	public void removeSession() {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	}
 
 	public boolean checkIsLoggedUser() {

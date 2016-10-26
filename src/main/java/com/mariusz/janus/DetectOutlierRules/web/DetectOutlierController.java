@@ -94,23 +94,22 @@ public class DetectOutlierController extends AbstracController {
 	public void selectOutlierSMC() {	
 		if(validInputParametr(parameterOutlier)) {
 			similaryOutlier = vsmSimilarySmc.getOutlierRules(Integer.parseInt(parameterOutlier));
-			System.out.println();
-			System.out.println("Odchylenia:");
-			for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
-				System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
-			}
+//			System.out.println();
+//			System.out.println("Odchylenia:");
+//			for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
+//				System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
+//			}
 		}
 	}
 	
 	public void selectOutlierGower() {
 		if(validInputParametr(parameterOutlier)) {
-			System.out.println("jestem w wyliczaniu miary gowera z dominanta");
 			similaryOutlier = vsmSimilaryGowerDominanta.getOutlierRules(Integer.parseInt(parameterOutlier));
-			System.out.println();
-			System.out.println("Odchylenia:");
-			for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
-				System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
-			}
+//			System.out.println();
+//			System.out.println("Odchylenia:");
+//			for (HelperForCalculateSimilary<SingleVectorRule> help : similaryOutlier) {
+//				System.out.println("reguła = " + help.getObject().getRule().getId() + " similary: " + help.getValue());
+//			}
 		}
 	}
 	
@@ -130,10 +129,10 @@ public class DetectOutlierController extends AbstracController {
 	
 	public void selectOutlierFromMatrix() {
 		if(validInputParametr(parameterOutlier)) {
-			similaryMatrixGower =  matrixSimilaryGower.getOutlierByParametr(5);
-			for(HelperForCalculateSimilary<Cluster> d : similaryMatrixGower) {
-				System.out.println(d.getValue());
-			}
+			similaryMatrixGower =  matrixSimilaryGower.getOutlierByParametr(Integer.parseInt(parameterOutlier));
+//			for(HelperForCalculateSimilary<Cluster> d : similaryMatrixGower) {
+//				System.out.println(d.getValue());
+//			}
 		}
 	}
 	

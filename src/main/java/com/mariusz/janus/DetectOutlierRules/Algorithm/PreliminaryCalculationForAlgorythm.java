@@ -31,7 +31,7 @@ public class PreliminaryCalculationForAlgorythm extends CalculateDominants {
 		while (checkIsSelectDominanta) {
 			for (SingleVectorRule vector : getVectorRuleLists()) {
 				if (searchRuleWhichPorobablyDominanta(vector.getVectorRule())) {
-					displaySelectDominant(vector);
+		//			displaySelectDominant(vector);
 					checkIsSelectDominanta = false;
 					dominanta  = vector;
 					break;

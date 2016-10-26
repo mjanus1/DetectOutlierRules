@@ -39,9 +39,6 @@ import com.mariusz.janus.DetectOutlierRules.domain.Token;
 import com.mariusz.janus.DetectOutlierRules.domain.User;
 import com.mariusz.janus.DetectOutlierRules.web.SessionUserController;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Service("IRestRequestService")
 public class RestRequesService extends AbstractRefreshToken implements IRestRequestService {
 
@@ -50,7 +47,6 @@ public class RestRequesService extends AbstractRefreshToken implements IRestRequ
 	private HttpHeaders header = new HttpHeaders();
 	
 	@ManagedProperty(value = "#{sessionUserController}")
-	@Getter @Setter
 	private SessionUserController sessionUser;
 
 	@Override
@@ -69,8 +65,11 @@ public class RestRequesService extends AbstractRefreshToken implements IRestRequ
 				token = new Token();
 				token = refreshToken(token, restTemplate);
 				if(token != null) {
+					
+					
 					sessionUser.setToken(token);
 				}
+				System.out.println("sprawdzenie baseId:  "+baseId);
 				listAllAttributes(token, baseId);
 			}
 		}
@@ -226,12 +225,17 @@ public class RestRequesService extends AbstractRefreshToken implements IRestRequ
 		}
 		catch(HttpStatusCodeException statusExceprion) {
 			if(statusExceprion.getStatusCode() == UNAUTHORIZED) {
-				token = new Token();
-				token = refreshToken(token, restTemplate);
-				if(token != null) {
-					sessionUser.setToken(token);
-				}
-				listAllKnowledgeBase(token);
+				Token t = new Token();
+				System.out.println("1");
+				t = refreshToken(token, restTemplate);
+				System.out.println("2");
+				
+				//sessionUser.removeSession();
+				//sessionUser.setToken(t);
+				//sessionUser.setUser(requestForUser(t));
+				
+				//System.out.println("3");
+	
 			}
 		}
 		catch(Exception exception) {
@@ -299,4 +303,13 @@ public class RestRequesService extends AbstractRefreshToken implements IRestRequ
 	public HttpHeaders getHeader() {
 		return header;
 	}
+
+	public SessionUserController getSessionUser() {
+		return sessionUser;
+	}
+
+	public void setSessionUser(SessionUserController sessionUser) {
+		this.sessionUser = sessionUser;
+	}
+	
 }

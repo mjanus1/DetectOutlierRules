@@ -32,7 +32,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 	}
 
 	public void calculateGowerSimilary() {
-		System.out.println("Dupa ----------------");
+		
 		clusterList = new ArrayList<>();
 		int licz = 0;
 			for (int i = 0; i < listVectorRule.size(); i++) {
@@ -53,7 +53,7 @@ public class VSMSimilaryGower extends VectorSpaceModelSimilary {
 							break;
 						}
 					}
-					clusterList.add(new Cluster("R" + licz, listVectorRule.get(i).getRule(), listVectorRule.get(j).getRule(), getRoundSimillary(result)));
+					clusterList.add(new Cluster("R" + licz, listVectorRule.get(i).getRule(), listVectorRule.get(j).getRule(), getRoundSimillary(result/attributesDetails.size())));
 					licz++;
 				}
 			}

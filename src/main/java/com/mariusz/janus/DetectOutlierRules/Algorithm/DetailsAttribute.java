@@ -57,7 +57,7 @@ public class DetailsAttribute {
 		Collections.sort(attributeAdditionDetails);
 		setPositionOnListAttributes();
 		
-		printAllAttributes();
+		//printAllAttributes();
 	}
 	
 	private void setPositionOnListAttributes() {

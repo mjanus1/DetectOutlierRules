@@ -34,7 +34,7 @@ public class CalculateDominants extends SaveRulesAsVector {
 				continue;
 		}
 		attributeMostOftenRepeated.add(searchModaInDecision());
-		displayAttributeMostOftenRepeated();
+	//	displayAttributeMostOftenRepeated();
 	}
 
 	private AttributeMostOftenRepeated searchModaInCondition(AttributeAdditionDetail attributeDetails) {

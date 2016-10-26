@@ -20,22 +20,17 @@ public class MatrixSimilaryGower extends VSMSimilaryGower {
 
 	public List<HelperForCalculateSimilary<Cluster>> getOutlierByParametr(int parametr) {
 		List<HelperForCalculateSimilary<Cluster>> list = new ArrayList<>();
-
+		
 		listOfCluster = getClusterList();
 		Collections.sort(listOfCluster);
-		//Collections.reverse(listOfCluster);
-		// System.out.println("Ile mamy: " + listOfCluster.size());
-		// listOfCluster = calculateGowerSimilary();
-		int countOutlier = listOfCluster.size() * parametr / 100;
-		System.out.println("Count outlier: " + countOutlier);
+	
+		int countOutlier = (listOfCluster.size() * parametr) / 100;
+		System.out.println("Ile outlier: " + countOutlier);
 
 		for (int i = 0; i < countOutlier; i++) {
 			list.add(new HelperForCalculateSimilary<Cluster>(listOfCluster.get(i),
 					listOfCluster.get(i).getGowerSimilary()));
 		}
-		System.out.println("sprawdzenie listy " + list.size());
 		return list;
-
 	}
-
 }

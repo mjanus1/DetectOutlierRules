@@ -96,7 +96,7 @@ public class RulesController extends AbstracController {
 				}
 
 			}
-			logger.debug("reguła ={}", query);
+			//logger.debug("reguła ={}", query);
 			listRulesHelper.add(new ViewRulesHelper(rules.getId(), rules.getDescription(), query));
 		}
 	}

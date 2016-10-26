@@ -21,5 +21,8 @@ public class Token implements Serializable
 	private int expires_in;
 	@JsonProperty
 	private String scope;
-
+	
+	public Token() {
+		super();
+	}
 }
