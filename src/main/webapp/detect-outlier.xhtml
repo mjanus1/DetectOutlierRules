@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:t="http://myfaces.apache.org/tomahawk"> 
 
-
+	
 	<ui:composition template="/resources/template/template.xhtml">
 		
 		<ui:define name="messages">
@@ -15,7 +15,7 @@
 		</ui:define>
 	
 		<ui:define name="content">
-
+			
 			<p:button id="button" outcome="rules?baseID=#{detectOutlierController.getParametr('baseID')}" value="Wróć" style="margin-bottom:5px;margin-left:10px;margin-top:10px;color:black"/>
 					
 			<h:form>
@@ -120,7 +120,11 @@
 									
 									<td>
 										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierSMC}" update="panelOutlierSmc" style="margin-left:10px; color:black" />
-									</td>						
+									</td>
+									
+									<td>
+										<p:commandButton value="Wybierz reguły" onclick="PF('selectRule').show();" actionListener="#{detectOutlierController.chooseRule}"/>
+									</td>																
 								</tr>
 							</table>
 		
@@ -171,7 +175,12 @@
 									
 									<td>
 										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierGower}" update="panelOutlierGower" style="margin-left:10px; color:black" />
-									</td>						
+									</td>	
+									
+									<td>
+										<p:commandButton value="Wybierz reguły" onclick="PF('selectRule').show();" action="#{detectOutlierController.chooseRule}"/>
+									</td>
+														
 								</tr>
 							</table>
 						</h:panelGroup>
@@ -218,7 +227,8 @@
 									
 								<td>
 									<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierFromMatrix}" update="tableMatrixSimilary" style="margin-left:10px; color:black" />
-								</td>						
+								</td>
+								
 							</tr>
 						</table>
 					</h:panelGroup>
@@ -250,7 +260,28 @@
 					
 				</h:panelGroup>	
 			</h:panelGroup>	
-
+			
+			
+			
+		<!-- Poniżej popup dla wybierania ról przez eksperta dziedzinowego -->
+		
+			
+			<p:dialog header="Wybierz reguły" widgetVar="selectRule" modal="true">
+				<p:commandButton value="OK"/>
+				<p:dataTable var="rules"  styleClass="available-base" scrollable="true" scrollHeight="500" value="#{detectOutlierController.selectedRuleList}" emptyMessage="Nie znaleziono rekordów." >
+			   	 		
+					<p:column width="30" style="text-align:center">
+					    <p:selectBooleanCheckbox value="#{rules.selected}"/>
+					</p:column>
+									 
+					<p:column headerText="Reguła"  style="text-align:left;font-size:15px">
+					    <h:outputText value="#{rules.rule.saveRuleAsString()}" />
+			       </p:column>
+									 
+				</p:dataTable>  
+				  
+			</p:dialog> 
+			
 		</h:form>
 	
 	</ui:define>

@@ -1,7 +1,9 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -9,6 +11,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import com.mariusz.janus.DetectOutlierRules.Algorithm.Cluster;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.HelperForCalculateSimilary;
@@ -20,6 +25,7 @@ import com.mariusz.janus.DetectOutlierRules.Algorithm.VSMSimilarySmc;
 import com.mariusz.janus.DetectOutlierRules.domain.Attribute;
 import com.mariusz.janus.DetectOutlierRules.domain.AttributeAdditionDetail;
 import com.mariusz.janus.DetectOutlierRules.domain.Rule;
+import com.mariusz.janus.DetectOutlierRules.domain.SelectedRule;
 import com.mariusz.janus.DetectOutlierRules.service.IRestRequestService;
 
 import lombok.Getter;
@@ -44,13 +50,18 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private VSMSimilaryGowerDominanta vsmSimilaryGowerDominanta;
 	@Getter@Setter private MatrixSimilaryGower matrixSimilaryGower;
 	@Getter@Setter private PreliminaryCalculationForAlgorythm calculate;
+	
+	// list for selected by expert
+	@Getter@Setter List<SelectedRule> selectedRuleList;
+	@Getter@Setter List<Rule> choosenRuleList;
 
 
 	@Getter@Setter
 	@ManagedProperty(value = "#{IRestRequestService}")
 	private IRestRequestService service;
 
-	public DetectOutlierController() {		
+	public DetectOutlierController() {	
+		selectedRuleList = new ArrayList<>();
 		selectMethod = "";
 		selectMeasure = "";
 		parametr = "";
@@ -62,10 +73,12 @@ public class DetectOutlierController extends AbstracController {
 		int idKnowledgeBase = getParametr("baseID");
 		attributes = service.listAllAttributes(tokenForRequest(), idKnowledgeBase);
 		rules = service.listAllRule(tokenForRequest(), idKnowledgeBase);
-		calculate = new PreliminaryCalculationForAlgorythm(rules, attributes);
+		calculate = new PreliminaryCalculationForAlgorythm(rules, attributes);	
+		
 	}
 
 	public void generateOutliers() {
+		initial();
 		similaryOutlier = new ArrayList<>();
 		similaryMatrixGower = new ArrayList<>();
 		showMatriksSimilary = false;
@@ -113,7 +126,6 @@ public class DetectOutlierController extends AbstracController {
 		}
 	}
 	
-	
 
 	// akcja na buttona liczenie macierzy podobieństwa
 	public void generateMatrixGowerSimilary() {
@@ -123,8 +135,6 @@ public class DetectOutlierController extends AbstracController {
 	private void calculateSimilaryGower(List<SingleVectorRule> vectors, List<AttributeAdditionDetail> details) {
 		matrixSimilaryGower = new MatrixSimilaryGower(vectors, details);
 	}
-	
-	
 	
 	
 	public void selectOutlierFromMatrix() {
@@ -147,8 +157,6 @@ public class DetectOutlierController extends AbstracController {
 	}
 	
 	
-	
-
 	public void selectCalculateMethod(ValueChangeEvent e) {
 		String method;
 		method = (String) e.getNewValue();
@@ -206,5 +214,21 @@ public class DetectOutlierController extends AbstracController {
 		}
 		return true;
 	}
+	
+	
+	private void initial() {
+		 for(Rule r: rules) {
+	    	   selectedRuleList.add(new SelectedRule(false, r));
+	       }
+	}
+	// logic for calculate precission and recall 
+
+	
+	  public void chooseRule() {
+		  System.out.println("Lisener ");
+	    
+	    }
+	     
+	   
 	
 }

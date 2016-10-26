@@ -54,4 +54,5 @@
 			<location>/WEB-INF/errors/error404.xhtml</location>
 		</error-page>
 		
+		
 </web-app>
