@@ -1,5 +1,7 @@
 package com.mariusz.janus.DetectOutlierRules.web;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +52,10 @@ public class DetectOutlierController extends AbstracController {
 	@Getter@Setter private VSMSimilaryGowerDominanta vsmSimilaryGowerDominanta;
 	@Getter@Setter private MatrixSimilaryGower matrixSimilaryGower;
 	@Getter@Setter private PreliminaryCalculationForAlgorythm calculate;
+	@Getter@Setter private boolean showPreDok;
+	@Getter@Setter private double kompletnosc;
+	@Getter@Setter private double dokladnosc;
+	
 	
 	// list for selected by expert
 	@Getter@Setter List<SelectedRule> selectedRuleList;
@@ -61,7 +67,9 @@ public class DetectOutlierController extends AbstracController {
 	private IRestRequestService service;
 
 	public DetectOutlierController() {	
+		similaryOutlier = new ArrayList<>();
 		selectedRuleList = new ArrayList<>();
+		choosenRuleList = new ArrayList<>();
 		selectMethod = "";
 		selectMeasure = "";
 		parametr = "";
@@ -78,7 +86,7 @@ public class DetectOutlierController extends AbstracController {
 	}
 
 	public void generateOutliers() {
-		initial();
+
 		similaryOutlier = new ArrayList<>();
 		similaryMatrixGower = new ArrayList<>();
 		showMatriksSimilary = false;
@@ -169,7 +177,8 @@ public class DetectOutlierController extends AbstracController {
 			similaryOutlier = new ArrayList<>();
 			similaryMatrixGower = new ArrayList<>();
 		} else {
-		selectMethod = method;  
+			selectMethod = method;  
+			fillListWithSelectedRules();
 		}
 	}
 
@@ -178,12 +187,16 @@ public class DetectOutlierController extends AbstracController {
 		measure = (String) e.getNewValue();
 		if(measure == null) {
 			measure = "";
+			dokladnosc = 0;
+			kompletnosc = 0;
 		}
 		selectMeasure = measure;
 		if(selectMeasure.equals("SMC") || selectMeasure.equals("GOWER")) {
 			showProperties = false;
 			parameterOutlier = "";
 			similaryOutlier = new ArrayList<>();
+			dokladnosc = 0;
+			kompletnosc = 0;
 		}
 	}
 	
@@ -216,19 +229,71 @@ public class DetectOutlierController extends AbstracController {
 	}
 	
 	
-	private void initial() {
-		 for(Rule r: rules) {
-	    	   selectedRuleList.add(new SelectedRule(false, r));
-	       }
-	}
+
 	// logic for calculate precission and recall 
 
+	private void fillListWithSelectedRules() {
+		 for(Rule r: rules) {
+	    	   selectedRuleList.add(new SelectedRule(false, r));
+	      }
+	}
 	
-	  public void chooseRule() {
-		  System.out.println("Lisener ");
-	    
-	    }
-	     
-	   
 	
+	private void clearSlectedRuleByExpert() {
+		choosenRuleList.clear();
+	}
+	
+	public void saveSelectedRules() {
+		clearSlectedRuleByExpert();
+		for(SelectedRule selected : selectedRuleList) {
+			if(selected.isSelected()) {
+				System.out.println("Reguła zaznaczona");
+				choosenRuleList.add(selected.getRule());
+			}
+		}
+	}
+	
+	//choosenRuleList - lista wybranych ról przez eksperta
+	//similaryOutlier - lista wybranych odchyleń prze aplikacje
+	
+	public void calculatePrecissionAndReceal() {
+		double liczbaRelewantnych = choosenRuleList.size();
+		double liczbaCzesciWspolnej = liczbaWspolnych();
+		double liczbaRoznych = similaryOutlier.size() - liczbaCzesciWspolnej;
+		
+		System.out.println("Relewantne :"+liczbaRelewantnych);
+		System.out.println("Wspólne: "+liczbaCzesciWspolnej);
+		System.out.println("Rózne: "+liczbaRoznych);
+		
+			
+		BigDecimal k = new BigDecimal(liczbaRelewantnych / (liczbaRelewantnych + liczbaCzesciWspolnej));
+		kompletnosc = k.setScale(4, RoundingMode.HALF_EVEN).doubleValue();	
+		
+		BigDecimal d = new BigDecimal(liczbaRelewantnych / (liczbaRelewantnych + liczbaRoznych));
+		dokladnosc = d.setScale(4, RoundingMode.HALF_EVEN).doubleValue();	
+		
+		
+		System.out.println("Kompletnosc: "+kompletnosc);
+		System.out.println("Dokładnosc: "+dokladnosc);
+	}
+	
+	private int liczbaWspolnych() {
+		int count = 0;
+		for(Rule r : choosenRuleList){
+			for(HelperForCalculateSimilary<SingleVectorRule> h:similaryOutlier) {
+				if(r.getId() == h.getObject().getRule().getId()) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	 
+	public void checkDisplay() {	
+		if(choosenRuleList.size()==0 && similaryOutlier.size()==0)
+		{
+			showPreDok = true;
+		}
+		showPreDok =false;
+	}
 }

@@ -36,8 +36,11 @@ public class Testowanie {
 //				HttpMethod.POST, request, Token.class);
 //		token = response.getBody();
 //		
-
-
+		
+		
+		double c = 5.0 / 9.0;
+		
+		System.out.println(c);
 
 	}
 	

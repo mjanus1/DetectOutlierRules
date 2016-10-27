@@ -83,12 +83,41 @@
 	margin-top: -15px;
 }
 
+
 .button-sign {
 	font-size: 14px;
-	color: black;
-	font-weight: 800;
 	margin-top: 10px;
 }
+
+
+
+
+.ui-button.ui-state-default{
+background: #2399e5 !important;
+color: #fff !important;
+font-weight: 100;
+}
+
+.ui-button.ui-state-hover {
+background: #2399e5 !important;
+font-weight: 100;
+}
+
+.ui-button.ui-state-active {
+background: #2399e5 !important;
+font-weight: 100;
+}
+
+.ui-widget button.ui-state-active{
+	background: #2399e5 !important;
+}
+ .ui-widget button.ui-state-default {
+ 	background: #2399e5 !important;
+ }
+ 
+ .ui-widget button.ui-state-hover {
+ 	background: #2399e5 !important;
+ }
 
 .logout-form {
 	margin-top: 10px;
@@ -104,8 +133,10 @@
 	border: 2px solid #019ffe !important;
 }
 
+
+
 .fieldset {
-	width: 1000px;
+	width: 1160px;
 	border: 1px solid #2094d2;
 	margin-left: 10px;
 	border-radius: 10px;

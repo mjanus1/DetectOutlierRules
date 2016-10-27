@@ -17,6 +17,7 @@ import lombok.Setter;
 public abstract class AbstracController extends AbstractMessageHandling {
 
 	private static final Logger logger = LoggerFactory.getLogger(AbstracController.class);
+	@Getter @Setter public static int BASE;
 	@ManagedProperty(value = "#{sessionUserController}")
 	@Getter @Setter
 	private SessionUserController session;
@@ -32,14 +33,16 @@ public abstract class AbstracController extends AbstractMessageHandling {
 		String param = parameters.get(parametr);
 		if(param == null || param.isEmpty()) {
 			System.out.println("parametr nulem");
+			return BASE;
 			
 		} else {
 			try{
-				return Integer.parseInt(parameters.get(parametr));
+				int id  = Integer.parseInt(parameters.get(parametr));
+				BASE = id;
+				return BASE;
 			} catch(NumberFormatException e){logger.error("Błąd podczas formatu liczby", e);}	
 		}
-		return 5;
+		return 5;		
 	}
-	
-	
+		
 }

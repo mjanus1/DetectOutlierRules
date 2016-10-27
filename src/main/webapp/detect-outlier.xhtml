@@ -71,8 +71,13 @@
 												update="@form" value="Generuj odchylenia" 
 												disabled="#{detectOutlierController.selectMethod == ''}" >
 									</p:commandButton>	
-										
-									<h:panelGrid columns="2">
+							
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<h:panelGrid columns="2" style="margin-left:1px">
 										
 										<p:commandButton id="generateMatrix" action="#{detectOutlierController.generateMatrixGowerSimilary}" 
 												update="@form" value="Reguły podobne"
@@ -88,12 +93,29 @@
 										
 										<p:dialog widgetVar="info" header="Informacja" resizable="false" showEffect="clip" hideEffect="clip">
 									        <p:graphicImage name="info.png" library="graphics"/>
-									    </p:dialog>
-								    	
+									    </p:dialog>					    	
 								    	    	
 									</h:panelGrid>		
 								</td>
 							</tr>
+							
+							<tr>
+								<td>
+									<h:panelGrid id="odchyleniaExperta" columns="3" style="margin-left:1px">
+										
+										<p:commandButton value="Wybierz reguły" disabled="#{detectOutlierController.selectMethod == ''}" onclick="PF('selectRule').show();"/>
+										
+										<p:outputLabel value="Odchylenia Eksperta: " style="margin-left:4px; font-weight:bold"/>
+										
+										<ui:repeat var="ruleExpert" value="#{detectOutlierController.choosenRuleList}">
+											<p:outputLabel value="#{ruleExpert.id}, " />	
+										</ui:repeat>
+													    	    	
+									</h:panelGrid>		
+								</td>
+							</tr>
+							
+							
 						</table>
 					</t:fieldset>
 				</h:panelGroup>
@@ -102,12 +124,12 @@
 					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties and detectOutlierController.selectMeasure == 'SMC'}" style="margin-bottom:15px;">
 						<h:panelGroup>
 							
-							<h:panelGrid columns="1" style="margin-top:10px;margin-left: 5px">
+							<h:panelGrid columns="1" style="margin-top:5px;margin-left: 10px">
 								<p:outputLabel value="DOMINANTA: " style="color:red" />
 								<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
 							</h:panelGrid>
 						
-							<table style="margin-top:15px; margin-left: 5px">
+							<table style="margin-top:15px; margin-left: 10px">
 								<tr>
 									<td>
 										<p:outputLabel value="Określ liczbe odchleń: " />
@@ -119,15 +141,25 @@
 									</td>
 									
 									<td>
-										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierSMC}" update="panelOutlierSmc" style="margin-left:10px; color:black" />
+										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierSMC}" update="panelOutlierSmc kdo" style="margin-left:10px; color:black" />
 									</td>
 									
 									<td>
-										<p:commandButton value="Wybierz reguły" onclick="PF('selectRule').show();" actionListener="#{detectOutlierController.chooseRule}"/>
+										<p:commandButton id="kdo" value="Kompletność / Dokładność" disabled="#{detectOutlierController.similaryOutlier.size() ==0}" update="komPrecSMC" action="#{detectOutlierController.calculatePrecissionAndReceal}"/>
 									</td>																
 								</tr>
 							</table>
 		
+						</h:panelGroup>
+						
+						<h:panelGroup id="komPrecSMC" style="margin-left:10px; margin-top:10px; margin-bottom:10px" layout="block">
+							<h:panelGrid columns="4">
+								<p:outputLabel value="Kompletność: "/>
+								<p:outputLabel value="#{detectOutlierController.kompletnosc}" style="margin-left:4px; font-weight:bold"/>
+								<p:outputLabel value="Dokładność: "/>
+								<p:outputLabel value="#{detectOutlierController.dokladnosc}" style="margin-left:4px; font-weight:bold"/>
+							</h:panelGrid>
+						
 						</h:panelGroup>
 						
 						<h:panelGroup id="panelOutlierSmc">
@@ -157,12 +189,12 @@
 					<h:panelGroup layout="block" rendered="#{detectOutlierController.showProperties and detectOutlierController.selectMeasure == 'GOWER'}" style="margin-bottom:15px;">
 						
 						<h:panelGroup>			
-							<h:panelGrid columns="1" style="margin-top:10px;margin-left: 5px">
+							<h:panelGrid columns="1" style="margin-top:5px;margin-left: 10px">
 								<p:outputLabel value="DOMINANTA: " style="color:red" />
 								<p:outputLabel value="#{detectOutlierController.dominantaAsString}"  />
 							</h:panelGrid>
 						
-							<table style="margin-top:15px; margin-left: 5px">
+							<table style="margin-top:15px; margin-left: 10px">
 								<tr>
 									<td>
 										<p:outputLabel value="Określ liczbe odchleń: " />
@@ -174,16 +206,31 @@
 									</td>
 									
 									<td>
-										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierGower}" update="panelOutlierGower" style="margin-left:10px; color:black" />
+										<p:commandButton value="Pokaż" action="#{detectOutlierController.selectOutlierGower}" update="panelOutlierGower kd" style="margin-left:10px; color:black" />
 									</td>	
 									
 									<td>
-										<p:commandButton value="Wybierz reguły" onclick="PF('selectRule').show();" action="#{detectOutlierController.chooseRule}"/>
+										<p:commandButton id="kd" value="Kompletność / Dokładność" update="komPrecGower" disabled="#{detectOutlierController.similaryOutlier.size() ==0}" action="#{detectOutlierController.calculatePrecissionAndReceal}"/>
 									</td>
 														
 								</tr>
 							</table>
 						</h:panelGroup>
+						
+						<h:panelGroup id="komPrecGower" >
+						
+						<h:panelGroup style="margin-left:10px; margin-top:15px; margin-bottom:15px" layout="block">
+							<h:panelGrid columns="4">
+								<p:outputLabel value="Kompletność: "/>
+								<p:outputLabel value="#{detectOutlierController.kompletnosc}" style="margin-left:4px; font-weight:bold"/>
+								<p:outputLabel value="Dokładność: "/>
+								<p:outputLabel value="#{detectOutlierController.dokladnosc}" style="margin-left:4px; font-weight:bold"/>
+							</h:panelGrid>
+						
+						</h:panelGroup>						
+										
+						</h:panelGroup>
+
 						
 						<h:panelGroup id="panelOutlierGower">
 							<p:dataTable var="outlier"  styleClass="available-base" value="#{detectOutlierController.similaryOutlier}" emptyMessage="Nie znaleziono rekordów." >
@@ -214,10 +261,10 @@
 					<h:panelGroup style="margin-left:15px">
 						<p:outputLabel value="Wyliczono macierz podobieństwa między wszytkimi regułami." />
 						
-						<table style="margin-left:15px">
+						<table>
 							<tr>
 								<td>
-									<p:outputLabel value="Określ liczbe odchleń: " />
+									<p:outputLabel value="Określ liczbe odchleń: " style="margin-left:12px"/>
 								</td>
 									
 								<td>
@@ -267,11 +314,15 @@
 		
 			
 			<p:dialog header="Wybierz reguły" widgetVar="selectRule" modal="true">
-				<p:commandButton value="OK"/>
+				<p:commandButton value="OK" action="#{detectOutlierController.saveSelectedRules}" onclick="PF('selectRule').close();" update="odchyleniaExperta"/>
 				<p:dataTable var="rules"  styleClass="available-base" scrollable="true" scrollHeight="500" value="#{detectOutlierController.selectedRuleList}" emptyMessage="Nie znaleziono rekordów." >
 			   	 		
 					<p:column width="30" style="text-align:center">
-					    <p:selectBooleanCheckbox value="#{rules.selected}"/>
+					    <p:selectBooleanCheckbox value="#{rules.selected}" />
+					</p:column>
+					
+					<p:column width="35" headerText="Id"  style="text-align:center">
+					    <h:outputText value="#{rules.rule.id}" />
 					</p:column>
 									 
 					<p:column headerText="Reguła"  style="text-align:left;font-size:15px">
