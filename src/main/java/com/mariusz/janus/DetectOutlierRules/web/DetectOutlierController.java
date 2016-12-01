@@ -3,9 +3,7 @@ package com.mariusz.janus.DetectOutlierRules.web;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,9 +11,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
-
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 
 import com.mariusz.janus.DetectOutlierRules.Algorithm.Cluster;
 import com.mariusz.janus.DetectOutlierRules.Algorithm.HelperForCalculateSimilary;
