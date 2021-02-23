@@ -27,7 +27,7 @@
 		<org.flywaydb.version>4.0.1</org.flywaydb.version>
 		<org.springframework.data.version>1.10.1.RELEASE</org.springframework.data.version>
 		<org.apache.commons.version>3.4</org.apache.commons.version>
-		<com.fasterxml.jackson.databind.version>2.7.4</com.fasterxml.jackson.databind.version>
+		<com.fasterxml.jackson.databind.version>2.9.10.7</com.fasterxml.jackson.databind.version>
 		<com.fasterxml.jackson.core.version>2.7.0</com.fasterxml.jackson.core.version>
 		<version.org.apache.poi>3.10-FINAL</version.org.apache.poi>
 		<version.org.projectlombok>1.16.8</version.org.projectlombok>
